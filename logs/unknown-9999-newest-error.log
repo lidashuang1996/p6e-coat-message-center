@@ -1,0 +1,94 @@
+2023-10-06 09:58:58 [main] ERROR - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in club.p6e.coat.message.center.DataSourceFactory required a bean of type 'javax.sql.DataSource' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'javax.sql.DataSource' in your configuration.
+
+2023-10-06 10:11:45 [main] ERROR - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in club.p6e.coat.message.center.DataSourceFactory required a bean of type 'javax.sql.DataSource' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'javax.sql.DataSource' in your configuration.
+
+2023-10-06 10:16:50 [main] ERROR - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in club.p6e.coat.message.center.DataSourceFactory required a bean of type 'javax.sql.DataSource' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'javax.sql.DataSource' in your configuration.
+
+2023-10-06 10:19:02 [main] ERROR - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in club.p6e.coat.message.center.DataSourceFactory required a bean of type 'org.springframework.jdbc.datasource.embedded.DataSourceFactory' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.jdbc.datasource.embedded.DataSourceFactory' in your configuration.
+
+2023-10-06 10:19:20 [main] ERROR - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a ConnectionFactory: 'url' attribute is not specified and no embedded database could be configured.
+
+Reason: Failed to determine a suitable R2DBC Connection URL
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+2023-10-06 10:20:49 [main] ERROR - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in club.p6e.coat.message.center.DataSourceFactory required a bean of type 'javax.sql.DataSource' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'javax.sql.DataSource' in your configuration.
+

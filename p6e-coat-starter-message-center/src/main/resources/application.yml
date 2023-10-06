@@ -1,0 +1,14 @@
+server:
+  port: 9999
+spring:
+  datasource:
+    username: postgres
+    password: 'not4u2day'
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://47.94.162.190:5432/lds
+#  config:
+#    import: /opt/p6e/console/p6e-console-application.yml
+#    import: D:\\env\p6e-coat-file-application.yml
+logging:
+  config: 'classpath:p6e-coat-logback.xml'
+
