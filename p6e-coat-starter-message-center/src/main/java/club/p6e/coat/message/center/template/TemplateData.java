@@ -67,4 +67,6 @@ public interface TemplateData {
      */
     public Map<String, String> variable();
 
+    public String convert(String key);
+
 }

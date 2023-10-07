@@ -399,3 +399,1078 @@ org.postgresql.util.PSQLException: 操作要求可卷动的 ResultSet，但此 R
 2023-10-06 10:32:20 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
 2023-10-06 10:32:20 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
 2023-10-06 10:32:20 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:18:54 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 73360 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:18:54 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:18:54 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:18:54 [main] INFO - Finished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:18:54 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:18:54 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:18:54 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:18:54 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:18:54 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:18:54 [main] INFO - Root WebApplicationContext: initialization completed in 658 ms
+2023-10-07 09:18:54 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:18:55 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7b53b1ad
+2023-10-07 09:18:55 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:18:55 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:18:55 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:18:55 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:18:55 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:18:55 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:18:55 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@6d0114c0
+2023-10-07 09:18:55 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:18:55 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:18:55 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:18:55 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:18:55 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:18:55 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:18:55 [main] INFO - Started P6eMessageCenterApplication in 2.057 seconds (process running for 2.464)
+2023-10-07 09:24:19 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:24:19 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:24:19 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:24:21 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 72672 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:24:21 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:24:22 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:24:22 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:24:22 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:24:22 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:24:22 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:24:22 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:24:22 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:24:22 [main] INFO - Root WebApplicationContext: initialization completed in 611 ms
+2023-10-07 09:24:22 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:24:22 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@23cd5d42
+2023-10-07 09:24:22 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:24:22 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:24:22 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:24:22 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:24:22 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:24:22 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:24:22 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@4b5ad306
+2023-10-07 09:24:23 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:24:23 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:24:23 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:24:23 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:24:23 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:24:23 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:24:23 [main] INFO - Started P6eMessageCenterApplication in 1.92 seconds (process running for 2.178)
+2023-10-07 09:27:31 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:27:31 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:27:31 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:27:32 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 84332 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:27:32 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:27:32 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:27:32 [main] INFO - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:27:33 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:27:33 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:27:33 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:27:33 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:27:33 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:27:33 [main] INFO - Root WebApplicationContext: initialization completed in 565 ms
+2023-10-07 09:27:33 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:27:33 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@23cd5d42
+2023-10-07 09:27:33 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:27:33 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:27:33 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:27:33 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:27:33 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:27:33 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:27:33 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@4b5ad306
+2023-10-07 09:27:33 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:27:34 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:27:34 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:27:34 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:27:34 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:27:34 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:27:34 [main] INFO - Started P6eMessageCenterApplication in 1.836 seconds (process running for 2.137)
+2023-10-07 09:29:56 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:29:56 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:29:56 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:29:58 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 84196 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:29:58 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:29:58 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:29:58 [main] INFO - Finished Spring Data repository scanning in 11 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:29:58 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:29:58 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:29:58 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:29:58 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:29:58 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:29:58 [main] INFO - Root WebApplicationContext: initialization completed in 578 ms
+2023-10-07 09:29:59 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:29:59 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@23cd5d42
+2023-10-07 09:29:59 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:29:59 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:29:59 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:29:59 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:29:59 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:29:59 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:29:59 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@4b5ad306
+2023-10-07 09:29:59 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:29:59 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:29:59 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:29:59 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:29:59 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:29:59 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:29:59 [main] INFO - Started P6eMessageCenterApplication in 1.882 seconds (process running for 2.23)
+2023-10-07 09:38:39 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:38:39 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:38:39 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:38:42 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 104968 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:38:42 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:38:42 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:38:42 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:38:42 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:38:42 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:38:42 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:38:42 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:38:42 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:38:42 [main] INFO - Root WebApplicationContext: initialization completed in 570 ms
+2023-10-07 09:38:42 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:38:43 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@196624bf
+2023-10-07 09:38:43 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:38:43 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:38:43 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:38:43 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:38:43 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:38:43 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:38:43 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@1426370c
+2023-10-07 09:38:43 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:38:43 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:38:43 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:38:43 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:38:43 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:38:43 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:38:43 [main] INFO - Started P6eMessageCenterApplication in 1.841 seconds (process running for 2.093)
+2023-10-07 09:40:06 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:40:06 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:40:06 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:40:07 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 108680 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:40:07 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:40:07 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:40:07 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:40:07 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:40:07 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:40:07 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:40:07 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:40:08 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:40:08 [main] INFO - Root WebApplicationContext: initialization completed in 554 ms
+2023-10-07 09:40:08 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:40:08 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 09:40:08 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:40:08 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:40:08 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:40:08 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:40:08 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:40:08 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:40:08 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 09:40:08 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:40:08 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:40:08 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:40:08 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:40:08 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:40:08 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:40:08 [main] INFO - Started P6eMessageCenterApplication in 1.836 seconds (process running for 2.095)
+2023-10-07 09:46:52 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:46:52 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:46:52 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:46:54 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 113980 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:46:54 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:46:54 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:46:54 [main] INFO - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:46:54 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:46:54 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:46:54 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:46:54 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:46:54 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:46:54 [main] INFO - Root WebApplicationContext: initialization completed in 548 ms
+2023-10-07 09:46:54 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:46:55 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 09:46:55 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:46:55 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:46:55 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:46:55 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:46:55 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:46:55 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:46:55 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 09:46:55 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:46:55 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:46:55 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:46:55 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:46:55 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:46:55 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:46:55 [main] INFO - Started P6eMessageCenterApplication in 1.815 seconds (process running for 2.075)
+2023-10-07 09:47:20 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:47:20 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:47:20 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:47:30 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 113364 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:47:30 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:47:31 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:47:31 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:47:31 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:47:31 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:47:31 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:47:31 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:47:31 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:47:31 [main] INFO - Root WebApplicationContext: initialization completed in 566 ms
+2023-10-07 09:47:31 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:47:31 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1e12a5a6
+2023-10-07 09:47:31 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:47:31 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:47:31 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:47:31 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:47:31 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:47:31 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:47:31 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@3386c206
+2023-10-07 09:47:31 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:47:32 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:47:32 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:47:32 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:47:32 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:47:32 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:47:32 [main] INFO - Started P6eMessageCenterApplication in 1.851 seconds (process running for 2.106)
+2023-10-07 09:47:53 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:47:53 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:47:53 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:47:55 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 117720 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:47:55 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:47:56 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:47:56 [main] INFO - Finished Spring Data repository scanning in 11 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:47:56 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:47:56 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:47:56 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:47:56 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:47:56 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:47:56 [main] INFO - Root WebApplicationContext: initialization completed in 562 ms
+2023-10-07 09:47:56 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:47:56 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 09:47:56 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:47:56 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:47:56 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:47:56 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:47:56 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:47:56 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:47:56 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 09:47:57 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:47:57 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:47:57 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:47:57 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:47:57 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:47:57 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:47:57 [main] INFO - Started P6eMessageCenterApplication in 1.788 seconds (process running for 2.043)
+2023-10-07 09:53:52 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:53:52 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:53:52 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:53:53 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 3764 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:53:53 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:53:54 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:53:54 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:53:54 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:53:54 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:53:54 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:53:54 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:53:54 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:53:54 [main] INFO - Root WebApplicationContext: initialization completed in 586 ms
+2023-10-07 09:53:54 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:53:54 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1e12a5a6
+2023-10-07 09:53:54 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:53:54 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:53:54 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:53:54 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:53:54 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:53:55 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:53:55 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@3386c206
+2023-10-07 09:53:55 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:53:55 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:53:55 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:53:55 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:53:55 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:53:55 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:53:55 [main] INFO - Started P6eMessageCenterApplication in 1.951 seconds (process running for 2.217)
+2023-10-07 09:54:49 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:54:49 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:54:49 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:54:51 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 35464 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:54:51 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:54:51 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:54:51 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:54:52 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:54:52 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:54:52 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:54:52 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:54:52 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:54:52 [main] INFO - Root WebApplicationContext: initialization completed in 581 ms
+2023-10-07 09:54:52 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:54:52 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 09:54:52 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:54:52 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:54:52 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:54:52 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:54:52 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:54:52 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:54:52 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 09:54:52 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:54:52 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:54:52 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:54:52 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:54:53 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:54:53 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:54:53 [main] INFO - Started P6eMessageCenterApplication in 1.829 seconds (process running for 2.077)
+2023-10-07 09:54:53 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not convert socket to TLS
+	at com.sun.mail.smtp.SMTPTransport.startTLS(SMTPTransport.java:1907) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:666) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:197) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:128) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.startTLS(SocketFetcher.java:486) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.startTLS(SMTPTransport.java:1902) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 09:57:13 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:57:13 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:57:13 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:57:16 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 14020 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:57:16 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:57:16 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:57:16 [main] INFO - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:57:16 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:57:16 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:57:16 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:57:16 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:57:16 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:57:16 [main] INFO - Root WebApplicationContext: initialization completed in 557 ms
+2023-10-07 09:57:16 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:57:17 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 09:57:17 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:57:17 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:57:17 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:57:17 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:57:17 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:57:17 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:57:17 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 09:57:17 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:57:17 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:57:17 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:57:17 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:57:17 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:57:17 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:57:17 [main] INFO - Started P6eMessageCenterApplication in 1.796 seconds (process running for 2.052)
+2023-10-07 09:57:18 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not convert socket to TLS
+	at com.sun.mail.smtp.SMTPTransport.startTLS(SMTPTransport.java:1907) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:666) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:197) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:128) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.startTLS(SocketFetcher.java:486) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.startTLS(SMTPTransport.java:1902) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 09:58:38 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:58:38 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 09:58:38 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 09:58:41 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 6820 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 09:58:41 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 09:58:41 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 09:58:41 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 09:58:41 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 09:58:41 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:58:41 [main] INFO - Starting service [Tomcat]
+2023-10-07 09:58:41 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 09:58:41 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 09:58:41 [main] INFO - Root WebApplicationContext: initialization completed in 587 ms
+2023-10-07 09:58:41 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 09:58:42 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3a38f122
+2023-10-07 09:58:42 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 09:58:42 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 09:58:42 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 09:58:42 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 09:58:42 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:58:42 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 09:58:42 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@4b6b5352
+2023-10-07 09:58:42 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 09:58:42 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 09:58:42 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 09:58:42 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 09:58:42 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 09:58:42 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 09:58:42 [main] INFO - Started P6eMessageCenterApplication in 1.843 seconds (process running for 2.093)
+2023-10-07 09:58:43 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not convert socket to TLS
+	at com.sun.mail.smtp.SMTPTransport.startTLS(SMTPTransport.java:1907) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:666) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:199) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:128) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.startTLS(SocketFetcher.java:486) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.startTLS(SMTPTransport.java:1902) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:01:47 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:01:47 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:01:47 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:01:49 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 9624 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:01:49 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:01:50 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:01:50 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:01:50 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:01:50 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:01:50 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:01:50 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:01:50 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:01:50 [main] INFO - Root WebApplicationContext: initialization completed in 563 ms
+2023-10-07 10:01:50 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:01:50 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 10:01:50 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:01:50 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:01:50 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:01:50 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:01:50 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:01:50 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:01:50 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 10:01:51 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:01:51 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:01:51 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:01:51 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:01:51 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:01:51 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:01:51 [main] INFO - Started P6eMessageCenterApplication in 1.82 seconds (process running for 2.071)
+2023-10-07 10:01:51 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 25
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:200) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:129) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:02:57 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:02:57 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:02:57 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:02:58 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 30256 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:02:58 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:02:58 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:02:58 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:02:58 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:02:58 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:02:58 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:02:58 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:02:59 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:02:59 [main] INFO - Root WebApplicationContext: initialization completed in 566 ms
+2023-10-07 10:02:59 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:02:59 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1e12a5a6
+2023-10-07 10:02:59 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:02:59 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:02:59 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:02:59 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:02:59 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:02:59 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:02:59 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@3386c206
+2023-10-07 10:02:59 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:02:59 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:02:59 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:02:59 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:02:59 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:02:59 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:02:59 [main] INFO - Started P6eMessageCenterApplication in 1.868 seconds (process running for 2.122)
+2023-10-07 10:03:00 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 465
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:200) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:129) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:04:50 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:04:50 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:04:50 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:04:52 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 13448 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:04:52 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:04:53 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:04:53 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:04:53 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:04:53 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:04:53 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:04:53 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:04:53 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:04:53 [main] INFO - Root WebApplicationContext: initialization completed in 552 ms
+2023-10-07 10:04:53 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:04:53 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@794f11cd
+2023-10-07 10:04:53 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:04:53 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:04:53 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:04:53 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:04:53 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:04:53 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:04:53 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@6a6d1ff3
+2023-10-07 10:04:54 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:04:54 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:04:54 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:04:54 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:04:54 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:04:54 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:04:54 [main] INFO - Started P6eMessageCenterApplication in 1.806 seconds (process running for 2.052)
+2023-10-07 10:04:54 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 465
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:203) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:132) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:05:52 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:05:52 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:05:52 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:05:54 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 32636 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:05:54 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:05:54 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:05:54 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:05:54 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:05:54 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:05:54 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:05:54 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:05:55 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:05:55 [main] INFO - Root WebApplicationContext: initialization completed in 563 ms
+2023-10-07 10:05:55 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:05:55 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@9b47400
+2023-10-07 10:05:55 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:05:55 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:05:55 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:05:55 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:05:55 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:05:55 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:05:55 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@3ee6dc82
+2023-10-07 10:05:55 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:05:55 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:05:55 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:05:55 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:05:55 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:05:55 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:05:55 [main] INFO - Started P6eMessageCenterApplication in 1.812 seconds (process running for 2.06)
+2023-10-07 10:05:56 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 465
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:197) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:126) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:06:43 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:06:43 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:06:43 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:06:44 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 30072 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:06:44 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:06:45 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:06:45 [main] INFO - Finished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:06:45 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:06:45 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:06:45 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:06:45 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:06:45 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:06:45 [main] INFO - Root WebApplicationContext: initialization completed in 580 ms
+2023-10-07 10:06:45 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:06:45 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1e12a5a6
+2023-10-07 10:06:45 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:06:45 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:06:45 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:06:45 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:06:45 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:06:45 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:06:45 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@3386c206
+2023-10-07 10:06:46 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:06:46 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:06:46 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:06:46 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:06:46 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:06:46 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:06:46 [main] INFO - Started P6eMessageCenterApplication in 1.823 seconds (process running for 2.104)
+2023-10-07 10:06:46 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 465
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:197) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:126) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:08:45 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:08:45 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:08:45 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:08:47 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 33176 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:08:47 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:08:47 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:08:47 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:08:48 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:08:48 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:08:48 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:08:48 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:08:48 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:08:48 [main] INFO - Root WebApplicationContext: initialization completed in 587 ms
+2023-10-07 10:08:48 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:08:48 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1c628f6a
+2023-10-07 10:08:48 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:08:48 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:08:48 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:08:48 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:08:48 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:08:48 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:08:48 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@3b39e79b
+2023-10-07 10:08:48 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:08:49 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:08:49 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:08:49 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:08:49 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:08:49 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:08:49 [main] INFO - Started P6eMessageCenterApplication in 1.88 seconds (process running for 2.133)
+2023-10-07 10:08:49 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 465
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:197) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:126) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:11:14 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:11:14 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:11:14 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:11:17 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 38488 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:11:17 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:11:17 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:11:17 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:11:17 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:11:17 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:11:17 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:11:17 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:11:18 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:11:18 [main] INFO - Root WebApplicationContext: initialization completed in 551 ms
+2023-10-07 10:11:18 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:11:18 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@9b47400
+2023-10-07 10:11:18 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:11:18 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:11:18 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:11:18 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:11:18 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:11:18 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:11:18 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@3ee6dc82
+2023-10-07 10:11:18 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:11:18 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:11:18 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:11:18 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:11:18 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:11:18 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:11:18 [main] INFO - Started P6eMessageCenterApplication in 1.798 seconds (process running for 2.055)
+2023-10-07 10:15:36 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:15:36 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:15:36 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:15:38 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 44576 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:15:38 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:15:39 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:15:39 [main] INFO - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:15:39 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:15:39 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:15:39 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:15:39 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:15:39 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:15:39 [main] INFO - Root WebApplicationContext: initialization completed in 545 ms
+2023-10-07 10:15:39 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:15:39 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 10:15:39 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:15:39 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:15:39 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:15:39 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:15:39 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:15:39 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:15:39 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 10:15:39 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:15:40 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:15:40 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:15:40 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:15:40 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:15:40 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:15:40 [main] INFO - Started P6eMessageCenterApplication in 1.783 seconds (process running for 2.035)
+2023-10-07 10:15:40 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 465
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:198) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:127) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:17:57 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:17:57 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:17:57 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:18:00 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 48056 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:18:00 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:18:00 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:18:00 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:18:00 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:18:00 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:18:00 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:18:00 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:18:00 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:18:00 [main] INFO - Root WebApplicationContext: initialization completed in 547 ms
+2023-10-07 10:18:00 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:18:00 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 10:18:00 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:18:01 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:18:01 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:18:01 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:18:01 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:18:01 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:18:01 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 10:18:01 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:18:01 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:18:01 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:18:01 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:18:01 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:18:01 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:18:01 [main] INFO - Started P6eMessageCenterApplication in 1.816 seconds (process running for 2.061)
+2023-10-07 10:20:02 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:20:02 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:20:02 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:20:04 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 56064 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:20:04 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:20:05 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:20:05 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:20:05 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:20:05 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:20:05 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:20:05 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:20:05 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:20:05 [main] INFO - Root WebApplicationContext: initialization completed in 560 ms
+2023-10-07 10:20:05 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:20:05 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@47a7c93e
+2023-10-07 10:20:05 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:20:05 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:20:05 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:20:05 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:20:05 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:20:05 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:20:06 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@6dded900
+2023-10-07 10:20:06 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:20:06 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:20:06 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:20:06 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:20:06 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:20:06 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:20:06 [main] INFO - Started P6eMessageCenterApplication in 1.857 seconds (process running for 2.123)
+2023-10-07 10:20:06 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 465
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:196) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:125) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:20:28 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:20:28 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:20:28 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:20:30 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 56500 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:20:30 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:20:30 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:20:30 [main] INFO - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:20:30 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:20:30 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:20:30 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:20:30 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:20:30 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:20:30 [main] INFO - Root WebApplicationContext: initialization completed in 555 ms
+2023-10-07 10:20:30 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:20:31 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 10:20:31 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:20:31 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:20:31 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:20:31 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:20:31 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:20:31 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:20:31 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 10:20:31 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:20:31 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:20:31 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:20:31 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:20:31 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:20:31 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:20:31 [main] INFO - Started P6eMessageCenterApplication in 1.809 seconds (process running for 2.05)
+2023-10-07 10:20:32 [pool-2-thread-1] ERROR - [MAIL MESSAGE]
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.163.com, port: 465
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1961) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:654) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:317) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:176) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Service.connect(Service.java:125) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send0(Transport.java:194) ~[mail-1.4.7.jar:1.4.7]
+	at javax.mail.Transport.send(Transport.java:124) ~[mail-1.4.7.jar:1.4.7]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.send(DefaultMailLauncherParser.java:197) ~[classes/:na]
+	at club.p6e.coat.message.center.launcher.DefaultMailLauncherParser.lambda$execute$0(DefaultMailLauncherParser.java:126) ~[classes/:na]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+	at java.base/sun.security.ssl.HandshakeContext.<init>(HandshakeContext.java:172) ~[na:na]
+	at java.base/sun.security.ssl.ClientHandshakeContext.<init>(ClientHandshakeContext.java:103) ~[na:na]
+	at java.base/sun.security.ssl.TransportContext.kickstart(TransportContext.java:247) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:448) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:426) ~[na:na]
+	at com.sun.mail.util.SocketFetcher.configureSSLSocket(SocketFetcher.java:549) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.createSocket(SocketFetcher.java:354) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:237) ~[mail-1.4.7.jar:1.4.7]
+	at com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:1927) ~[mail-1.4.7.jar:1.4.7]
+	... 13 common frames omitted
+2023-10-07 10:21:00 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:21:00 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:21:00 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:21:02 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 41912 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:21:02 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:21:02 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:21:02 [main] INFO - Finished Spring Data repository scanning in 11 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:21:02 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:21:02 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:21:02 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:21:02 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:21:02 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:21:02 [main] INFO - Root WebApplicationContext: initialization completed in 598 ms
+2023-10-07 10:21:03 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:21:03 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1e12a5a6
+2023-10-07 10:21:03 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:21:03 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:21:03 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:21:03 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:21:03 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:21:03 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:21:03 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@3386c206
+2023-10-07 10:21:03 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:21:03 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:21:03 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:21:03 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:21:03 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:21:04 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:21:04 [main] INFO - Started P6eMessageCenterApplication in 1.922 seconds (process running for 2.185)
+2023-10-07 10:21:19 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:21:19 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:21:19 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 10:21:21 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 47900 (D:\CodeContents\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by a1294 in D:\CodeContents\github\p6e-coat-message-center)
+2023-10-07 10:21:21 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 10:21:22 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 10:21:22 [main] INFO - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+2023-10-07 10:21:22 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 10:21:22 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:21:22 [main] INFO - Starting service [Tomcat]
+2023-10-07 10:21:22 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 10:21:22 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 10:21:22 [main] INFO - Root WebApplicationContext: initialization completed in 557 ms
+2023-10-07 10:21:22 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 10:21:22 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f9ab79d
+2023-10-07 10:21:22 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 10:21:22 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 10:21:22 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 10:21:22 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 10:21:22 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:21:22 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 10:21:22 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@d504137
+2023-10-07 10:21:22 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 10:21:23 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 10:21:23 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:21:23 [main] WARN - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-07 10:21:23 [main] INFO - Starting ProtocolHandler ["http-nio-9999"]
+2023-10-07 10:21:23 [main] INFO - Tomcat started on port(s): 9999 (http) with context path ''
+2023-10-07 10:21:23 [main] INFO - Started P6eMessageCenterApplication in 1.803 seconds (process running for 2.049)
+2023-10-07 10:39:49 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 10:39:49 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 10:39:49 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.

@@ -1,8 +1,10 @@
 package club.p6e.coat.message.center.config;
 
+import club.p6e.coat.message.center.utils.JsonUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -48,7 +50,7 @@ public class DefaultConfigParser implements ConfigParser {
         };
     }
 
-    private MobileMessageConfigData getMobileMessageConfigData(ConfigSource config) {
+    protected MobileMessageConfigData getMobileMessageConfigData(ConfigSource config) {
         final String content = config.content();
         return new MobileMessageConfigData() {
             @Override
@@ -98,7 +100,7 @@ public class DefaultConfigParser implements ConfigParser {
         };
     }
 
-    private ShortMessageConfigData getShortMessageConfigData(ConfigSource config) {
+    protected ShortMessageConfigData getShortMessageConfigData(ConfigSource config) {
         final String content = config.content();
         return new ShortMessageConfigData() {
             @Override
@@ -143,42 +145,76 @@ public class DefaultConfigParser implements ConfigParser {
         };
     }
 
-    private MailConfigData getMailConfigData(ConfigSource config) {
-        final String content = config.content();
+    protected MailConfigData getMailConfigData(ConfigSource config) {
+        String tls = null;
+        String port = null;
+        String host = null;
+        String auth = null;
+        String from = null;
+        String password = null;
+        final Map<String, String> other = new HashMap<>();
+        try {
+            final String content = config.content();
+            if (content != null) {
+                final Map<String, String> map =
+                        JsonUtil.fromJsonToMap(content, String.class, String.class);
+                if (map != null) {
+                    tls = map.get("tls");
+                    port = map.get("port");
+                    host = map.get("host");
+                    auth = map.get("auth");
+                    from = map.get("from");
+                    password = map.get("password");
+                    for (final String key : map.keySet()) {
+                        if (key.startsWith("@") && key.length() > 1) {
+                            other.put(key.substring(1), map.get(key));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // ...
+        }
+        final String finalTls = tls;
+        final String finalPort = port;
+        final String finalHost = host;
+        final String finalAuth = auth;
+        final String finalFrom = from;
+        final String finalPassword = password;
         return new MailConfigData() {
             @Override
             public String port() {
-                return content;
+                return finalPort;
             }
 
             @Override
             public String host() {
-                return content;
+                return finalHost;
             }
 
             @Override
             public String auth() {
-                return null;
+                return finalAuth;
             }
 
             @Override
             public String tls() {
-                return null;
+                return finalTls;
             }
 
             @Override
             public String from() {
-                return null;
+                return finalFrom;
             }
 
             @Override
             public String password() {
-                return null;
+                return finalPassword;
             }
 
             @Override
             public Map<String, String> other() {
-                return null;
+                return other;
             }
 
             @Override

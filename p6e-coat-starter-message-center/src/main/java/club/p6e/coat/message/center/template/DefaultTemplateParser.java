@@ -70,12 +70,12 @@ public class DefaultTemplateParser implements TemplateParser {
 
                 @Override
                 public String title() {
-                    return convert(templateSource.title(), variableParser);
+                    return DefaultTemplateParser.convert(templateSource.title(), variableParser);
                 }
 
                 @Override
                 public String content() {
-                    return convert(templateSource.content(), variableParser);
+                    return DefaultTemplateParser.convert(templateSource.content(), variableParser);
                 }
 
                 @Override
@@ -96,6 +96,11 @@ public class DefaultTemplateParser implements TemplateParser {
                 @Override
                 public Map<String, String> variable() {
                     return variableParser.getData();
+                }
+
+                @Override
+                public String convert(String key) {
+                    return DefaultTemplateParser.convert(key, variableParser);
                 }
             };
         } else {

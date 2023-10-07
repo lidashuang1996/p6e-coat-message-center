@@ -15,6 +15,13 @@ import java.util.function.Function;
 public interface MobileMessageLauncherPlatform {
 
     /**
+     * 获取平台名称
+     *
+     * @return 平台名称
+     */
+    public String name();
+
+    /**
      * 执行发射消息
      *
      * @param config     配置对象
@@ -22,6 +29,6 @@ public interface MobileMessageLauncherPlatform {
      * @param recipients 收件人
      * @return 需要执行的函数列表对象
      */
-    public List<Function<Void, Void>> execute(MobileMessageConfigData config, TemplateData template, List<String> recipients);
+    public List<Function<Void, String>> execute(MobileMessageConfigData config, TemplateData template, List<String> recipients);
 
 }

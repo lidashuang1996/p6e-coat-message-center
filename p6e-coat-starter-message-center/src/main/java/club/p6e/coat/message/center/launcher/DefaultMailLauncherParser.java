@@ -61,12 +61,12 @@ public class DefaultMailLauncherParser implements MailLauncherParser {
     }
 
     @Override
-    public LauncherData execute(MailConfigData configData, TemplateData templateData, List<String> recipients) {
-        if (configData == null) {
+    public LauncherData execute(MailConfigData config, TemplateData template, List<String> recipients) {
+        if (config == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found config data is null");
         }
-        if (templateData == null) {
+        if (template == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found template data is null");
         }
@@ -75,57 +75,54 @@ public class DefaultMailLauncherParser implements MailLauncherParser {
                     "when performing the send email operation, it was found recipients is null");
         }
         final java.util.Properties properties = new java.util.Properties();
-        if (configData.host() == null) {
+        if (config.host() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the host in config data is null");
         } else {
-            properties.put("mail.smtp.host", configData.host());
+            properties.put("mail.smtp.host", config.host());
         }
-        if (configData.port() == null) {
+        if (config.port() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the port in config data is null");
         } else {
-            properties.put("mail.smtp.port", configData.port());
+            properties.put("mail.smtp.port", config.port());
         }
-        if (configData.auth() == null) {
+        if (config.auth() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the auth in config data is null");
         } else {
-            properties.put("mail.smtp.auth", configData.auth());
+            properties.put("mail.smtp.auth", config.auth());
         }
-        if (configData.tls() == null) {
+        if (config.tls() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the tls in config data is null");
         } else {
-            properties.put("mail.smtp.starttls.enable", configData.tls());
+            properties.put("mail.smtp.ssl.enable", config.tls());
         }
-        if (configData.other() != null
-                && !configData.other().isEmpty()) {
-            for (final String key : configData.other().keySet()) {
-                properties.put(key, configData.other().get(key));
-            }
-        }
-        if (templateData.title() == null) {
+        if (template.title() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the title in template data is null");
         }
-        if (templateData.content() == null) {
+        if (template.content() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the content in template data is null");
+        }
+        if (config.other() != null) {
+            properties.putAll(config.other());
         }
         // create send mail session
         final Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(configData.from(), configData.password());
+                return new PasswordAuthentication(config.from(), config.password());
             }
         });
         // submit send mail task
         final int size = recipients.size();
         final int stride = this.properties.getMail().getMaxRecipientLength();
         for (int i = 0; i < size; i = i + stride) {
-            final List<String> rs = recipients.subList(i, i + stride);
-            threadPool.submit(() -> send(session, configData.from(), rs, templateData));
+            final List<String> rs = recipients.subList(i, Math.min(i + stride, size));
+            threadPool.submit(() -> send(session, config.from(), rs, template));
         }
         return new LauncherData() {
             @Override
@@ -135,7 +132,7 @@ public class DefaultMailLauncherParser implements MailLauncherParser {
 
             @Override
             public String type() {
-                return configData.type();
+                return config.type();
             }
         };
     }

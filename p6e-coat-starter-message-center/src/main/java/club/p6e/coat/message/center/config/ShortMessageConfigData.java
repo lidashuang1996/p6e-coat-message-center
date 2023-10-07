@@ -1,5 +1,7 @@
 package club.p6e.coat.message.center.config;
 
+import java.util.Map;
+
 /**
  * 短信配置
  *
@@ -8,12 +10,19 @@ package club.p6e.coat.message.center.config;
  */
 public interface ShortMessageConfigData extends ConfigData {
 
-    public String applicationId();
+    public String applicationSign();
 
-    public String applicationKey();
+    public String applicationKeyId();
 
-    public String applicationSecret();
+    public String applicationKeySecret();
 
-    public String applicationUrl();
+    public String applicationDomain();
+
+    /**
+     * 获取其他参数
+     *
+     * @return 其他参数
+     */
+    public Map<String, String> other();
 
 }

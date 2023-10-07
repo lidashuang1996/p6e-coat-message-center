@@ -27,24 +27,38 @@ import java.util.function.Function;
 public class DefaultMobileMessageLauncherParser implements MobileMessageLauncherParser {
 
     /**
+     * 注册的平台对象
+     */
+    private final Map<String, MobileMessageLauncherPlatform> platforms = new ConcurrentHashMap<>();
+
+    /**
      * 注入日志对象
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMobileMessageLauncherParser.class);
-
-    private final Map<String, MobileMessageLauncherPlatform> platforms = new ConcurrentHashMap<>();
 
     /**
      * 消息中心线程池对象
      */
     private final MessageCenterThreadPool threadPool;
 
-    public DefaultMobileMessageLauncherParser(MessageCenterThreadPool threadPool) {
+    /**
+     * 构造方法初始化
+     *
+     * @param threadPool 消息中心线程池对象
+     */
+    public DefaultMobileMessageLauncherParser(
+            MessageCenterThreadPool threadPool,
+            List<MobileMessageLauncherPlatform> platforms
+    ) {
         this.threadPool = threadPool;
-        register("MIUI", new MiUiOsMobileMessageLauncherPlatform());
-        register("COLOR", new ColorOsMobileMessageLauncherPlatform());
-        register("ORIGIN", new OriginOsMobileMessageLauncherPlatform());
-        register("GOOGLE", new GoogleFcmMobileMessageLauncherPlatform());
-        register("HARMONY", new HarmonyOsMobileMessageLauncherPlatform());
+        if (platforms != null && !platforms.isEmpty()) {
+            for (final MobileMessageLauncherPlatform platform : platforms) {
+                this.platforms.put(platform.name(), platform);
+            }
+        }
+//        register("MIUI", new MiUiOsMobileMessageLauncherPlatform());
+//        register("COLOR", new ColorOsMobileMessageLauncherPlatform());
+//        register("ORIGIN", new OriginOsMobileMessageLauncherPlatform());
     }
 
     @Override
@@ -70,13 +84,13 @@ public class DefaultMobileMessageLauncherParser implements MobileMessageLauncher
         if (launcherPlatform == null) {
             throw new RuntimeException();
         }
-        LOGGER.info("[MMS MESSAGE] >>> PLATFORMS: " + config.platform());
-        List<Function<Void, Void>> list = launcherPlatform.execute(config, template, recipients);
+        LOGGER.debug("[MMS MESSAGE] >>> PLATFORMS: " + config.platform());
+        List<Function<Void, String>> list = launcherPlatform.execute(config, template, recipients);
         if (list == null) {
             list = new ArrayList<>();
         }
-        LOGGER.info("[MMS MESSAGE] >>> TASK SIZE: " + list.size());
-        for (final Function<Void, Void> item : list) {
+        LOGGER.debug("[MMS MESSAGE] >>> TASK SIZE: " + list.size());
+        for (final Function<Void, String> item : list) {
             threadPool.submit(() -> item.apply(null));
         }
         return new LauncherData() {
@@ -90,15 +104,5 @@ public class DefaultMobileMessageLauncherParser implements MobileMessageLauncher
                 return config.type();
             }
         };
-    }
-
-    @Override
-    public void register(String key, MobileMessageLauncherPlatform value) {
-        platforms.put(key, value);
-    }
-
-    @Override
-    public void unregister(String key) {
-        platforms.remove(key);
     }
 }
