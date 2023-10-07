@@ -23,7 +23,12 @@ import java.util.function.Function;
 public class OriginOsMobileMessageLauncherPlatform implements MobileMessageLauncherPlatform {
 
     @Override
-    public List<Function<Void, Void>> execute(MobileMessageConfigData config, TemplateData template, List<String> recipients) {
+    public String name() {
+        return null;
+    }
+
+    @Override
+    public List<Function<Void, String>> execute(MobileMessageConfigData config, TemplateData template, List<String> recipients) {
         return List.of(u -> null, u -> null);
     }
 

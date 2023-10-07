@@ -54,27 +54,22 @@ public class DefaultConfigParser implements ConfigParser {
         final String content = config.content();
         return new MobileMessageConfigData() {
             @Override
-            public String applicationId() {
-                return content;
+            public String applicationName() {
+                return null;
             }
 
             @Override
-            public String applicationKey() {
-                return content;
-            }
-
-            @Override
-            public String applicationSecret() {
-                return content;
-            }
-
-            @Override
-            public String applicationUrl() {
-                return content;
+            public String applicationContent() {
+                return null;
             }
 
             @Override
             public String platform() {
+                return null;
+            }
+
+            @Override
+            public Map<String, String> other() {
                 return null;
             }
 
@@ -104,23 +99,28 @@ public class DefaultConfigParser implements ConfigParser {
         final String content = config.content();
         return new ShortMessageConfigData() {
             @Override
-            public String applicationId() {
-                return content;
+            public String applicationSign() {
+                return null;
             }
 
             @Override
-            public String applicationKey() {
-                return content;
+            public String applicationKeyId() {
+                return null;
             }
 
             @Override
-            public String applicationSecret() {
-                return content;
+            public String applicationKeySecret() {
+                return null;
             }
 
             @Override
-            public String applicationUrl() {
-                return content;
+            public String applicationDomain() {
+                return null;
+            }
+
+            @Override
+            public Map<String, String> other() {
+                return null;
             }
 
             @Override

@@ -1020,3 +1020,32 @@ org.postgresql.util.PSQLException: 操作要求可卷动的 ResultSet，但此 R
 2023-10-07 10:39:49 [SpringApplicationShutdownHook] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
 2023-10-07 10:39:49 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown initiated...
 2023-10-07 10:39:49 [SpringApplicationShutdownHook] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 22:17:02 [main] INFO - Starting P6eMessageCenterApplication using Java 17.0.7 with PID 15172 (D:\CodeResources\github\p6e-coat-message-center\p6e-coat-starter-message-center\target\classes started by LiDaShuang in D:\CodeResources\github\p6e-coat-message-center)
+2023-10-07 22:17:02 [main] INFO - No active profile set, falling back to 1 default profile: "default"
+2023-10-07 22:17:02 [main] INFO - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-07 22:17:02 [main] INFO - Finished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.
+2023-10-07 22:17:02 [main] INFO - Tomcat initialized with port(s): 9999 (http)
+2023-10-07 22:17:02 [main] INFO - Initializing ProtocolHandler ["http-nio-9999"]
+2023-10-07 22:17:02 [main] INFO - Starting service [Tomcat]
+2023-10-07 22:17:02 [main] INFO - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-10-07 22:17:02 [main] INFO - Initializing Spring embedded WebApplicationContext
+2023-10-07 22:17:02 [main] INFO - Root WebApplicationContext: initialization completed in 770 ms
+2023-10-07 22:17:03 [main] INFO - HikariPool-1 - Starting...
+2023-10-07 22:17:03 [main] INFO - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@445bce9a
+2023-10-07 22:17:03 [main] INFO - HikariPool-1 - Start completed.
+2023-10-07 22:17:03 [main] INFO - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-07 22:17:03 [main] INFO - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-10-07 22:17:03 [main] INFO - HHH000406: Using bytecode reflection optimizer
+2023-10-07 22:17:03 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 22:17:03 [main] INFO - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-07 22:17:03 [main] INFO - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@7e81617a
+2023-10-07 22:17:03 [main] INFO - HHH000021: Bytecode provider name : bytebuddy
+2023-10-07 22:17:03 [main] INFO - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-07 22:17:03 [main] INFO - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 22:17:03 [main] INFO - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-07 22:17:03 [main] INFO - HikariPool-1 - Shutdown initiated...
+2023-10-07 22:17:04 [main] INFO - HikariPool-1 - Shutdown completed.
+2023-10-07 22:17:04 [main] INFO - Stopping service [Tomcat]
+2023-10-07 22:17:04 [main] INFO - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
