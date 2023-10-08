@@ -11,7 +11,7 @@ import java.util.function.Function;
 /**
  * MiUiOS
  * 移动消息发送平台
- *
+ *<a href="https://dev.mi.com/distribute/doc/details?pId=1558">...</a>
  * @author lidashuang
  * @version 1.0
  */
