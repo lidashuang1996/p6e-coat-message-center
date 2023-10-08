@@ -72,7 +72,7 @@ public class HarmonyOsMobileMessageLauncherPlatform implements MobileMessageLaun
         if (applicationConfig == null) {
             throw new RuntimeException("[HW MESSAGE PUSH ERROR] >>> application config is null");
         }
-        final String url = template.convert(applicationConfig.getPushUrl());
+        final String url = applicationConfig.getPushUrl();
         final HttpHeaders headers = new HttpHeaders();
         headers.set("Host", applicationConfig.getPushHost());
         headers.set("Authorization", "Bearer " + clientAccessToken);
@@ -194,7 +194,6 @@ public class HarmonyOsMobileMessageLauncherPlatform implements MobileMessageLaun
         private String authContentType;
         private String pushUrl;
         private String pushHost;
-        private String pushClientId;
     }
 
     @Data
