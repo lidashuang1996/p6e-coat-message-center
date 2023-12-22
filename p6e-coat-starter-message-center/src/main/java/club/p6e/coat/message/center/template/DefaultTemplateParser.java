@@ -1,17 +1,14 @@
 package club.p6e.coat.message.center.template;
 
-import club.p6e.coat.message.center.variable.BasicVariableParser;
-import club.p6e.coat.message.center.variable.VariableParser;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
+import java.util.function.Function;
 
 /**
- * 模板解析器（默认）
- *
  * @author lidashuang
  * @version 1.0
  */
@@ -33,79 +30,48 @@ public class DefaultTemplateParser implements TemplateParser {
     public static boolean IS_VARIABLES_REPLACE_EMPTY_VALUE = false;
 
     /**
-     * 外部源模板解析器
+     * 模板变量解析器列表
      */
-    private final ExternalSourceTemplateParser externalSourceTemplateParser = new ExternalSourceTemplateParser();
+    private final List<TemplateVariableParser> templateVariableParserList;
+
+    /**
+     * 构造方法初始化
+     *
+     * @param templateVariableParserList 模板变量解析器列表
+     */
+    public DefaultTemplateParser(List<TemplateVariableParser> templateVariableParserList) {
+        // 对模板变量解析器列表进行排序
+        templateVariableParserList.sort(Comparator.comparingInt(Ordered::getOrder));
+        this.templateVariableParserList = templateVariableParserList;
+    }
 
     @Override
-    public TemplateData execute(TemplateSource templateSource, BasicVariableParser variableParser) {
-        if (templateSource == null) {
-            throw new NullPointerException("template source is null");
+    public CommunicationTemplateModel execute(TemplateModel template, Map<String, String> data) {
+        if (template == null || template.parser() == null || template.content() == null) {
+            return null;
         }
-        if (templateSource.parser() == null) {
-            throw new NullPointerException("template source parameters [parser] is null");
-        }
-        final String parser = templateSource.parser();
-        if (DEFAULT_PARSER.equalsIgnoreCase(parser)) {
-            return new TemplateData() {
-                @Override
-                public Integer id() {
-                    return templateSource.id();
-                }
-
-                @Override
-                public String type() {
-                    return templateSource.type();
-                }
-
-                @Override
-                public String mark() {
-                    return templateSource.mark();
-                }
-
-                @Override
-                public String name() {
-                    return templateSource.name();
-                }
-
-                @Override
-                public String title() {
-                    return DefaultTemplateParser.convert(templateSource.title(), variableParser);
-                }
-
-                @Override
-                public String content() {
-                    return DefaultTemplateParser.convert(templateSource.content(), variableParser);
-                }
-
-                @Override
-                public List<String> attachments() {
-                    if (variableParser.getData() != null
-                            && !variableParser.getData().isEmpty()) {
-                        final List<String> result = new ArrayList<>();
-                        for (final String key : variableParser.getData().keySet()) {
-                            if (key.startsWith("attachment_")) {
-                                result.add(key);
+        if (DEFAULT_PARSER.equalsIgnoreCase(template.parser())) {
+            return new SimpleCommunicationTemplateModel(template) {{
+                final Map<String, String> param = Objects.requireNonNullElseGet(data, HashMap::new);
+                setCommunicationContent(
+                        convert(template.content(), name -> {
+                            String value = param.get(name);
+                            if (value == null) {
+                                for (final TemplateVariableParser templateVariableParser : templateVariableParserList) {
+                                    value = templateVariableParser.execute(name);
+                                    if (value != null) {
+                                        param.put(name, value);
+                                        return value;
+                                    }
+                                }
                             }
-                        }
-                        return result;
-                    }
-                    return null;
-                }
-
-                @Override
-                public Map<String, String> variable() {
-                    return variableParser.getData();
-                }
-
-                @Override
-                public String convert(String key) {
-                    return DefaultTemplateParser.convert(key, variableParser);
-                }
-            };
+                            return value;
+                        })
+                );
+                setCommunicationParam(param);
+            }};
         } else {
-            // 如果不是默认的名称的解析器，就执行外部源解析器执行解析
-            return externalSourceTemplateParser.execute(templateSource, variableParser);
+            throw new RuntimeException();
         }
     }
 
@@ -133,22 +99,22 @@ public class DefaultTemplateParser implements TemplateParser {
      * 执行解析模板的内容
      *
      * @param content 模板的内容
-     * @param parser  模板的数据解析器
+     * @param vf      变量替换的方法
      * @return 模板解析后的内容
      */
-    private static String convert(String content, VariableParser parser) {
-        return convert(content, parser, IS_VARIABLES_REPLACE_EMPTY_VALUE);
+    private static String convert(String content, Function<String, String> vf) {
+        return convert(content, vf, IS_VARIABLES_REPLACE_EMPTY_VALUE);
     }
 
     /**
      * 执行解析模板的内容
      *
      * @param content                      模板的内容
-     * @param parser                       模板的数据解析器
+     * @param vf                           变量替换的方法
      * @param isVariablesReplaceEmptyValue 是否用变量名称替换空的数据内容
      * @return 模板解析后的内容
      */
-    private static String convert(String content, VariableParser parser, boolean isVariablesReplaceEmptyValue) {
+    private static String convert(String content, Function<String, String> vf, boolean isVariablesReplaceEmptyValue) {
         if (content == null || content.isEmpty()) {
             return "";
         } else {
@@ -166,26 +132,26 @@ public class DefaultTemplateParser implements TemplateParser {
                     key = new StringBuilder();
                 } else if (key != null) {
                     if (CONTENT_END_CHAR.equals(c)) {
-                        final String keySource = key.toString();
+                        final String ks = key.toString();
                         key = null;
-                        if (parser != null) {
-                            final String value = parser.execute(getKey(keySource));
+                        if (vf != null) {
+                            final String value = vf.apply(getKey(ks));
                             if (value != null) {
                                 result.append(value);
                                 continue;
                             }
                         }
-                        final String defaultValue = getDefaultValue(keySource);
+                        final String defaultValue = getDefaultValue(ks);
                         if (defaultValue != null) {
                             result.append(defaultValue);
                             continue;
                         }
                         if (isVariablesReplaceEmptyValue) {
-                            result.append(keySource);
+                            result.append(ks);
                         } else {
                             result.append(START_CHAR)
                                     .append(CONTENT_START_CHAR)
-                                    .append(keySource).append(CONTENT_END_CHAR);
+                                    .append(ks).append(CONTENT_END_CHAR);
                         }
                     } else {
                         key.append(c);
@@ -201,6 +167,12 @@ public class DefaultTemplateParser implements TemplateParser {
         }
     }
 
+    /**
+     * 读取键的内容
+     *
+     * @param content 模板的内容
+     * @return 键的值
+     */
     private static String getKey(String content) {
         if (content != null && !content.isEmpty()) {
             final StringBuilder result = new StringBuilder();
@@ -217,6 +189,12 @@ public class DefaultTemplateParser implements TemplateParser {
         return "";
     }
 
+    /**
+     * 读取默认值的内容
+     *
+     * @param content 模板的内容
+     * @return 默认值
+     */
     private static String getDefaultValue(String content) {
         if (content != null && !content.isEmpty()) {
             final StringBuilder result = new StringBuilder();
@@ -230,5 +208,147 @@ public class DefaultTemplateParser implements TemplateParser {
             }
         }
         return null;
+    }
+
+    /**
+     * 简单的通讯模板模型
+     */
+    private static class SimpleCommunicationTemplateModel implements CommunicationTemplateModel {
+
+        /**
+         * 模板模型对象
+         */
+        private final TemplateModel model;
+
+        /**
+         * 通讯的模板结果
+         */
+        private String communicationContent;
+
+        /**
+         * 通讯的模板附件
+         */
+        private List<File> communicationAttachment;
+
+        /**
+         * 通讯的模板请求参数
+         */
+        private Map<String, String> communicationParam;
+
+        /**
+         * 构造方法初始化
+         *
+         * @param model 模板模型对象
+         */
+        private SimpleCommunicationTemplateModel(TemplateModel model) {
+            this.model = model;
+        }
+
+        @Override
+        public Integer id() {
+            return model == null ? null : model.id();
+        }
+
+        @Override
+        public String type() {
+            return model == null ? null : model.type();
+        }
+
+        @Override
+        public String mark() {
+            return model == null ? null : model.mark();
+        }
+
+        @Override
+        public String name() {
+            return model == null ? null : model.name();
+        }
+
+        @Override
+        public String title() {
+            return model == null ? null : model.title();
+        }
+
+        @Override
+        public String content() {
+            return model == null ? null : model.content();
+        }
+
+        @Override
+        public String description() {
+            return model == null ? null : model.description();
+        }
+
+        @Override
+        public String parser() {
+            return model == null ? null : model.parser();
+        }
+
+        @Override
+        public byte[] parserSource() {
+            return model == null ? null : model.parserSource();
+        }
+
+
+        @Override
+        public Map<String, String> getCommunicationParam() {
+            return communicationParam;
+        }
+
+        @Override
+        public void setCommunicationParam(Map<String, String> communicationParam) {
+            this.communicationParam = communicationParam;
+        }
+
+        @Override
+        public String getCommunicationContent() {
+            return communicationContent;
+        }
+
+        @Override
+        public void setCommunicationContent(String communicationContent) {
+            this.communicationContent = communicationContent;
+        }
+
+        @Override
+        public List<File> getAttachment() {
+            return communicationAttachment;
+        }
+
+        @Override
+        public void cleanAttachment() {
+            if (communicationAttachment != null) {
+                communicationAttachment.clear();
+                communicationAttachment = null;
+            }
+        }
+
+        @Override
+        public void addAttachment(File file) {
+            if (communicationAttachment == null) {
+                communicationAttachment = new ArrayList<>();
+            }
+            communicationAttachment.add(file);
+        }
+
+        @Override
+        public void removeAttachment(File file) {
+            if (communicationAttachment != null) {
+                communicationAttachment.remove(file);
+            }
+        }
+
+        @Override
+        public void removeAttachmentAt(int index) {
+            if (communicationAttachment != null) {
+                communicationAttachment.remove(index);
+            }
+        }
+
+        @Override
+        public void setAttachment(List<File> files) {
+            communicationAttachment = files;
+        }
+
     }
 }

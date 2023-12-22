@@ -1,9 +1,8 @@
 package club.p6e.coat.message.center;
 
-import club.p6e.coat.message.center.config.ConfigSource;
-import club.p6e.coat.message.center.launcher.LauncherMapperSource;
-import club.p6e.coat.message.center.launcher.LauncherSource;
-import club.p6e.coat.message.center.template.TemplateSource;
+import club.p6e.coat.message.center.launcher.impl.LauncherMapperSource;
+import club.p6e.coat.message.center.launcher.LauncherModel;
+import club.p6e.coat.message.center.template.TemplateModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -151,85 +150,134 @@ public class DataSourceFactory {
         this.dataSource = dataSource;
     }
 
-    /**
-     * 查询配置源
-     *
-     * @param query     配置 ID
-     * @param attribute 属性
-     * @return 配置源对象
-     */
-    public ConfigSource getConfigSource(int query, String attribute) {
-        try (final Connection connection = dataSource.getConnection()) {
-            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_CONFIG_SOURCE);
-            preparedStatement.setInt(1, query);
-            final ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                final Integer id = rs.getInt("id");
-                final String rule = rs.getString("rule");
-                final String name = rs.getString("name");
-                final String type = rs.getString("type");
-                final Integer enable = rs.getInt("enable");
-                final String content = rs.getString("content");
-                final String description = rs.getString("description");
-                final String parser = rs.getString("parser");
-                final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
-                return new ConfigSource() {
+//    /**
+//     * 查询配置源
+//     *
+//     * @param query     配置 ID
+//     * @param attribute 属性
+//     * @return 配置源对象
+//     */
+//    public ConfigSource getConfigSource(int query, String attribute) {
+//        try (final Connection connection = dataSource.getConnection()) {
+//            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_CONFIG_SOURCE);
+//            preparedStatement.setInt(1, query);
+//            final ResultSet rs = preparedStatement.executeQuery();
+//            if (rs.next()) {
+//                final Integer id = rs.getInt("id");
+//                final String rule = rs.getString("rule");
+//                final String name = rs.getString("name");
+//                final String type = rs.getString("type");
+//                final Integer enable = rs.getInt("enable");
+//                final String content = rs.getString("content");
+//                final String description = rs.getString("description");
+//                final String parser = rs.getString("parser");
+//                final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
+//                return new ConfigSource() {
+//
+//                    @Override
+//                    public Integer enable() {
+//                        return enable;
+//                    }
+//
+//                    @Override
+//                    public String content() {
+//                        return content;
+//                    }
+//
+//                    @Override
+//                    public String description() {
+//                        return description;
+//                    }
+//
+//                    @Override
+//                    public String parser() {
+//                        return parser;
+//                    }
+//
+//                    @Override
+//                    public byte[] parserSource() {
+//                        return parserSource;
+//                    }
+//
+//                    @Override
+//                    public String attribute() {
+//                        return attribute;
+//                    }
+//
+//                    @Override
+//                    public Integer id() {
+//                        return id;
+//                    }
+//
+//                    @Override
+//                    public String rule() {
+//                        return rule;
+//                    }
+//
+//                    @Override
+//                    public String name() {
+//                        return name;
+//                    }
+//
+//                    @Override
+//                    public String type() {
+//                        return type;
+//                    }
+//                };
+//            }
+//        } catch (Exception e) {
+//            LOGGER.info("[DATA SOURCE ERROR]", e);
+//        }
+//        return null;
+//    }
 
-                    @Override
-                    public Integer enable() {
-                        return enable;
-                    }
-
-                    @Override
-                    public String content() {
-                        return content;
-                    }
-
-                    @Override
-                    public String description() {
-                        return description;
-                    }
-
-                    @Override
-                    public String parser() {
-                        return parser;
-                    }
-
-                    @Override
-                    public byte[] parserSource() {
-                        return parserSource;
-                    }
-
-                    @Override
-                    public String attribute() {
-                        return attribute;
-                    }
-
-                    @Override
-                    public Integer id() {
-                        return id;
-                    }
-
-                    @Override
-                    public String rule() {
-                        return rule;
-                    }
-
-                    @Override
-                    public String name() {
-                        return name;
-                    }
-
-                    @Override
-                    public String type() {
-                        return type;
-                    }
-                };
+    public TemplateModel getTemplateData(Integer id) {
+        return new TemplateModel() {
+            @Override
+            public Integer id() {
+                return null;
             }
-        } catch (Exception e) {
-            LOGGER.info("[DATA SOURCE ERROR]", e);
-        }
-        return null;
+
+            @Override
+            public String type() {
+                return null;
+            }
+
+            @Override
+            public String mark() {
+                return null;
+            }
+
+            @Override
+            public String name() {
+                return null;
+            }
+
+            @Override
+            public String title() {
+                return null;
+            }
+
+            @Override
+            public String content() {
+                return null;
+            }
+
+            @Override
+            public String description() {
+                return null;
+            }
+
+            @Override
+            public String parser() {
+                return null;
+            }
+
+            @Override
+            public byte[] parserSource() {
+                return new byte[0];
+            }
+        };
     }
 
     /**
@@ -238,7 +286,7 @@ public class DataSourceFactory {
      * @param query 发射器的标记
      * @return 模板源对象
      */
-    public TemplateSource getTemplateSource(String query) {
+    public TemplateModel getTemplateData(String query, String language) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_TEMPLATE_SOURCE);
             preparedStatement.setString(1, query);
@@ -253,7 +301,7 @@ public class DataSourceFactory {
                 final String description = rs.getString("description");
                 final String parser = rs.getString("parser");
                 final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
-                return new TemplateSource() {
+                return new TemplateModel() {
                     @Override
                     public Integer id() {
                         return id;
@@ -313,7 +361,7 @@ public class DataSourceFactory {
      * @param language 语言
      * @return 发射器源对象
      */
-    public LauncherSource getLauncherSource(String query, String language) {
+    public LauncherModel getLauncherSource(String query, String language) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_MARK_LAUNCHER_SOURCE);
             preparedStatement.setString(1, query);
@@ -328,7 +376,7 @@ public class DataSourceFactory {
                 final String description = rs.getString("description");
                 final String pattern = rs.getString("pattern");
                 final byte[] patternSource = blobToBytes(rs.getBlob("pattern_source"));
-                return new LauncherSource() {
+                return new LauncherModel() {
                     @Override
                     public Integer id() {
                         return id;

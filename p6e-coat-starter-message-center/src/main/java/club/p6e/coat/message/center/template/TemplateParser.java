@@ -1,6 +1,6 @@
 package club.p6e.coat.message.center.template;
 
-import club.p6e.coat.message.center.variable.BasicVariableParser;
+import java.util.Map;
 
 /**
  * 模板解析器
@@ -11,12 +11,12 @@ import club.p6e.coat.message.center.variable.BasicVariableParser;
 public interface TemplateParser {
 
     /**
-     * 执行模板源对象转换为模板数据对象
+     * 执行模板模型对象转换为通讯模板模型对象
      *
-     * @param templateSource 模板源对象
-     * @param variableParser 变量解析器对象
-     * @return 模板数据对象
+     * @param template 模板模型对象
+     * @param data     数据变量对象
+     * @return 通讯模板模型对象
      */
-    public TemplateData execute(TemplateSource templateSource, BasicVariableParser variableParser);
+    CommunicationTemplateModel execute(TemplateModel template, Map<String, String> data);
 
 }
