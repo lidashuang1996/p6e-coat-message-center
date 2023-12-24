@@ -16,7 +16,7 @@ import java.util.Map;
  * @author lidashuang
  * @version 1.0
  */
-public class DefaultLauncher implements Launcher {
+public class DefaultLauncher implements Transmitter {
 
     private final ConfigFactory configFactory;
     private final TemplateFactory templateFactory;
@@ -49,7 +49,10 @@ public class DefaultLauncher implements Launcher {
                     throw new NullPointerException("[" + id + "] launcher model mapper config result is null.");
                 } else {
                     for (final LauncherModel.ConfigMapperModel config : configs) {
-                        list.add(configFactory.getConfigModel(config.id()));
+                        final ConfigModel cm = configFactory.getConfigModel(config.id());
+                        if (cm != null) {
+                            list.add(cm);
+                        }
                     }
                 }
                 final ConfigModel routeConfigModel = launcherRouteMatcher.execute(launcherModel, list);

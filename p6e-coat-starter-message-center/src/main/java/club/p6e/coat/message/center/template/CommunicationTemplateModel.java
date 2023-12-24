@@ -12,16 +12,10 @@ public interface CommunicationTemplateModel extends TemplateModel {
 
     Map<String, String> getCommunicationParam();
     void setCommunicationParam(Map<String, String> content);
-
+    String getCommunicationTitle();
+    void setCommunicationTitle(String title);
     String getCommunicationContent();
     void setCommunicationContent(String content);
-
-
-    /**
-     * 获取解析后的内容
-     *
-     * @return 解析后的内容
-     */
     List<File> getAttachment();
     void cleanAttachment();
     void addAttachment(File file);

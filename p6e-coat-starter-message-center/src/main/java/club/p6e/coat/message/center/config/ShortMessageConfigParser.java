@@ -6,6 +6,6 @@ package club.p6e.coat.message.center.config;
  */
 public interface ShortMessageConfigParser extends ConfigParser {
 
-    public ShortMessageConfigModel execute(ConfigModel config);
+    ShortMessageConfigModel execute(ConfigModel config);
 
 }

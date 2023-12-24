@@ -1,5 +1,7 @@
 package club.p6e.coat.message.center.config;
 
+import club.p6e.coat.message.center.MessageType;
+
 /**
  * 基础配置
  *
@@ -33,7 +35,7 @@ public interface ConfigModel {
      *
      * @return 类型
      */
-    public String type();
+    public MessageType type();
 
     /**
      * 获取内容

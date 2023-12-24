@@ -1,13 +1,9 @@
-POST /oauth2/v3/token HTTP/1.1
-Host: oauth-login.cloud.huawei.com
-Content-Type: application/x-www-form-urlencoded
-
-grant_type=client_credentials&client_id=<客户端ID>&client_secret=<客户端密钥>
-
-
-
-POST https://push-api.cloud.huawei.com/v1/[clientid]/messages:send
-
-push-api.cloud.huawei.com
-
-https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides-V5/android-server-dev-0000001050040110-V5
+{
+  "tls": "true",
+  "auth": "true",
+  "from": "15549562863@163.com",
+  "host": "smtp.163.com",
+  "port": "465",
+  "password": "OGZUYKJJIUFTYSJT",
+  "@mail.smtp.ssl.protocols": "TLSv1.2"
+}
