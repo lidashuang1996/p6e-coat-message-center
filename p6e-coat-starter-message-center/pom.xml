@@ -54,6 +54,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>club.p6e.coat</groupId>
+            <artifactId>p6e-coat-starter-common</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
