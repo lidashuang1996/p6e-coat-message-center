@@ -3,7 +3,7 @@ package club.p6e.coat.message.center.model;
 import club.p6e.coat.message.center.MessageType;
 
 /**
- * 基础配置
+ * 配置模型
  *
  * @author lidashuang
  * @version 1.0
@@ -11,58 +11,66 @@ import club.p6e.coat.message.center.MessageType;
 public interface ConfigModel {
 
     /**
-     * 获取 ID
+     * ID
      *
      * @return ID
      */
-    public int id();
+    int id();
 
     /**
      * 是否启用
-     * @return
+     *
+     * @return 是否启用
      */
-    public boolean enable();
+    boolean enable();
 
     /**
-     * 获取名称
+     * 名称
      *
      * @return 名称
      */
-    public String name();
+    String name();
 
     /**
-     * 获取类型
-     *
-     * @return 类型
-     */
-    public MessageType type();
-
-    /**
-     * 获取内容
-     *
-     * @return 内容
-     */
-    public String content();
-
-    /**
-     * 获取内容
-     *
-     * @return 内容
-     */
-    public String description();
-
-
-    public String parser();
-
-
-    public byte[] parserSource();
-
-    /**
-     * 获取限流规则
+     * 限流规则
      *
      * @return 限流规则
      */
-    public String rule();
+    String rule();
 
+    /**
+     * 类型
+     *
+     * @return 类型
+     */
+    MessageType type();
+
+    /**
+     * 内容
+     *
+     * @return 内容
+     */
+    String content();
+
+    /**
+     * 描述
+     *
+     * @return 描述
+     */
+    String description();
+
+    /**
+     * 解析器
+     *
+     * @return 解析器
+     */
+    String parser();
+
+    /**
+     * 解析器源码
+     *
+     * @return 解析器源码
+     */
+    byte[] parserSource();
 
 }

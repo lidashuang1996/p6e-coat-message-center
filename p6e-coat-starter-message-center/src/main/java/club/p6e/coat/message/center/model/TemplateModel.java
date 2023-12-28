@@ -1,7 +1,7 @@
 package club.p6e.coat.message.center.model;
 
 /**
- * 模板源
+ * 模板源模型
  *
  * @author lidashuang
  * @version 1.0
@@ -15,18 +15,11 @@ public interface TemplateModel {
     Integer id();
 
     /**
-     * 获取类型
-     *
-     * @return 类型
-     */
-    String type();
-
-    /**
      * 获取标记
      *
      * @return 标记
      */
-    String mark();
+    String key();
 
     /**
      * 获取名称
@@ -34,6 +27,13 @@ public interface TemplateModel {
      * @return 名称
      */
     String name();
+
+    /**
+     * 获取类型
+     *
+     * @return 类型
+     */
+    String type();
 
     /**
      * 获取标题

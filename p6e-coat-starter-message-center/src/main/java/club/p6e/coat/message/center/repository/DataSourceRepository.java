@@ -1,5 +1,7 @@
 package club.p6e.coat.message.center.repository;
 
+import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.LauncherModel;
 import club.p6e.coat.message.center.model.TemplateModel;
 import org.slf4j.Logger;
@@ -149,158 +151,181 @@ public class DataSourceRepository {
         this.dataSource = dataSource;
     }
 
-//    /**
-//     * 查询配置源
-//     *
-//     * @param query     配置 ID
-//     * @param attribute 属性
-//     * @return 配置源对象
-//     */
-//    public ConfigSource getConfigSource(int query, String attribute) {
-//        try (final Connection connection = dataSource.getConnection()) {
-//            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_CONFIG_SOURCE);
-//            preparedStatement.setInt(1, query);
-//            final ResultSet rs = preparedStatement.executeQuery();
-//            if (rs.next()) {
-//                final Integer id = rs.getInt("id");
-//                final String rule = rs.getString("rule");
-//                final String name = rs.getString("name");
-//                final String type = rs.getString("type");
-//                final Integer enable = rs.getInt("enable");
-//                final String content = rs.getString("content");
-//                final String description = rs.getString("description");
-//                final String parser = rs.getString("parser");
-//                final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
-//                return new ConfigSource() {
-//
-//                    @Override
-//                    public Integer enable() {
-//                        return enable;
-//                    }
-//
-//                    @Override
-//                    public String content() {
-//                        return content;
-//                    }
-//
-//                    @Override
-//                    public String description() {
-//                        return description;
-//                    }
-//
-//                    @Override
-//                    public String parser() {
-//                        return parser;
-//                    }
-//
-//                    @Override
-//                    public byte[] parserSource() {
-//                        return parserSource;
-//                    }
-//
-//                    @Override
-//                    public String attribute() {
-//                        return attribute;
-//                    }
-//
-//                    @Override
-//                    public Integer id() {
-//                        return id;
-//                    }
-//
-//                    @Override
-//                    public String rule() {
-//                        return rule;
-//                    }
-//
-//                    @Override
-//                    public String name() {
-//                        return name;
-//                    }
-//
-//                    @Override
-//                    public String type() {
-//                        return type;
-//                    }
-//                };
-//            }
-//        } catch (Exception e) {
-//            LOGGER.info("[DATA SOURCE ERROR]", e);
-//        }
-//        return null;
-//    }
+    /**
+     * 查询配置源
+     * @return 配置源对象
+     */
+    public ConfigModel getConfigData(int id) {
+        try (final Connection connection = dataSource.getConnection()) {
+            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_CONFIG_SOURCE);
+            preparedStatement.setInt(1, id);
+            final ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return new ConfigModel() {
 
-    public TemplateModel getTemplateData(Integer id) {
-        return new TemplateModel() {
-            @Override
-            public Integer id() {
-                return null;
-            }
+                    final Integer id = rs.getInt("id");
+                    final String rule = rs.getString("rule");
+                    final String name = rs.getString("name");
+                    final String type = rs.getString("type");
+                    final Integer enable = rs.getInt("enable");
+                    final String content = rs.getString("content");
+                    final String description = rs.getString("description");
+                    final String parser = rs.getString("parser");
+                    final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
 
-            @Override
-            public String type() {
-                return null;
-            }
+                    @Override
+                    public int id() {
+                        return id;
+                    }
 
-            @Override
-            public String mark() {
-                return null;
-            }
+                    @Override
+                    public boolean enable() {
+                        return "1".equals(String.valueOf(enable));
+                    }
 
-            @Override
-            public String name() {
-                return null;
-            }
+                    @Override
+                    public String name() {
+                        return name;
+                    }
 
-            @Override
-            public String title() {
-                return null;
-            }
+                    @Override
+                    public MessageType type() {
+                        return switch (type) {
+                            case "SMS" -> MessageType.SMS;
+                            case "MAIL" -> MessageType.MAIL;
+                            case "MOBILE" -> MessageType.MOBILE;
+                            default -> null;
+                        };
+                    }
 
-            @Override
-            public String content() {
-                return null;
-            }
+                    @Override
+                    public String content() {
+                        return content;
+                    }
 
-            @Override
-            public String description() {
-                return null;
-            }
+                    @Override
+                    public String description() {
+                        return description;
+                    }
 
-            @Override
-            public String parser() {
-                return null;
-            }
+                    @Override
+                    public String parser() {
+                        return parser;
+                    }
 
-            @Override
-            public byte[] parserSource() {
-                return new byte[0];
+                    @Override
+                    public byte[] parserSource() {
+                        return parserSource;
+                    }
+
+                    @Override
+                    public String rule() {
+                        return rule;
+                    }
+                };
             }
-        };
+        } catch (Exception e) {
+            LOGGER.info("[DATA SOURCE ERROR]", e);
+        }
+        return null;
+    }
+
+    /**
+     * 查询模板源
+     * @return 模板源对象
+     */
+    public TemplateModel getTemplateData(int id) {
+        try (final Connection connection = dataSource.getConnection()) {
+            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_TEMPLATE_SOURCE);
+            preparedStatement.setInt(1, id);
+            final ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return new TemplateModel() {
+                    final Integer id = rs.getInt("id");
+                    final String type = rs.getString("type");
+                    final String mark = rs.getString("mark");
+                    final String name = rs.getString("name");
+                    final String title = rs.getString("title");
+                    final String content = rs.getString("content");
+                    final String description = rs.getString("description");
+                    final String parser = rs.getString("parser");
+                    final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
+
+                    @Override
+                    public Integer id() {
+                        return id;
+                    }
+
+                    @Override
+                    public String type() {
+                        return type;
+                    }
+
+                    @Override
+                    public String mark() {
+                        return mark;
+                    }
+
+                    @Override
+                    public String name() {
+                        return name;
+                    }
+
+                    @Override
+                    public String title() {
+                        return title;
+                    }
+
+                    @Override
+                    public String content() {
+                        return content;
+                    }
+
+                    @Override
+                    public String description() {
+                        return description;
+                    }
+
+                    @Override
+                    public String parser() {
+                        return parser;
+                    }
+
+                    @Override
+                    public byte[] parserSource() {
+                        return parserSource;
+                    }
+                };
+            }
+        } catch (Exception e) {
+            LOGGER.info("[DATA SOURCE ERROR]", e);
+        }
+        return null;
     }
 
     /**
      * 查询模板源
      *
-     * @param query 发射器的标记
      * @return 模板源对象
      */
-    public TemplateModel getTemplateData(String query, String language) {
+    public TemplateModel getTemplateData(String key, String language) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_TEMPLATE_SOURCE);
-            preparedStatement.setString(1, query);
+            preparedStatement.setString(1, key);
+            preparedStatement.setString(2, language);
             final ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                final Integer id = rs.getInt("id");
-                final String type = rs.getString("type");
-                final String mark = rs.getString("mark");
-                final String name = rs.getString("name");
-                final String title = rs.getString("title");
-                final String content = rs.getString("content");
-                final String description = rs.getString("description");
-                final String parser = rs.getString("parser");
-                final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
                 return new TemplateModel() {
+                    final Integer id = rs.getInt("id");
+                    final String type = rs.getString("type");
+                    final String mark = rs.getString("mark");
+                    final String name = rs.getString("name");
+                    final String title = rs.getString("title");
+                    final String content = rs.getString("content");
+                    final String description = rs.getString("description");
+                    final String parser = rs.getString("parser");
+                    final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
+
                     @Override
                     public Integer id() {
                         return id;
@@ -356,34 +381,40 @@ public class DataSourceRepository {
     /**
      * 查询发射器源
      *
-     * @param query    发射器的标记
-     * @param language 语言
      * @return 发射器源对象
      */
-    public LauncherModel getLauncherData(Integer id) {
+    public LauncherModel getLauncherData(int id) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_MARK_LAUNCHER_SOURCE);
-            preparedStatement.setString(1, query);
+            preparedStatement.setInt(1, id);
             final ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                final Integer id = rs.getInt("id");
-                final String type = rs.getString("type");
-                final String mark = rs.getString("mark");
-                final String name = rs.getString("name");
-                final Integer enable = rs.getInt("enable");
-                final String template = rs.getString("template");
-                final String description = rs.getString("description");
-                final String pattern = rs.getString("pattern");
-                final byte[] patternSource = blobToBytes(rs.getBlob("pattern_source"));
                 return new LauncherModel() {
+                    final Integer id = rs.getInt("id");
+                    final String type = rs.getString("type");
+                    final String mark = rs.getString("mark");
+                    final String name = rs.getString("name");
+                    final Integer enable = rs.getInt("enable");
+                    final String template = rs.getString("template");
+                    final String description = rs.getString("description");
+                    final String pattern = rs.getString("pattern");
+                    final byte[] patternSource = blobToBytes(rs.getBlob("pattern_source"));
+
+                    final List<ConfigMapperModel> configs = new ArrayList<>();
+
                     @Override
                     public Integer id() {
                         return id;
                     }
 
                     @Override
-                    public String type() {
-                        return type;
+                    public MessageType type() {
+                        return switch (type) {
+                            case "SMS" -> MessageType.SMS;
+                            case "MAIL" -> MessageType.MAIL;
+                            case "MOBILE" -> MessageType.MOBILE;
+                            default -> null;
+                        };
                     }
 
                     @Override
@@ -397,8 +428,8 @@ public class DataSourceRepository {
                     }
 
                     @Override
-                    public Integer enable() {
-                        return enable;
+                    public boolean enable() {
+                        return "1".equals(String.valueOf(enable));
                     }
 
                     @Override
@@ -412,18 +443,18 @@ public class DataSourceRepository {
                     }
 
                     @Override
-                    public String pattern() {
-                        return pattern;
+                    public String route() {
+                        return null;
                     }
 
                     @Override
-                    public byte[] patternSource() {
-                        return patternSource;
+                    public byte[] routeSource() {
+                        return new byte[0];
                     }
 
                     @Override
-                    public String language() {
-                        return language;
+                    public List<ConfigMapperModel> configs() {
+                        return configs;
                     }
                 };
             }
@@ -435,29 +466,22 @@ public class DataSourceRepository {
 
     /**
      * 查询发射器映射源列表
-     *
-     * @param query 发射器 ID
      * @return 发射器映射源列表
      */
-    public List<LauncherMapperSource> getLauncherMapperSourceList(int query) {
-        final List<LauncherMapperSource> result = new ArrayList<>();
+    public List<LauncherModel.ConfigMapperModel> getLauncherConfigMappers(int id) {
+        final List<LauncherModel.ConfigMapperModel> result = new ArrayList<>();
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_MARK_LAUNCHER_MAPPER_SOURCE);
-            preparedStatement.setInt(1, query);
+            preparedStatement.setInt(1, id);
             final ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                final Integer lid = rs.getInt("lid");
-                final Integer cid = rs.getInt("cid");
-                final String attribute = rs.getString("attribute");
-                result.add(new LauncherMapperSource() {
-                    @Override
-                    public Integer lid() {
-                        return lid;
-                    }
+                result.add(new LauncherModel.ConfigMapperModel() {
+                    private final Integer lid = rs.getInt("lid");
+                    private final String attribute = rs.getString("attribute");
 
                     @Override
-                    public Integer cid() {
-                        return cid;
+                    public Integer id() {
+                        return lid;
                     }
 
                     @Override

@@ -5,7 +5,7 @@ import club.p6e.coat.message.center.MessageType;
 import java.util.List;
 
 /**
- * 发射器源
+ * 发射器模型
  *
  * @author lidashuang
  * @version 1.0
@@ -17,75 +17,81 @@ public interface LauncherModel {
      *
      * @return ID
      */
-    public Integer id();
+    Integer id();
 
     /**
-     * 获取类型
-     *
-     * @return 类型
-     */
-    public MessageType type();
-
-    /**
-     * 获取记号
-     *
-     * @return 记号
-     */
-    public String mark();
-
-    /**
-     * 获取名称
-     *
-     * @return 名称
-     */
-    public String name();
-
-    /**
-     * 获取是否启用
+     * 是否启用
      *
      * @return 是否启用
      */
-    public Integer enable();
+    boolean enable();
 
     /**
-     * 获取模板
+     * 模板
      *
      * @return 模板
      */
-    public String template();
+    String template();
 
     /**
-     * 获取描述
+     * 类型
+     *
+     * @return 类型
+     */
+    MessageType type();
+
+    /**
+     * 名称
+     *
+     * @return 名称
+     */
+    String name();
+
+    /**
+     * 描述
      *
      * @return 描述
      */
-    public String description();
+    String description();
 
     /**
-     * 获取模式
+     * 路由
      *
      * @return 模式
      */
-    public String pattern();
+    String route();
 
     /**
-     * 获取模式字节源
+     * 路由源代码
      *
-     * @return 模式字节源
+     * @return 路由源代码
      */
-    public byte[] patternSource();
+    byte[] routeSource();
 
     /**
-     * 获取语言
+     * 配置列表
      *
-     * @return 语言
+     * @return 配置列表
      */
-    public String language();
+    List<ConfigMapperModel> configs();
 
-    public List<ConfigMapperModel> configs();
+    /**
+     * 发射器映射配置模型
+     */
+    interface ConfigMapperModel {
 
-    public interface ConfigMapperModel {
-        public Integer id();
-        public String attribute();
+        /**
+         * ID
+         *
+         * @return ID
+         */
+        Integer id();
+
+        /**
+         * 属性
+         *
+         * @return 属性
+         */
+        String attribute();
     }
 }
