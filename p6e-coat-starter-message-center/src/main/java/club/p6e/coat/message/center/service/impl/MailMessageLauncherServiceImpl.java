@@ -86,6 +86,11 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
     }
 
     @Override
+    public String name() {
+        return "DEFAULT";
+    }
+
+    @Override
     public List<String> execute(List<String> recipients, TemplateMessageModel template, MailMessageConfigModel config) {
         if (config == null) {
             throw new NullPointerException(
@@ -131,11 +136,11 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
                 }
             }
         }
-        if (template.getCommunicationTitle() == null) {
+        if (template.getMessageTitle() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the title in template data is null");
         }
-        if (template.getCommunicationContent() == null) {
+        if (template.getMessageContent() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the content in template data is null");
         }

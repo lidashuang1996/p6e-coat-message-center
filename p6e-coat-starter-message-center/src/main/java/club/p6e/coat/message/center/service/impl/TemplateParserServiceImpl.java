@@ -254,6 +254,11 @@ public class TemplateParserServiceImpl implements TemplateParserService {
         }
 
         @Override
+        public String key() {
+            return null;
+        }
+
+        @Override
         public String type() {
             return model == null ? null : model.type();
         }
@@ -322,6 +327,36 @@ public class TemplateParserServiceImpl implements TemplateParserService {
         @Override
         public void setCommunicationContent(String communicationContent) {
             this.communicationContent = communicationContent;
+        }
+
+        @Override
+        public Map<String, String> getMessageParam() {
+            return null;
+        }
+
+        @Override
+        public void setMessageParam(Map<String, String> param) {
+
+        }
+
+        @Override
+        public String getMessageTitle() {
+            return null;
+        }
+
+        @Override
+        public void setMessageTitle(String title) {
+
+        }
+
+        @Override
+        public String getMessageContent() {
+            return null;
+        }
+
+        @Override
+        public void setMessageContent(String content) {
+
         }
 
         @Override

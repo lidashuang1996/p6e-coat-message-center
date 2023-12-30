@@ -418,11 +418,6 @@ public class DataSourceRepository {
                     }
 
                     @Override
-                    public String mark() {
-                        return mark;
-                    }
-
-                    @Override
                     public String name() {
                         return name;
                     }

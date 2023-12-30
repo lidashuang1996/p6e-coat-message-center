@@ -27,6 +27,10 @@ public interface ShortMessageConfigModel extends ConfigModel {
 
     public String getApplicationPlatform();
 
+    public void setApplicationDomain(String applicationPlatform);
+
+    public String getApplicationDomain();
+
     /**
      * 获取其他参数
      *

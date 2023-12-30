@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface LauncherService<T extends ConfigModel> {
 
+    String name();
+
     List<String> execute(List<String> recipients, TemplateMessageModel template, T config);
 
 }

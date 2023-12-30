@@ -3,6 +3,8 @@ package club.p6e.coat.message.center.service;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 import club.p6e.coat.message.center.model.TemplateModel;
 
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +22,6 @@ public interface TemplateParserService {
      * @param data     数据变量对象
      * @return 通讯模板模型对象
      */
-    TemplateMessageModel execute(TemplateModel template, Map<String, String> data);
+    TemplateMessageModel execute(TemplateModel template, Map<String, String> data, List<File> attachments);
 
 }

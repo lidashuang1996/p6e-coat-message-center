@@ -1,8 +1,5 @@
 //package club.p6e.coat.message.center.launcher;
 //
-//import club.p6e.coat.message.center.config.MobileMessageConfigModel;
-//import club.p6e.coat.message.center.template.TemplateModel;
-//import club.p6e.coat.message.center.utils.JsonUtil;
 //import com.fasterxml.jackson.annotation.JsonProperty;
 //import lombok.Data;
 //import lombok.experimental.Accessors;

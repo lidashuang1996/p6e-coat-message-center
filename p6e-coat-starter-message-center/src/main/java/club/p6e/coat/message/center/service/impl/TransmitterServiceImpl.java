@@ -3,43 +3,102 @@ package club.p6e.coat.message.center.service.impl;
 import club.p6e.coat.message.center.model.*;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.service.*;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 发射机服务的实现类
+ *
  * @author lidashuang
  * @version 1.0
  */
+@Component
 public class TransmitterServiceImpl implements TransmitterService {
 
-    private DataSourceRepository repository;
-    private ConfigParserService configParserService;
-    private TemplateParserService templateParserService;
-    private MailMessageLauncherService mailMessageLauncherService;
-    private ShortMessageLauncherService shortMessageLauncherService;
-    private MobileMessageLauncherService mobileMessageLauncherService;
+    /**
+     * 默认的语言
+     */
+    public static final String DEFAULT_LANGUAGE = "zh-cmn-Hans-CN";
+
+    /**
+     * 数据源仓库对象
+     */
+    private final DataSourceRepository repository;
+
+    /**
+     * 配置解析器服务
+     */
+    private final ConfigParserService configParserService;
+
+    /**
+     * 模板解析器服务
+     */
+    private final TemplateParserService templateParserService;
+
+    /**
+     * 发射器路由服务
+     */
     private final LauncherRouteService launcherRouteService;
 
-    private final Map<String, ConfigModel> configs = new HashMap<>();
-    private final Map<String, LauncherModel> launchers = new HashMap<>();
-    private final Map<String, TemplateModel> templates = new HashMap<>();
+    /**
+     * MAIL 类型消息发射器
+     */
+    private final MailMessageLauncherService mailMessageLauncherService;
+
+    /**
+     * SMS 类型消息发射器
+     */
+    private final ShortMessageLauncherService shortMessageLauncherService;
+
+    /**
+     * MMS 类型消息发射器
+     */
+    private final MobileMessageLauncherService mobileMessageLauncherService;
+
+    /**
+     * 缓存的配置对象
+     */
+    private final Map<String, ConfigModel> configs = new ConcurrentHashMap<>();
+
+    /**
+     * 缓存的发射对象
+     */
+    private final Map<String, LauncherModel> launchers = new ConcurrentHashMap<>();
+
+    /**
+     * 缓存的模板对象
+     */
+    private final Map<String, TemplateModel> templates = new ConcurrentHashMap<>();
 
     public TransmitterServiceImpl(
             DataSourceRepository repository,
             ConfigParserService configParserService,
             TemplateParserService templateParserService,
-            LauncherRouteService launcherRouteService
+            LauncherRouteService launcherRouteService,
+            MailMessageLauncherService mailMessageLauncherService,
+            ShortMessageLauncherService shortMessageLauncherService,
+            MobileMessageLauncherService mobileMessageLauncherService
     ) {
         this.repository = repository;
         this.configParserService = configParserService;
         this.templateParserService = templateParserService;
         this.launcherRouteService = launcherRouteService;
+        this.mailMessageLauncherService = mailMessageLauncherService;
+        this.shortMessageLauncherService = shortMessageLauncherService;
+        this.mobileMessageLauncherService = mobileMessageLauncherService;
     }
 
+    /**
+     * 读取发射器数据对象
+     *
+     * @param id 发射器 ID
+     * @return 发射器模型
+     */
     private LauncherModel getLauncherData(Integer id) {
         LauncherModel model = launchers.get(String.valueOf(id));
         if (model == null) {
@@ -47,36 +106,49 @@ public class TransmitterServiceImpl implements TransmitterService {
             if (nm == null) {
                 return null;
             } else {
-                repository.getLauncherMapperSourceList(id);
-                launchers.put(String.valueOf(id), model);
+                launchers.put(String.valueOf(id), nm);
                 model = nm;
             }
         }
         return model;
     }
 
+    /**
+     * 读取配置数据对象
+     *
+     * @param id 配置 ID
+     * @return 配置数据对象
+     */
     private ConfigModel getConfigData(Integer id) {
         ConfigModel model = configs.get(String.valueOf(id));
         if (model == null) {
-            final ConfigModel nm = repository.getConfigData(id);
-            if (nm == null) {
+            final ConfigModel cm = repository.getConfigData(id);
+            if (cm == null) {
                 return null;
             } else {
-                repository.getLauncherMapperSourceList(id);
-                model = nm;
+                configs.put(String.valueOf(id), cm);
+                model = cm;
             }
         }
         return model;
     }
 
-    private TemplateModel getTemplateData(Integer id) {
-        TemplateModel model = templates.get(String.valueOf(id));
+    /**
+     * 读取模板数据对象
+     *
+     * @param key      模板键
+     * @param language 模板语言
+     * @return 模板数据对象
+     */
+    private TemplateModel getTemplateData(String key, String language) {
+        language = language == null ? DEFAULT_LANGUAGE : language;
+        TemplateModel model = templates.get(key + "_" + language);
         if (model == null) {
-            final TemplateModel tm = repository.getTemplateData(id);
+            final TemplateModel tm = repository.getTemplateData(key, language);
             if (tm == null) {
-                throw new NullPointerException("[" + id + "] launcher model is null.");
+                return null;
             } else {
-                repository.getLauncherMapperSourceList(id);
+                templates.put(key + "_" + language, tm);
                 model = tm;
             }
         }
@@ -84,7 +156,13 @@ public class TransmitterServiceImpl implements TransmitterService {
     }
 
     @Override
-    public List<String> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments) {
+    public List<String> push(
+            Integer id,
+            String language,
+            List<String> recipients,
+            Map<String, String> data,
+            List<File> attachments
+    ) {
         LauncherModel launcherModel = getLauncherData(id);
         if (launcherModel == null) {
             throw new NullPointerException("[" + id + "] launcher model is null.");
@@ -92,51 +170,59 @@ public class TransmitterServiceImpl implements TransmitterService {
         if (!launcherModel.enable()) {
             throw new RuntimeException("[" + id + "] launcher model is disable.");
         }
-        final List<ConfigModel> list = new ArrayList<>();
-        final List<LauncherModel.ConfigMapperModel> configs = launcherModel.configs();
-        if (configs == null || configs.isEmpty()) {
+        final List<ConfigModel> configs = new ArrayList<>();
+        final List<LauncherModel.ConfigMapperModel> launcherConfigs = launcherModel.configs();
+        if (launcherConfigs == null || launcherConfigs.isEmpty()) {
             throw new NullPointerException("[" + id + "] launcher model mapper config result is null.");
         } else {
-            for (final LauncherModel.ConfigMapperModel config : configs) {
+            for (final LauncherModel.ConfigMapperModel config : launcherConfigs) {
                 final ConfigModel cm = getConfigData(config.id());
                 if (cm != null) {
-                    list.add(cm);
+                    configs.add(cm);
                 }
             }
         }
-        final ConfigModel routeConfigModel = launcherRouteService.execute(launcherModel, list);
-        final TemplateMessageModel templateModel = templateParserService.execute(getTemplateData(), data);
+        final ConfigModel routeConfigModel = launcherRouteService.execute(launcherModel, configs);
         if (routeConfigModel == null) {
             throw new NullPointerException("[" + id + "] launcher model mapper route config result is null.");
         }
+        final ConfigModel configModel = configParserService.execute(routeConfigModel);
+        if (configModel == null) {
+            throw new NullPointerException("[" + id + "] launcher model mapper route config result is null.");
+        }
+        final TemplateModel templateModel = getTemplateData(launcherModel.template(), language);
         if (templateModel == null) {
+            throw new NullPointerException("[" + id + "] launcher model mapper template result is null.");
+        }
+        final TemplateMessageModel templateMessageModel = templateParserService.execute(templateModel, data, attachments);
+        if (templateMessageModel == null) {
             throw new NullPointerException("[" + id + "] launcher model mapper template result is null.");
         }
         switch (launcherModel.type()) {
             case SMS:
-                if (routeConfigModel instanceof ShortMessageConfigModel) {
+                if (configModel instanceof ShortMessageConfigModel) {
                     return shortMessageLauncherService.execute(
-                            recipients, templateModel, (ShortMessageConfigModel) routeConfigModel);
+                            recipients, templateMessageModel, (ShortMessageConfigModel) configModel);
                 } else {
-                    throw new RuntimeException("[" + id + "] launcher model SMS type is error.");
+                    throw new RuntimeException("[" + id + "] launcher model SMS " +
+                            "[ route-config/" + configModel.getClass() + " ] type is error.");
                 }
-                break;
             case MAIL:
-                if (routeConfigModel instanceof MailMessageConfigModel) {
+                if (configModel instanceof MailMessageConfigModel) {
                     return mailMessageLauncherService.execute(
-                            recipients, templateModel, (MailMessageConfigModel) routeConfigModel);
+                            recipients, templateMessageModel, (MailMessageConfigModel) configModel);
                 } else {
-                    throw new RuntimeException("[" + id + "] launcher model MAIL type is error.");
+                    throw new RuntimeException("[" + id + "] launcher model MAIL " +
+                            "[ route-config/" + configModel.getClass() + " ] type is error.");
                 }
-                break;
             case MOBILE:
-                if (routeConfigModel instanceof MobileMessageConfigModel) {
+                if (configModel instanceof MobileMessageConfigModel) {
                     return mobileMessageLauncherService.execute(
-                            recipients, templateModel, (MobileMessageConfigModel) routeConfigModel);
+                            recipients, templateMessageModel, (MobileMessageConfigModel) configModel);
                 } else {
-                    throw new RuntimeException("[" + id + "] launcher model MOBILE type is error.");
+                    throw new RuntimeException("[" + id + "] launcher model MOBILE " +
+                            "[ route-config/" + configModel.getClass() + " ] type is error.");
                 }
-                break;
             default:
                 throw new RuntimeException("[" + id + "] launcher model type is error.");
         }

@@ -18,13 +18,13 @@ public interface MobileMessageConfigModel extends ConfigModel {
 
     public String getApplicationId();
 
+    public void setApplicationKey(String applicationId);
+
+    public String getApplicationKey();
+
     public void setApplicationSecret(String applicationSecret);
 
     public String getApplicationSecret();
-
-    public void setApplicationPlatform(String applicationPlatform);
-
-    public String getApplicationPlatform();
 
     /**
      * 获取其他参数
