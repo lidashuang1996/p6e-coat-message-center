@@ -7,6 +7,7 @@ package club.p6e.coat.message.center.model;
  * @version 1.0
  */
 public interface TemplateModel {
+    
     /**
      * 获取 ID
      *

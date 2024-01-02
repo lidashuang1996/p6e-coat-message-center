@@ -10,29 +10,74 @@ import java.util.Map;
  */
 public interface MobileMessageConfigModel extends ConfigModel {
 
-    public void setApplicationName(String applicationName);
+    /**
+     * 设置应用名称
+     *
+     * @param name 应用名称
+     */
+    void setApplicationName(String name);
 
-    public String getApplicationName();
+    /**
+     * 获取应用名称
+     *
+     * @return 应用名称
+     */
+    String getApplicationName();
 
-    public void setApplicationId(String applicationId);
+    /**
+     * 设置应用编号
+     *
+     * @param id 应用编号
+     */
+    void setApplicationId(String id);
 
-    public String getApplicationId();
+    /**
+     * 获取应用编号
+     *
+     * @return 应用编号
+     */
+    String getApplicationId();
 
-    public void setApplicationKey(String applicationId);
+    /**
+     * 设置应用 KEY
+     *
+     * @param key 应用 KEY
+     */
+    void setApplicationKey(String key);
 
-    public String getApplicationKey();
+    /**
+     * 获取应用 KEY
+     *
+     * @return 应用 KEY
+     */
+    String getApplicationKey();
 
-    public void setApplicationSecret(String applicationSecret);
+    /**
+     * 设置应用密钥
+     *
+     * @param secret 应用密钥
+     */
+    void setApplicationSecret(String secret);
 
-    public String getApplicationSecret();
+    /**
+     * 获取应用密钥
+     *
+     * @return 应用密钥
+     */
+    String getApplicationSecret();
+
+    /**
+     * 设置其他参数
+     *
+     * @param other 其他参数
+     */
+    void setOther(Map<String, String> other);
 
     /**
      * 获取其他参数
      *
      * @return 其他参数
      */
-    public void setOther(Map<String, String> other);
-
-    public Map<String, String> getOther();
+    Map<String, String> getOther();
 
 }

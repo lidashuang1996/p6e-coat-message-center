@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 模板消息模型
+ *
  * @author lidashuang
  * @version 1.0
  */

@@ -27,6 +27,11 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
     private static final int ORDER = 2000;
 
     /**
+     * 标记的前缀
+     */
+    private static final String MARK_PREFIX = "#DIC_";
+
+    /**
      * 缓存对象
      */
     private Map<String, String> cache = Collections.unmodifiableMap(new HashMap<>());
@@ -51,13 +56,17 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
         return cache;
     }
 
+    @SuppressWarnings("ALL")
     @Override
     public String execute(String key) {
         try {
-            if (cache != null) {
-                final String value = cache.get(key);
-                if (value != null) {
-                    return value;
+            if (key.startsWith(MARK_PREFIX)) {
+                final String nk = key.substring(MARK_PREFIX.length());
+                if (cache != null) {
+                    final String value = cache.get(nk);
+                    if (value != null) {
+                        return value;
+                    }
                 }
             }
         } catch (Exception e) {

@@ -28,7 +28,7 @@ public class DateTimeTemplateVariableParserServiceImpl implements TemplateVariab
     /**
      * 标记的前缀
      */
-    private static final String MARK_PREFIX = "CURRENT_DATE_TIME_";
+    private static final String MARK_PREFIX = "#NOW_";
 
     @Override
     public String execute(String key) {

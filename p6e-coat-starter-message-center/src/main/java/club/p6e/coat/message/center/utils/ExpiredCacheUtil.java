@@ -17,10 +17,12 @@ public final class ExpiredCacheUtil implements Serializable {
     @Accessors(chain = true)
     private static class Model implements Serializable {
         private volatile long date;
+        private volatile long interval;
         private volatile Object data;
 
         public Model(Object data) {
             this.data = data;
+            this.interval = 20000;
             this.date = System.currentTimeMillis();
         }
     }
@@ -43,7 +45,7 @@ public final class ExpiredCacheUtil implements Serializable {
         if (data == null) {
             data = create(type);
         }
-        data.put(key, new Model().setData(value));
+        data.put(key, new Model(value));
     }
 
     @SuppressWarnings("ALL")

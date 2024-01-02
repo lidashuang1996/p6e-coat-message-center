@@ -3,13 +3,13 @@ package club.p6e.coat.message.center.service.impl;
 import club.p6e.coat.message.center.model.*;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.service.*;
+import club.p6e.coat.message.center.utils.ExpiredCacheUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 发射机服务的实现类
@@ -60,20 +60,10 @@ public class TransmitterServiceImpl implements TransmitterService {
      */
     private final MobileMessageLauncherService mobileMessageLauncherService;
 
-    /**
-     * 缓存的配置对象
-     */
-    private final Map<String, ConfigModel> configs = new ConcurrentHashMap<>();
+    private static final String CONFIG_TYPE = "CONFIG";
+    private static final String LAUNCHER_TYPE = "LAUNCHER";
 
-    /**
-     * 缓存的发射对象
-     */
-    private final Map<String, LauncherModel> launchers = new ConcurrentHashMap<>();
-
-    /**
-     * 缓存的模板对象
-     */
-    private final Map<String, TemplateModel> templates = new ConcurrentHashMap<>();
+    private static final String TEMPLATE_TYPE = "TEMPLATE";
 
     public TransmitterServiceImpl(
             DataSourceRepository repository,
@@ -100,13 +90,13 @@ public class TransmitterServiceImpl implements TransmitterService {
      * @return 发射器模型
      */
     private LauncherModel getLauncherData(Integer id) {
-        LauncherModel model = launchers.get(String.valueOf(id));
+        LauncherModel model = ExpiredCacheUtil.get(LAUNCHER_TYPE, String.valueOf(id));
         if (model == null) {
             final LauncherModel nm = repository.getLauncherData(id);
             if (nm == null) {
                 return null;
             } else {
-                launchers.put(String.valueOf(id), nm);
+                ExpiredCacheUtil.set(LAUNCHER_TYPE, String.valueOf(id), nm);
                 model = nm;
             }
         }
@@ -120,13 +110,13 @@ public class TransmitterServiceImpl implements TransmitterService {
      * @return 配置数据对象
      */
     private ConfigModel getConfigData(Integer id) {
-        ConfigModel model = configs.get(String.valueOf(id));
+        ConfigModel model = ExpiredCacheUtil.get(CONFIG_TYPE, String.valueOf(id));
         if (model == null) {
             final ConfigModel cm = repository.getConfigData(id);
             if (cm == null) {
                 return null;
             } else {
-                configs.put(String.valueOf(id), cm);
+                ExpiredCacheUtil.set(CONFIG_TYPE, String.valueOf(id), cm);
                 model = cm;
             }
         }
@@ -142,13 +132,13 @@ public class TransmitterServiceImpl implements TransmitterService {
      */
     private TemplateModel getTemplateData(String key, String language) {
         language = language == null ? DEFAULT_LANGUAGE : language;
-        TemplateModel model = templates.get(key + "_" + language);
+        TemplateModel model = ExpiredCacheUtil.get(TEMPLATE_TYPE, key + "_" + language);
         if (model == null) {
             final TemplateModel tm = repository.getTemplateData(key, language);
             if (tm == null) {
                 return null;
             } else {
-                templates.put(key + "_" + language, tm);
+                ExpiredCacheUtil.set(TEMPLATE_TYPE, key + "_" + language, tm);
                 model = tm;
             }
         }
@@ -156,13 +146,7 @@ public class TransmitterServiceImpl implements TransmitterService {
     }
 
     @Override
-    public List<String> push(
-            Integer id,
-            String language,
-            List<String> recipients,
-            Map<String, String> data,
-            List<File> attachments
-    ) {
+    public List<String> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments) {
         LauncherModel launcherModel = getLauncherData(id);
         if (launcherModel == null) {
             throw new NullPointerException("[" + id + "] launcher model is null.");
