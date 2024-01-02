@@ -18,20 +18,6 @@ public interface ConfigModel {
     int id();
 
     /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean enable();
-
-    /**
-     * 名称
-     *
-     * @return 名称
-     */
-    String name();
-
-    /**
      * 限流规则
      *
      * @return 限流规则
@@ -44,6 +30,20 @@ public interface ConfigModel {
      * @return 类型
      */
     MessageType type();
+
+    /**
+     * 是否启用
+     *
+     * @return 是否启用
+     */
+    boolean enable();
+
+    /**
+     * 名称
+     *
+     * @return 名称
+     */
+    String name();
 
     /**
      * 内容

@@ -22,7 +22,7 @@ public interface TemplateMessageModel extends TemplateModel {
     /**
      * 设置消息参数
      *
-     * @param content 消息参数
+     * @param param 消息参数
      */
     void setMessageParam(Map<String, String> param);
 

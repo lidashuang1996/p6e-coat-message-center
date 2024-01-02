@@ -11,6 +11,13 @@ import club.p6e.coat.message.center.model.ConfigModel;
 public interface ConfigParserService {
 
     /**
+     * 获取配置解析器的名称
+     *
+     * @return 配置解析器的名称
+     */
+    String name();
+
+    /**
      * 执行配置源对象转换为配置数据对象
      *
      * @param config 配置源对象

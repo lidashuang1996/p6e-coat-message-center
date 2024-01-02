@@ -4,6 +4,8 @@ import club.p6e.coat.message.center.service.TemplateVariableParserService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,12 +63,10 @@ public class KeyValueTemplateVariableParserServiceImpl implements TemplateVariab
     public String execute(String key) {
         try {
             if (key.startsWith(MARK_PREFIX)) {
-                final String nk = key.substring(MARK_PREFIX.length());
-                if (cache != null) {
-                    final String value = cache.get(nk);
-                    if (value != null) {
-                        return value;
-                    }
+                final String value = cache.get(URLDecoder.decode(
+                        key.substring(MARK_PREFIX.length()), StandardCharsets.UTF_8));
+                if (value != null) {
+                    return value;
                 }
             }
         } catch (Exception e) {

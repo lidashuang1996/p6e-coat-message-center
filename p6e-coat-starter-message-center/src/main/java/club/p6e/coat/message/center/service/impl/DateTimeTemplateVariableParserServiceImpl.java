@@ -4,6 +4,8 @@ import club.p6e.coat.message.center.service.TemplateVariableParserService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -27,13 +29,19 @@ public class DateTimeTemplateVariableParserServiceImpl implements TemplateVariab
 
     /**
      * 标记的前缀
+     * #NOW_yyyy%2DMM%2Ddd%20HH%3Amm%3Ass -> yyyy-MM-dd HH:mm:ss -> 2020-01-01 00:00:00
      */
     private static final String MARK_PREFIX = "#NOW_";
 
     @Override
     public String execute(String key) {
         if (key.startsWith(MARK_PREFIX)) {
-            return DateTimeFormatter.ofPattern(key.substring(MARK_PREFIX.length())).format(LocalDateTime.now());
+            try {
+                final String nk = URLDecoder.decode(key.substring(MARK_PREFIX.length()), StandardCharsets.UTF_8);
+                return DateTimeFormatter.ofPattern(nk).format(LocalDateTime.now());
+            } catch (Exception e) {
+                // ignore
+            }
         }
         return null;
     }

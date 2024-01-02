@@ -3,7 +3,6 @@ package club.p6e.coat.message.center.service.impl;
 import club.p6e.coat.common.utils.JsonUtil;
 import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
-import club.p6e.coat.message.center.service.MobileMessageConfigParserService;
 import club.p6e.coat.message.center.model.ShortMessageConfigModel;
 import club.p6e.coat.message.center.service.ShortMessageConfigParserService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -19,10 +18,20 @@ import java.util.Map;
  */
 @Component
 @ConditionalOnMissingBean(
-        value = MobileMessageConfigParserService.class,
+        value = ShortMessageConfigParserServiceImpl.class,
         ignored = ShortMessageConfigParserServiceImpl.class
 )
 public abstract class ShortMessageConfigParserServiceImpl implements ShortMessageConfigParserService {
+
+    /**
+     * 默认的模板解析器名称
+     */
+    private static final String DEFAULT_PARSER = "DEFAULT";
+
+    @Override
+    public String name() {
+        return DEFAULT_PARSER;
+    }
 
     @Override
     public ShortMessageConfigModel execute(ConfigModel config) {
@@ -31,9 +40,10 @@ public abstract class ShortMessageConfigParserServiceImpl implements ShortMessag
                 final Map<String, String> data = JsonUtil.fromJsonToMap(config.content(), String.class, String.class);
                 if (data != null) {
                     setApplicationId(data.get("applicationId"));
+                    setApplicationKey(data.get("applicationKey"));
                     setApplicationName(data.get("applicationName"));
                     setApplicationSecret(data.get("applicationSecret"));
-                    setApplicationPlatform(data.get("applicationPlatform"));
+                    setApplicationDomain(data.get("applicationDomain"));
                     setOther(data);
                 }
             }
@@ -43,12 +53,21 @@ public abstract class ShortMessageConfigParserServiceImpl implements ShortMessag
     private static class SimpleShortMessageConfigModel implements ShortMessageConfigModel, Serializable {
         private String applicationName;
         private String applicationId;
+        private String applicationKey;
         private String applicationSecret;
-        private String applicationPlatform;
+        private String applicationDomain;
         private Map<String, String> other = new HashMap<>();
 
+        /**
+         * 源配置对象
+         */
         private final ConfigModel model;
 
+        /**
+         * 构造方法注入源配置对象
+         *
+         * @param model 配置对象
+         */
         public SimpleShortMessageConfigModel(ConfigModel model) {
             this.model = model;
         }
@@ -100,8 +119,8 @@ public abstract class ShortMessageConfigParserServiceImpl implements ShortMessag
 
 
         @Override
-        public void setApplicationName(String applicationName) {
-            this.applicationName = applicationName;
+        public void setApplicationName(String name) {
+            this.applicationName = name;
         }
 
         @Override
@@ -110,8 +129,8 @@ public abstract class ShortMessageConfigParserServiceImpl implements ShortMessag
         }
 
         @Override
-        public void setApplicationId(String applicationId) {
-            this.applicationId = applicationId;
+        public void setApplicationId(String id) {
+            this.applicationId = id;
         }
 
         @Override
@@ -120,8 +139,18 @@ public abstract class ShortMessageConfigParserServiceImpl implements ShortMessag
         }
 
         @Override
-        public void setApplicationSecret(String applicationSecret) {
-            this.applicationSecret = applicationSecret;
+        public void setApplicationKey(String key) {
+            this.applicationKey = key;
+        }
+
+        @Override
+        public String getApplicationKey() {
+            return applicationKey;
+        }
+
+        @Override
+        public void setApplicationSecret(String secret) {
+            this.applicationSecret = secret;
         }
 
         @Override
@@ -130,13 +159,13 @@ public abstract class ShortMessageConfigParserServiceImpl implements ShortMessag
         }
 
         @Override
-        public void setApplicationPlatform(String applicationPlatform) {
-            this.applicationPlatform = applicationPlatform;
+        public void setApplicationDomain(String domain) {
+            this.applicationDomain = domain;
         }
 
         @Override
-        public String getApplicationPlatform() {
-            return applicationPlatform;
+        public String getApplicationDomain() {
+            return applicationDomain;
         }
 
         @Override

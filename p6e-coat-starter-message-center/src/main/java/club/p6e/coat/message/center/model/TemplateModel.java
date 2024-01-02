@@ -7,7 +7,7 @@ package club.p6e.coat.message.center.model;
  * @version 1.0
  */
 public interface TemplateModel {
-    
+
     /**
      * 获取 ID
      *
@@ -16,9 +16,9 @@ public interface TemplateModel {
     Integer id();
 
     /**
-     * 获取标记
+     * 获取 KEY
      *
-     * @return 标记
+     * @return KEY
      */
     String key();
 
@@ -28,6 +28,13 @@ public interface TemplateModel {
      * @return 名称
      */
     String name();
+
+    /**
+     * 获取语言
+     *
+     * @return 语言
+     */
+    String language();
 
     /**
      * 获取类型

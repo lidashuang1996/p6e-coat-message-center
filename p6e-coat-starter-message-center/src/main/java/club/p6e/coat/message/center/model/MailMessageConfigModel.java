@@ -3,7 +3,7 @@ package club.p6e.coat.message.center.model;
 import java.util.Map;
 
 /**
- * 邮件配置
+ * 邮件消息配置
  *
  * @author lidashuang
  * @version 1.0

@@ -13,20 +13,17 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
+ * 模板解析器实现
+ *
  * @author lidashuang
  * @version 1.0
  */
 @Component
 @ConditionalOnMissingBean(
-        value = TemplateParserService.class,
+        value = TemplateParserServiceImpl.class,
         ignored = TemplateParserServiceImpl.class
 )
 public class TemplateParserServiceImpl implements TemplateParserService {
-
-    /**
-     * 默认的模板解析器名称
-     */
-    private static final String DEFAULT_PARSER = "DEFAULT";
 
     /**
      * 是否用变量名替换空的值
@@ -34,50 +31,9 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     public static boolean IS_VARIABLES_REPLACE_EMPTY_VALUE = false;
 
     /**
-     * 模板变量解析器列表
+     * 默认的模板解析器名称
      */
-    private final List<TemplateVariableParserService> templateVariableParserList;
-
-    /**
-     * 构造方法初始化
-     *
-     * @param templateVariableParserList 模板变量解析器列表
-     */
-    public TemplateParserServiceImpl(List<TemplateVariableParserService> templateVariableParserList) {
-        // 对模板变量解析器列表进行排序
-        templateVariableParserList.sort(Comparator.comparingInt(Ordered::getOrder));
-        this.templateVariableParserList = templateVariableParserList;
-    }
-
-    @Override
-    public TemplateMessageModel execute(TemplateModel template, Map<String, String> data) {
-        if (template == null || template.parser() == null || template.content() == null) {
-            return null;
-        }
-        if (DEFAULT_PARSER.equalsIgnoreCase(template.parser())) {
-            return new SimpleCommunicationTemplateModel(template) {{
-                final Map<String, String> param = Objects.requireNonNullElseGet(data, HashMap::new);
-                setCommunicationContent(
-                        convert(template.content(), name -> {
-                            String value = param.get(name);
-                            if (value == null) {
-                                for (final TemplateVariableParserService templateVariableParser : templateVariableParserList) {
-                                    value = templateVariableParser.execute(name);
-                                    if (value != null) {
-                                        param.put(name, value);
-                                        return value;
-                                    }
-                                }
-                            }
-                            return value;
-                        })
-                );
-                setCommunicationParam(param);
-            }};
-        } else {
-            throw new RuntimeException();
-        }
-    }
+    private static final String DEFAULT_PARSER = "DEFAULT";
 
     /**
      * 标记开始的符号
@@ -98,6 +54,11 @@ public class TemplateParserServiceImpl implements TemplateParserService {
      * 内容默认值的符号
      */
     private static final String CONTENT_DEFAULT_VALUE_CHAR = ":";
+
+    /**
+     * 模板变量解析器列表
+     */
+    private final List<TemplateVariableParserService> templateVariableParserList;
 
     /**
      * 执行解析模板的内容
@@ -215,36 +176,83 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     }
 
     /**
+     * 构造方法初始化
+     *
+     * @param templateVariableParserList 模板变量解析器列表
+     */
+    public TemplateParserServiceImpl(List<TemplateVariableParserService> templateVariableParserList) {
+        // 对模板变量解析器列表进行排序
+        templateVariableParserList.sort(Comparator.comparingInt(Ordered::getOrder));
+        this.templateVariableParserList = templateVariableParserList;
+    }
+
+    @Override
+    public TemplateMessageModel execute(TemplateModel template, Map<String, String> data, List<File> attachments) {
+        if (template == null || template.parser() == null || template.content() == null) {
+            return null;
+        }
+        if (DEFAULT_PARSER.equalsIgnoreCase(template.parser())) {
+            return new SimpleTemplateMessageModel(template) {{
+                final Function<String, String> vf = name -> {
+                    String value = data.get(name);
+                    if (value == null) {
+                        for (final TemplateVariableParserService parser : templateVariableParserList) {
+                            value = parser.execute(name);
+                            if (value != null) {
+                                data.put(name, value);
+                                return value;
+                            }
+                        }
+                    }
+                    return value;
+                };
+                final Map<String, String> param = Objects.requireNonNullElseGet(data, HashMap::new);
+                setMessageContent(convert(template.content(), vf));
+                setMessageTitle(convert(template.title(), vf));
+                setAttachment(attachments);
+                setMessageParam(param);
+            }};
+        } else {
+            throw new RuntimeException("[" + template.id() + "] template parser is not found.");
+        }
+    }
+
+    /**
      * 简单的通讯模板模型
      */
-    private static class SimpleCommunicationTemplateModel implements TemplateMessageModel {
+    private static class SimpleTemplateMessageModel implements TemplateMessageModel {
 
         /**
-         * 模板模型对象
+         * 请求参数
          */
-        private final TemplateModel model;
+        private Map<String, String> param;
 
         /**
-         * 通讯的模板结果
+         * 标题
          */
-        private String communicationContent;
+        private String title;
+
+        /**
+         * 请求内容
+         */
+        private String content;
 
         /**
          * 通讯的模板附件
          */
-        private List<File> communicationAttachment;
+        private List<File> attachments;
 
         /**
-         * 通讯的模板请求参数
+         * 源配置对象
          */
-        private Map<String, String> communicationParam;
+        private final TemplateModel model;
 
         /**
-         * 构造方法初始化
+         * 构造方法注入源配置对象
          *
-         * @param model 模板模型对象
+         * @param model 配置对象
          */
-        private SimpleCommunicationTemplateModel(TemplateModel model) {
+        private SimpleTemplateMessageModel(TemplateModel model) {
             this.model = model;
         }
 
@@ -255,7 +263,7 @@ public class TemplateParserServiceImpl implements TemplateParserService {
 
         @Override
         public String key() {
-            return null;
+            return model == null ? null : model.key();
         }
 
         @Override
@@ -264,13 +272,13 @@ public class TemplateParserServiceImpl implements TemplateParserService {
         }
 
         @Override
-        public String mark() {
-            return model == null ? null : model.mark();
+        public String name() {
+            return model == null ? null : model.name();
         }
 
         @Override
-        public String name() {
-            return model == null ? null : model.name();
+        public String language() {
+            return model == null ? null : model.language();
         }
 
         @Override
@@ -298,105 +306,74 @@ public class TemplateParserServiceImpl implements TemplateParserService {
             return model == null ? null : model.parserSource();
         }
 
-
-        @Override
-        public Map<String, String> getCommunicationParam() {
-            return communicationParam;
-        }
-
-        @Override
-        public void setCommunicationParam(Map<String, String> communicationParam) {
-            this.communicationParam = communicationParam;
-        }
-
-        @Override
-        public String getCommunicationTitle() {
-            return null;
-        }
-
-        @Override
-        public void setCommunicationTitle(String title) {
-
-        }
-
-        @Override
-        public String getCommunicationContent() {
-            return communicationContent;
-        }
-
-        @Override
-        public void setCommunicationContent(String communicationContent) {
-            this.communicationContent = communicationContent;
-        }
-
         @Override
         public Map<String, String> getMessageParam() {
-            return null;
+            return param;
         }
 
         @Override
         public void setMessageParam(Map<String, String> param) {
-
+            this.param = param;
         }
 
         @Override
         public String getMessageTitle() {
-            return null;
+            return title;
         }
 
         @Override
         public void setMessageTitle(String title) {
-
+            this.title = title;
         }
 
         @Override
         public String getMessageContent() {
-            return null;
+            return content;
         }
 
         @Override
         public void setMessageContent(String content) {
-
+            this.content = content;
         }
 
         @Override
         public List<File> getAttachment() {
-            return communicationAttachment;
+            return attachments;
         }
 
         @Override
         public void cleanAttachment() {
-            if (communicationAttachment != null) {
-                communicationAttachment.clear();
-                communicationAttachment = null;
+            if (attachments != null) {
+                attachments.clear();
+                attachments = null;
             }
         }
 
         @Override
         public void addAttachment(File file) {
-            if (communicationAttachment == null) {
-                communicationAttachment = new ArrayList<>();
+            if (attachments == null) {
+                attachments = new ArrayList<>();
             }
-            communicationAttachment.add(file);
+            attachments.add(file);
         }
 
         @Override
         public void removeAttachment(File file) {
-            if (communicationAttachment != null) {
-                communicationAttachment.remove(file);
+            if (attachments != null) {
+                attachments.remove(file);
             }
         }
 
         @Override
         public void removeAttachmentAt(int index) {
-            if (communicationAttachment != null) {
-                communicationAttachment.remove(index);
+            if (attachments != null) {
+                attachments.remove(index);
             }
         }
 
         @Override
         public void setAttachment(List<File> files) {
-            communicationAttachment = files;
+            attachments = files;
         }
 
     }

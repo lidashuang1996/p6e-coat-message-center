@@ -13,15 +13,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 源配置对象转邮件消息配置解析器实现
+ *
  * @author lidashuang
  * @version 1.0
  */
 @Component
 @ConditionalOnMissingBean(
-        value = MailMessageConfigParserService.class,
+        value = MailMessageConfigParserServiceImpl.class,
         ignored = MailMessageConfigParserServiceImpl.class
 )
 public abstract class MailMessageConfigParserServiceImpl implements MailMessageConfigParserService {
+
+    /**
+     * 默认的模板解析器名称
+     */
+    private static final String DEFAULT_PARSER = "DEFAULT";
+
+    @Override
+    public String name() {
+        return DEFAULT_PARSER;
+    }
 
     @Override
     public MailMessageConfigModel execute(ConfigModel config) {
@@ -41,18 +53,55 @@ public abstract class MailMessageConfigParserServiceImpl implements MailMessageC
         }};
     }
 
+    /**
+     * 简单邮件消息配置模型
+     */
     private static class SimpleMailMessageConfigModel implements MailMessageConfigModel, Serializable {
-
-        private String host;
-        private String from;
-        private String password;
+        /**
+         * 端口
+         */
         private int port = 25;
-        private boolean tls = false;
+
+        /**
+         * 邮件服务器地址
+         */
+        private String host;
+
+        /**
+         * 是否开启认证
+         */
         private boolean auth = false;
+
+        /**
+         * 是否开启 TLS
+         */
+        private boolean tls = false;
+
+        /**
+         * 发送者
+         */
+        private String from;
+
+        /**
+         * 密码
+         */
+        private String password;
+
+        /**
+         * 其他配置
+         */
         public Map<String, String> other = new HashMap<>();
 
+        /**
+         * 源配置对象
+         */
         private final ConfigModel model;
 
+        /**
+         * 构造方法注入源配置对象
+         *
+         * @param model 配置对象
+         */
         public SimpleMailMessageConfigModel(ConfigModel model) {
             this.model = model;
         }

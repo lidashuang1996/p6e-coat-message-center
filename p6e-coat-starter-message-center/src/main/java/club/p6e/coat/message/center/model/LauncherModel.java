@@ -27,13 +27,6 @@ public interface LauncherModel {
     boolean enable();
 
     /**
-     * 模板
-     *
-     * @return 模板
-     */
-    String template();
-
-    /**
      * 类型
      *
      * @return 类型
@@ -46,6 +39,13 @@ public interface LauncherModel {
      * @return 名称
      */
     String name();
+
+    /**
+     * 模板
+     *
+     * @return 模板
+     */
+    String template();
 
     /**
      * 描述

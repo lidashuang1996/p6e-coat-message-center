@@ -37,79 +37,80 @@ public class DataSourceRepository {
      * 配置的查询 SQL
      */
     @SuppressWarnings("ALL")
-    private static final String QUERY_ID_CONFIG_SOURCE = "" +
-            "SELECT\n" +
-            "  \"mcc\".\"id\" AS \"id\",  " +
-            "  \"mcc\".\"rule\" AS \"rule\",  " +
-            "  \"mcc\".\"type\" AS \"type\",  " +
-            "  \"mcc\".\"enable\" AS \"enable\",  " +
-            "  \"mcc\".\"name\" AS \"name\",  " +
-            "  \"mcc\".\"content\" AS \"content\",  " +
-            "  \"mcc\".\"description\" AS \"description\",  " +
-            "  \"mcc\".\"parser\" AS \"parser\",  " +
-            "  \"mcc\".\"parser_source\" AS \"parser_source\"   " +
-            "FROM  " +
-            "  \"p6e_mc_config\" AS \"mcc\"" +
-            "WHERE " +
-            "  \"mcc\".\"id\" = ?  " +
-            ";";
+    private static final String QUERY_ID_CONFIG_SQL = "" +
+            "    SELECT    " +
+            "      \"mcc\".\"id\" AS \"id\",    " +
+            "      \"mcc\".\"rule\" AS \"rule\",    " +
+            "      \"mcc\".\"type\" AS \"type\",    " +
+            "      \"mcc\".\"enable\" AS \"enable\",    " +
+            "      \"mcc\".\"name\" AS \"name\",    " +
+            "      \"mcc\".\"content\" AS \"content\",    " +
+            "      \"mcc\".\"description\" AS \"description\",    " +
+            "      \"mcc\".\"parser\" AS \"parser\",    " +
+            "      \"mcc\".\"parser_source\" AS \"parser_source\"    " +
+            "    FROM    " +
+            "      \"p6e_mc_config\" AS \"mcc\"    " +
+            "    WHERE    " +
+            "      \"mcc\".\"id\"  =  ?    " +
+            "    ;    ";
 
     /**
      * 模板的查询 SQL
      */
     @SuppressWarnings("ALL")
-    private static final String QUERY_ID_TEMPLATE_SOURCE = "" +
-            "SELECT  " +
-            "  \"mct\".\"id\" AS \"id\",  " +
-            "  \"mct\".\"type\" AS \"type\",  " +
-            "  \"mct\".\"mark\" AS \"mark\",  " +
-            "  \"mct\".\"name\" AS \"name\",  " +
-            "  \"mct\".\"title\" AS \"title\",  " +
-            "  \"mct\".\"content\" AS \"content\",  " +
-            "  \"mct\".\"description\" AS \"description\",  " +
-            "  \"mct\".\"parser\" AS \"parser\",  " +
-            "  \"mct\".\"parser_source\" AS \"parser_source\"  " +
-            "FROM  " +
-            "  \"p6e_mc_template\" AS \"mct\"" +
-            "WHERE " +
-            "  \"mct\".\"mark\" = ?  " +
-            ";";
+    private static final String QUERY_KEY_LANGUAGE_TEMPLATE_SQL = "" +
+            "    SELECT    " +
+            "      \"mct\".\"id\" AS \"id\",    " +
+            "      \"mct\".\"key\" AS \"key\",    " +
+            "      \"mct\".\"type\" AS \"type\",    " +
+            "      \"mct\".\"name\" AS \"name\",    " +
+            "      \"mct\".\"language\" AS \"language\",    " +
+            "      \"mct\".\"title\" AS \"title\",    " +
+            "      \"mct\".\"content\" AS \"content\",    " +
+            "      \"mct\".\"description\" AS \"description\",    " +
+            "      \"mct\".\"parser\" AS \"parser\",    " +
+            "      \"mct\".\"parser_source\" AS \"parser_source\"    " +
+            "    FROM    " +
+            "      \"p6e_mc_template\" AS \"mct\"    " +
+            "    WHERE    " +
+            "      \"mct\".\"key\"  =  ?    " +
+            "      AND \"mct\".\"language\"  =  ?    " +
+            "    ;    ";
 
     /**
      * 发射器的查询 SQL
      */
     @SuppressWarnings("ALL")
-    private static final String QUERY_MARK_LAUNCHER_SOURCE = "" +
-            "SELECT  " +
-            "  \"mcl\".\"id\" AS \"id\",  " +
-            "  \"mcl\".\"type\" AS \"type\",  " +
-            "  \"mcl\".\"mark\" AS \"mark\",   " +
-            "  \"mcl\".\"name\" AS \"name\",  " +
-            "  \"mcl\".\"enable\" AS \"enable\",  " +
-            "  \"mcl\".\"template\" AS \"template\",  " +
-            "  \"mcl\".\"description\" AS \"description\",  " +
-            "  \"mcl\".\"pattern\" AS \"pattern\",  " +
-            "  \"mcl\".\"pattern_source\" AS \"pattern_source\"  " +
-            "FROM  " +
-            "  \"p6e_mc_launcher\" AS \"mcl\"" +
-            "WHERE " +
-            "  \"mcl\".\"mark\" = ?  " +
-            ";";
+    private static final String QUERY_ID_LAUNCHER_SQL = "" +
+            "    SELECT    " +
+            "      \"mcl\".\"id\" AS \"id\",    " +
+            "      \"mcl\".\"enable\" AS \"enable\",    " +
+            "      \"mcl\".\"type\" AS \"type\",    " +
+            "      \"mcl\".\"name\" AS \"name\",    " +
+            "      \"mcl\".\"route\" AS \"route\",    " +
+            "      \"mcl\".\"route_source\" AS \"route_source\",    " +
+            "      \"mcl\".\"template\" AS \"template\",    " +
+            "      \"mcl\".\"description\" AS \"description\"    " +
+            "    FROM    " +
+            "      \"p6e_mc_launcher\" AS \"mcl\"    " +
+            "    WHERE    " +
+            "      \"mcl\".\"id\"  =  ?    " +
+            "    ;    ";
 
     /**
      * 发射器的映射查询 SQL
      */
     @SuppressWarnings("ALL")
-    private static final String QUERY_MARK_LAUNCHER_MAPPER_SOURCE = "" +
-            "SELECT  " +
-            "  \"mcp\".\"lid\" AS \"lid\",  " +
-            "  \"mcp\".\"cid\" AS \"cid\",  " +
-            "  \"mcp\".\"attribute\" AS \"attribute\"  " +
-            "FROM  " +
-            "  \"p6e_mc_mapper\" AS \"mcp\"  " +
-            "WHERE " +
-            "  \"mcp\".\"lid\" = ?  " +
-            ";";
+    private static final String QUERY_LAUNCHER_CONFIG_MAPPER_SQL = "" +
+            "    SELECT    " +
+            "      \"mcp\".\"lid\" AS \"lid\",    " +
+            "      \"mcp\".\"cid\" AS \"cid\",    " +
+            "      \"mcp\".\"attribute\" AS \"attribute\"    " +
+            "    FROM    " +
+            "      \"p6e_mc_launcher_config_mapper\" AS \"mcp\"    " +
+            "    WHERE    " +
+            "      \"mcp\".\"lid\"  =  ?    " +
+            "    ;    ";
 
     /**
      * BLOB 转 BYTES
@@ -153,25 +154,25 @@ public class DataSourceRepository {
 
     /**
      * 查询配置源
+     *
      * @return 配置源对象
      */
     public ConfigModel getConfigData(int id) {
         try (final Connection connection = dataSource.getConnection()) {
-            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_CONFIG_SOURCE);
+            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_CONFIG_SQL);
             preparedStatement.setInt(1, id);
             final ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 return new ConfigModel() {
-
-                    final Integer id = rs.getInt("id");
-                    final String rule = rs.getString("rule");
-                    final String name = rs.getString("name");
-                    final String type = rs.getString("type");
-                    final Integer enable = rs.getInt("enable");
-                    final String content = rs.getString("content");
-                    final String description = rs.getString("description");
-                    final String parser = rs.getString("parser");
-                    final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
+                    private final Integer id = rs.getInt("id");
+                    private final String rule = rs.getString("rule");
+                    private final String type = rs.getString("type");
+                    private final Integer enable = rs.getInt("enable");
+                    private final String name = rs.getString("name");
+                    private final String content = rs.getString("content");
+                    private final String description = rs.getString("description");
+                    private final String parser = rs.getString("parser");
+                    private final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
 
                     @Override
                     public int id() {
@@ -179,13 +180,8 @@ public class DataSourceRepository {
                     }
 
                     @Override
-                    public boolean enable() {
-                        return "1".equals(String.valueOf(enable));
-                    }
-
-                    @Override
-                    public String name() {
-                        return name;
+                    public String rule() {
+                        return rule;
                     }
 
                     @Override
@@ -199,71 +195,8 @@ public class DataSourceRepository {
                     }
 
                     @Override
-                    public String content() {
-                        return content;
-                    }
-
-                    @Override
-                    public String description() {
-                        return description;
-                    }
-
-                    @Override
-                    public String parser() {
-                        return parser;
-                    }
-
-                    @Override
-                    public byte[] parserSource() {
-                        return parserSource;
-                    }
-
-                    @Override
-                    public String rule() {
-                        return rule;
-                    }
-                };
-            }
-        } catch (Exception e) {
-            LOGGER.info("[DATA SOURCE ERROR]", e);
-        }
-        return null;
-    }
-
-    /**
-     * 查询模板源
-     * @return 模板源对象
-     */
-    public TemplateModel getTemplateData(int id) {
-        try (final Connection connection = dataSource.getConnection()) {
-            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_TEMPLATE_SOURCE);
-            preparedStatement.setInt(1, id);
-            final ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return new TemplateModel() {
-                    final Integer id = rs.getInt("id");
-                    final String type = rs.getString("type");
-                    final String mark = rs.getString("mark");
-                    final String name = rs.getString("name");
-                    final String title = rs.getString("title");
-                    final String content = rs.getString("content");
-                    final String description = rs.getString("description");
-                    final String parser = rs.getString("parser");
-                    final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
-
-                    @Override
-                    public Integer id() {
-                        return id;
-                    }
-
-                    @Override
-                    public String type() {
-                        return type;
-                    }
-
-                    @Override
-                    public String mark() {
-                        return mark;
+                    public boolean enable() {
+                        return "1".equals(String.valueOf(enable));
                     }
 
                     @Override
@@ -272,11 +205,6 @@ public class DataSourceRepository {
                     }
 
                     @Override
-                    public String title() {
-                        return title;
-                    }
-
-                    @Override
                     public String content() {
                         return content;
                     }
@@ -295,10 +223,11 @@ public class DataSourceRepository {
                     public byte[] parserSource() {
                         return parserSource;
                     }
+
                 };
             }
         } catch (Exception e) {
-            LOGGER.info("[DATA SOURCE ERROR]", e);
+            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
         }
         return null;
     }
@@ -310,16 +239,17 @@ public class DataSourceRepository {
      */
     public TemplateModel getTemplateData(String key, String language) {
         try (final Connection connection = dataSource.getConnection()) {
-            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_TEMPLATE_SOURCE);
+            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_KEY_LANGUAGE_TEMPLATE_SQL);
             preparedStatement.setString(1, key);
             preparedStatement.setString(2, language);
             final ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 return new TemplateModel() {
                     final Integer id = rs.getInt("id");
+                    final String key = rs.getString("key");
                     final String type = rs.getString("type");
-                    final String mark = rs.getString("mark");
                     final String name = rs.getString("name");
+                    final String language = rs.getString("language");
                     final String title = rs.getString("title");
                     final String content = rs.getString("content");
                     final String description = rs.getString("description");
@@ -332,18 +262,23 @@ public class DataSourceRepository {
                     }
 
                     @Override
+                    public String key() {
+                        return key;
+                    }
+
+                    @Override
                     public String type() {
                         return type;
                     }
 
                     @Override
-                    public String mark() {
-                        return mark;
+                    public String name() {
+                        return name;
                     }
 
                     @Override
-                    public String name() {
-                        return name;
+                    public String language() {
+                        return language;
                     }
 
                     @Override
@@ -373,7 +308,7 @@ public class DataSourceRepository {
                 };
             }
         } catch (Exception e) {
-            LOGGER.info("[DATA SOURCE ERROR]", e);
+            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
         }
         return null;
     }
@@ -385,26 +320,29 @@ public class DataSourceRepository {
      */
     public LauncherModel getLauncherData(int id) {
         try (final Connection connection = dataSource.getConnection()) {
-            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_MARK_LAUNCHER_SOURCE);
+            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_LAUNCHER_SQL);
             preparedStatement.setInt(1, id);
             final ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
+                final List<LauncherModel.ConfigMapperModel> configs = getLauncherConfigMappers(id);
                 return new LauncherModel() {
                     final Integer id = rs.getInt("id");
-                    final String type = rs.getString("type");
-                    final String mark = rs.getString("mark");
-                    final String name = rs.getString("name");
                     final Integer enable = rs.getInt("enable");
+                    final String type = rs.getString("type");
+                    final String name = rs.getString("name");
                     final String template = rs.getString("template");
+                    final String route = rs.getString("pattern");
+                    final byte[] routeSource = blobToBytes(rs.getBlob("route_source"));
                     final String description = rs.getString("description");
-                    final String pattern = rs.getString("pattern");
-                    final byte[] patternSource = blobToBytes(rs.getBlob("pattern_source"));
-
-                    final List<ConfigMapperModel> configs = new ArrayList<>();
 
                     @Override
                     public Integer id() {
                         return id;
+                    }
+
+                    @Override
+                    public boolean enable() {
+                        return "1".equals(String.valueOf(enable));
                     }
 
                     @Override
@@ -420,11 +358,6 @@ public class DataSourceRepository {
                     @Override
                     public String name() {
                         return name;
-                    }
-
-                    @Override
-                    public boolean enable() {
-                        return "1".equals(String.valueOf(enable));
                     }
 
                     @Override
@@ -439,12 +372,12 @@ public class DataSourceRepository {
 
                     @Override
                     public String route() {
-                        return null;
+                        return route;
                     }
 
                     @Override
                     public byte[] routeSource() {
-                        return new byte[0];
+                        return routeSource;
                     }
 
                     @Override
@@ -454,19 +387,20 @@ public class DataSourceRepository {
                 };
             }
         } catch (Exception e) {
-            LOGGER.info("[DATA SOURCE ERROR]", e);
+            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
         }
         return null;
     }
 
     /**
      * 查询发射器映射源列表
+     *
      * @return 发射器映射源列表
      */
-    public List<LauncherModel.ConfigMapperModel> getLauncherConfigMappers(int id) {
+    private List<LauncherModel.ConfigMapperModel> getLauncherConfigMappers(int id) {
         final List<LauncherModel.ConfigMapperModel> result = new ArrayList<>();
         try (final Connection connection = dataSource.getConnection()) {
-            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_MARK_LAUNCHER_MAPPER_SOURCE);
+            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_LAUNCHER_CONFIG_MAPPER_SQL);
             preparedStatement.setInt(1, id);
             final ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -486,7 +420,7 @@ public class DataSourceRepository {
                 });
             }
         } catch (Exception e) {
-            LOGGER.info("[DATA SOURCE ERROR]", e);
+            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
         }
         return result;
     }

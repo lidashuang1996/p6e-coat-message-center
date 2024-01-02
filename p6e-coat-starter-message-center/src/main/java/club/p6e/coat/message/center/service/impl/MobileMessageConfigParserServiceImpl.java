@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Component
 @ConditionalOnMissingBean(
-        value = MobileMessageConfigParserService.class,
+        value = MobileMessageConfigParserServiceImpl.class,
         ignored = MobileMessageConfigParserServiceImpl.class
 )
 public abstract class MobileMessageConfigParserServiceImpl implements MobileMessageConfigParserService {
@@ -30,31 +30,73 @@ public abstract class MobileMessageConfigParserServiceImpl implements MobileMess
                 final Map<String, String> data = JsonUtil.fromJsonToMap(config.content(), String.class, String.class);
                 if (data != null) {
                     setApplicationId(data.get("applicationId"));
+                    setApplicationKey(data.get("applicationKey"));
                     setApplicationName(data.get("applicationName"));
                     setApplicationSecret(data.get("applicationSecret"));
-                    setApplicationPlatform(data.get("applicationPlatform"));
                     setOther(data);
                 }
             }
         }};
     }
 
+    /**
+     * 简单邮件消息配置模型
+     */
     private static class SimpleMobileMessageConfigModel implements MobileMessageConfigModel, Serializable {
+
+        /**
+         * 应用名称
+         */
         private String applicationName;
+
+        /**
+         * 应用编号
+         */
         private String applicationId;
+
+        /**
+         * 应用 KEY
+         */
+        private String applicationKey;
+
+        /**
+         * 应用密钥
+         */
         private String applicationSecret;
-        private String applicationPlatform;
+
+        /**
+         * 其他配置
+         */
         private Map<String, String> other = new HashMap<>();
 
+        /**
+         * 源配置对象
+         */
         private final ConfigModel model;
 
+        /**
+         * 构造方法注入源配置对象
+         *
+         * @param model 配置对象
+         */
         public SimpleMobileMessageConfigModel(ConfigModel model) {
             this.model = model;
         }
 
+
         @Override
         public int id() {
             return model == null ? 0 : model.id();
+        }
+
+        @Override
+        public String rule() {
+            return model == null ? null : model.rule();
+        }
+
+        @Override
+        public MessageType type() {
+            return model == null ? null : model.type();
         }
 
         @Override
@@ -65,11 +107,6 @@ public abstract class MobileMessageConfigParserServiceImpl implements MobileMess
         @Override
         public String name() {
             return model == null ? null : model.name();
-        }
-
-        @Override
-        public MessageType type() {
-            return model == null ? null : model.type();
         }
 
         @Override
@@ -93,14 +130,8 @@ public abstract class MobileMessageConfigParserServiceImpl implements MobileMess
         }
 
         @Override
-        public String rule() {
-            return model == null ? null : model.rule();
-        }
-
-
-        @Override
-        public void setApplicationName(String applicationName) {
-            this.applicationName = applicationName;
+        public void setApplicationName(String name) {
+            this.applicationName = name;
         }
 
         @Override
@@ -109,13 +140,23 @@ public abstract class MobileMessageConfigParserServiceImpl implements MobileMess
         }
 
         @Override
-        public void setApplicationId(String applicationId) {
-            this.applicationId = applicationId;
+        public void setApplicationId(String id) {
+            this.applicationId = id;
         }
 
         @Override
         public String getApplicationId() {
             return applicationId;
+        }
+
+        @Override
+        public void setApplicationKey(String key) {
+            this.applicationKey = key;
+        }
+
+        @Override
+        public String getApplicationKey() {
+            return applicationKey;
         }
 
         @Override
@@ -129,16 +170,6 @@ public abstract class MobileMessageConfigParserServiceImpl implements MobileMess
         }
 
         @Override
-        public void setApplicationPlatform(String applicationPlatform) {
-            this.applicationPlatform = applicationPlatform;
-        }
-
-        @Override
-        public String getApplicationPlatform() {
-            return applicationPlatform;
-        }
-
-        @Override
         public void setOther(Map<String, String> other) {
             this.other = other;
         }
@@ -147,6 +178,7 @@ public abstract class MobileMessageConfigParserServiceImpl implements MobileMess
         public Map<String, String> getOther() {
             return other;
         }
+
     }
 
 }
