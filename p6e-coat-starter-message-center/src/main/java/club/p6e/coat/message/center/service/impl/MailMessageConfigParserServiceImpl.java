@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @Component
 @ConditionalOnMissingBean(
-        value = MailMessageConfigParserServiceImpl.class,
+        value = MailMessageConfigParserService.class,
         ignored = MailMessageConfigParserServiceImpl.class
 )
 public abstract class MailMessageConfigParserServiceImpl implements MailMessageConfigParserService {

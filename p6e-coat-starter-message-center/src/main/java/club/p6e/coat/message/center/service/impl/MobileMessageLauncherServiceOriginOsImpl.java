@@ -8,7 +8,7 @@ import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.model.MobileMessageConfigModel;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 import club.p6e.coat.message.center.service.MobileMessageLauncherService;
-import club.p6e.coat.message.center.utils.ExpiredCacheUtil;
+import club.p6e.coat.message.center.ExpiredCache;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public class MobileMessageLauncherServiceOriginOsImpl implements MobileMessageLa
     @Override
     public List<String> execute(List<String> recipients, TemplateMessageModel template, MobileMessageConfigModel config) {
         final String name = config.getApplicationName();
-        Client client = ExpiredCacheUtil.get(TYPE, name);
+        Client client = ExpiredCache.get(TYPE, name);
         if (client == null) {
             client = new Client(
                     config.getApplicationId(),
@@ -70,7 +70,7 @@ public class MobileMessageLauncherServiceOriginOsImpl implements MobileMessageLa
                     config.getApplicationSecret(),
                     config.getOther()
             );
-            ExpiredCacheUtil.set(TYPE, name, client);
+            ExpiredCache.set(TYPE, name, client);
         }
         final Client finalClient = client;
         final int size = recipients.size();

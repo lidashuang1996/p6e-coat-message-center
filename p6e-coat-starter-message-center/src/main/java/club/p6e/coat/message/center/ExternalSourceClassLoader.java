@@ -7,12 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lidashuang
  * @version 1.0
  */
-public class ExternalSourceClassLoader extends ClassLoader {
-
-    /**
-     * 缓存对象
-     */
-    private static final Map<String, Object> CACHE = new ConcurrentHashMap<>();
+public final class ExternalSourceClassLoader extends ClassLoader {
 
     /**
      * 实列对象
@@ -29,6 +24,11 @@ public class ExternalSourceClassLoader extends ClassLoader {
     }
 
     /**
+     * 缓存对象
+     */
+    private final Map<String, Object> cache = new ConcurrentHashMap<>();
+
+    /**
      * 临时保存的 CLASS BYTES 字节码
      */
     private final Map<String, byte[]> classBytesMap = new ConcurrentHashMap<>();
@@ -41,18 +41,18 @@ public class ExternalSourceClassLoader extends ClassLoader {
 
     @SuppressWarnings("ALL")
     public <T> T newClassInstance(String className, byte[] classBytes, Class<T> classType) {
-        if (className != null) {
-            Object result = CACHE.get(className);
-            try {
+        try {
+            if (className != null) {
+                Object result = cache.get(className);
                 if (result == null) {
                     final Class<?> clazz = loadClass(className, classBytes);
                     result = clazz.getDeclaredConstructor().newInstance();
-                    CACHE.put(className, result);
+                    cache.put(className, result);
                 }
                 return (T) result;
-            } catch (Exception e) {
-                // ...
             }
+        } catch (Exception e) {
+            // ignore
         }
         return null;
     }

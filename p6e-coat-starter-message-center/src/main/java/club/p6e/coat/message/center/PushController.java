@@ -5,4 +5,5 @@ package club.p6e.coat.message.center;
  * @version 1.0
  */
 public class PushController {
+    
 }

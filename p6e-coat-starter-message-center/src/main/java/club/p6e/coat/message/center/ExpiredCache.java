@@ -1,4 +1,4 @@
-package club.p6e.coat.message.center.utils;
+package club.p6e.coat.message.center;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lidashuang
  * @version 1.0
  */
-public final class ExpiredCacheUtil implements Serializable {
+public final class ExpiredCache implements Serializable {
 
     @Data
     @Accessors(chain = true)

@@ -11,6 +11,13 @@ import java.util.List;
  */
 public interface LauncherRouteService {
 
+    /**
+     * 获取配置解析器的名称
+     *
+     * @return 配置解析器的名称
+     */
+    String name();
+
     ConfigModel execute(LauncherModel launcher, List<ConfigModel> list);
 
 }

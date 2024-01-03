@@ -133,7 +133,7 @@ public class DataSourceRepository {
             }
             return outputStream.toByteArray();
         } catch (SQLException | IOException e) {
-            LOGGER.info("[DATA SOURCE BLOB TO BYTES ERROR]", e);
+            LOGGER.info("DATA SOURCE BLOB TO BYTES ERROR", e);
             return null;
         }
     }

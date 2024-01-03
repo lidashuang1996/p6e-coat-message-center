@@ -16,6 +16,13 @@ import java.util.Map;
 public interface TemplateParserService {
 
     /**
+     * 获取配置解析器的名称
+     *
+     * @return 配置解析器的名称
+     */
+    String name();
+
+    /**
      * 执行模板模型对象转换为通讯模板模型对象
      *
      * @param template 模板模型对象

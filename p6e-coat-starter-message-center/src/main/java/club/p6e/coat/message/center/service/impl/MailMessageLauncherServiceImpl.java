@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Component
 @ConditionalOnMissingBean(
-        value = MailMessageLauncherServiceImpl.class,
+        value = MailMessageLauncherService.class,
         ignored = MailMessageLauncherServiceImpl.class
 )
 public class MailMessageLauncherServiceImpl implements MailMessageLauncherService {

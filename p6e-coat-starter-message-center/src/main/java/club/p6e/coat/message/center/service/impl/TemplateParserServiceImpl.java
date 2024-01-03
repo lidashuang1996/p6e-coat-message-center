@@ -187,34 +187,35 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     }
 
     @Override
+    public String name() {
+        return DEFAULT_PARSER;
+    }
+
+    @Override
     public TemplateMessageModel execute(TemplateModel template, Map<String, String> data, List<File> attachments) {
         if (template == null || template.parser() == null || template.content() == null) {
             return null;
         }
-        if (DEFAULT_PARSER.equalsIgnoreCase(template.parser())) {
-            return new SimpleTemplateMessageModel(template) {{
-                final Function<String, String> vf = name -> {
-                    String value = data.get(name);
-                    if (value == null) {
-                        for (final TemplateVariableParserService parser : templateVariableParserList) {
-                            value = parser.execute(name);
-                            if (value != null) {
-                                data.put(name, value);
-                                return value;
-                            }
+        return new SimpleTemplateMessageModel(template) {{
+            final Function<String, String> vf = name -> {
+                String value = data.get(name);
+                if (value == null) {
+                    for (final TemplateVariableParserService parser : templateVariableParserList) {
+                        value = parser.execute(name);
+                        if (value != null) {
+                            data.put(name, value);
+                            return value;
                         }
                     }
-                    return value;
-                };
-                final Map<String, String> param = Objects.requireNonNullElseGet(data, HashMap::new);
-                setMessageContent(convert(template.content(), vf));
-                setMessageTitle(convert(template.title(), vf));
-                setAttachment(attachments);
-                setMessageParam(param);
-            }};
-        } else {
-            throw new RuntimeException("[" + template.id() + "] template parser is not found.");
-        }
+                }
+                return value;
+            };
+            final Map<String, String> param = Objects.requireNonNullElseGet(data, HashMap::new);
+            setMessageContent(convert(template.content(), vf));
+            setMessageTitle(convert(template.title(), vf));
+            setAttachment(attachments);
+            setMessageParam(param);
+        }};
     }
 
     /**
