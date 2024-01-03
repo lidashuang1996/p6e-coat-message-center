@@ -68,6 +68,21 @@ public interface LauncherModel {
      */
     byte[] routeSource();
 
+
+    /**
+     * 路由
+     *
+     * @return 模式
+     */
+    String parser();
+
+    /**
+     * 路由源代码
+     *
+     * @return 路由源代码
+     */
+    byte[] parserSource();
+
     /**
      * 配置列表
      *

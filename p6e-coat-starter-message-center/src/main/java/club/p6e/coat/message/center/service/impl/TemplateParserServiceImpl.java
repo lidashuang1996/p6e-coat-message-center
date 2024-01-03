@@ -4,11 +4,11 @@ import club.p6e.coat.message.center.model.TemplateMessageModel;
 import club.p6e.coat.message.center.model.TemplateModel;
 import club.p6e.coat.message.center.service.TemplateParserService;
 import club.p6e.coat.message.center.service.TemplateVariableParserService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
 
@@ -19,10 +19,6 @@ import java.util.function.Function;
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = TemplateParserServiceImpl.class,
-        ignored = TemplateParserServiceImpl.class
-)
 public class TemplateParserServiceImpl implements TemplateParserService {
 
     /**
@@ -221,7 +217,7 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     /**
      * 简单的通讯模板模型
      */
-    private static class SimpleTemplateMessageModel implements TemplateMessageModel {
+    private static class SimpleTemplateMessageModel implements TemplateMessageModel, Serializable {
 
         /**
          * 请求参数

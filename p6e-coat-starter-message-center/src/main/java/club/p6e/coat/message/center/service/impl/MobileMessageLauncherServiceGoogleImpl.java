@@ -1,9 +1,11 @@
 package club.p6e.coat.message.center.service.impl;
 
 import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.message.center.ExpiredCache;
 import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.model.MobileMessageConfigModel;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
+import club.p6e.coat.message.center.service.LogService;
 import club.p6e.coat.message.center.service.MobileMessageLauncherService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -16,9 +18,9 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lidashuang
@@ -33,9 +35,14 @@ public class MobileMessageLauncherServiceGoogleImpl implements MobileMessageLaun
     public static final int MAX_RECIPIENT_LENGTH = 300;
 
     /**
-     * 客户端缓存对象
+     * 默认的模板解析器名称
      */
-    private static final Map<String, FirebaseApp> CLIENT_CACHE = new ConcurrentHashMap<>();
+    private static final String GOOGLE_PARSER = "GOOGLE";
+
+    /**
+     * 缓存类型
+     */
+    private static final String CACHE_TYPE = "MOBILE_GOOGLE_CLIENT";
 
     /**
      * 注入日志对象
@@ -43,38 +50,49 @@ public class MobileMessageLauncherServiceGoogleImpl implements MobileMessageLaun
     private static final Logger LOGGER = LoggerFactory.getLogger(MobileMessageLauncherServiceGoogleImpl.class);
 
     /**
+     * 日志服务
+     */
+    private final LogService logService;
+
+    /**
      * 消息中心线程池对象
      */
     private final MessageCenterThreadPool threadPool;
 
     /**
-     * 构造方法注入
+     * 构造方法初始化
      *
      * @param threadPool 消息中心线程池对象
      */
-    public MobileMessageLauncherServiceGoogleImpl(MessageCenterThreadPool threadPool) {
+    public MobileMessageLauncherServiceGoogleImpl(LogService logService, MessageCenterThreadPool threadPool) {
+        this.logService = logService;
         this.threadPool = threadPool;
     }
 
     @Override
     public String name() {
-        return "GOOGLE";
+        return GOOGLE_PARSER;
     }
 
     @Override
-    public List<String> execute(List<String> recipients, TemplateMessageModel template, MobileMessageConfigModel config) {
+    public Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, MobileMessageConfigModel config) {
         final int size = recipients.size();
+        final Map<String, List<String>> result = new HashMap<>(16);
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
             final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            final Map<String, List<String>> ls = logService.create(rs, template);
+            result.putAll(ls);
             threadPool.submit(() -> {
                 try {
                     execute(getClient(config), rs, template);
                 } catch (Exception e) {
                     LOGGER.error("GOOGLE MMS CONFIG ERROR >>> " + e.getMessage());
+                } finally {
+                    logService.update(ls, "SUCCESS");
                 }
             });
         }
-        return recipients;
+        return result;
     }
 
     /**
@@ -86,10 +104,9 @@ public class MobileMessageLauncherServiceGoogleImpl implements MobileMessageLaun
      */
     private FirebaseApp getClient(MobileMessageConfigModel config) throws Exception {
         final String name = config.getApplicationName();
-        FirebaseApp firebase = CLIENT_CACHE.get(name);
+        FirebaseApp firebase = ExpiredCache.get(CACHE_TYPE, name);
         if (firebase == null) {
             firebase = createClient(config);
-            CLIENT_CACHE.put(name, firebase);
         }
         return firebase;
     }
@@ -101,15 +118,16 @@ public class MobileMessageLauncherServiceGoogleImpl implements MobileMessageLaun
      * @throws Exception 异常对象
      */
     private synchronized FirebaseApp createClient(MobileMessageConfigModel config) throws Exception {
-        final String content = config.content();
         final String name = config.getApplicationName();
-        FirebaseApp firebase = CLIENT_CACHE.get(name);
+        final String content = config.content();
+        FirebaseApp firebase = ExpiredCache.get(CACHE_TYPE, name);
         if (firebase == null) {
             try (final InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))) {
                 final FirebaseOptions options = FirebaseOptions.builder()
                         .setCredentials(GoogleCredentials.fromStream(input))
                         .build();
-                return FirebaseApp.initializeApp(options);
+                firebase = FirebaseApp.initializeApp(options);
+                ExpiredCache.set(CACHE_TYPE, name, firebase);
             }
         }
         return firebase;

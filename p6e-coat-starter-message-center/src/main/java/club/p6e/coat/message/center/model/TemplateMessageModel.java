@@ -94,4 +94,25 @@ public interface TemplateMessageModel extends TemplateModel {
      */
     void setAttachment(List<File> files);
 
+    /**
+     * 设置日志参数
+     *
+     * @param param 日志参数
+     */
+    void setLogData(Map<String, String> param);
+
+    /**
+     * 添加日志参数
+     *
+     * @param key   日志参数 KEY
+     * @param value 日志参数 VALUE
+     */
+    void putLogData(String key, String value);
+
+    /**
+     * 获取日志参数
+     *
+     * @return 日志参数
+     */
+    Map<String, String> getLogData();
 }

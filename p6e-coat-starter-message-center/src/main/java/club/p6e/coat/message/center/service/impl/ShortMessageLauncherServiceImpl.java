@@ -1,17 +1,19 @@
 package club.p6e.coat.message.center.service.impl;
 
 import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.message.center.ExpiredCache;
 import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.model.ShortMessageConfigModel;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
+import club.p6e.coat.message.center.service.LogService;
 import club.p6e.coat.message.center.service.ShortMessageLauncherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lidashuang
@@ -23,7 +25,17 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
     /**
      * 最大收件人长度
      */
-    public static final int MAX_RECIPIENT_LENGTH = 100;
+    public static final int MAX_RECIPIENT_LENGTH = 50;
+
+    /**
+     * 默认的模板解析器名称
+     */
+    private static final String DEFAULT_PARSER = "DEFAULT";
+
+    /**
+     * 缓存类型
+     */
+    private static final String CACHE_TYPE = "SMS_A_LI_YUN_CLIENT";
 
     /**
      * 注入日志对象
@@ -31,9 +43,9 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
     private static final Logger LOGGER = LoggerFactory.getLogger(ShortMessageLauncherServiceImpl.class);
 
     /**
-     * 客户端缓存对象
+     * 日志服务
      */
-    private static final Map<String, com.aliyun.dysmsapi20170525.Client> CLIENT_CACHE = new ConcurrentHashMap<>();
+    private final LogService logService;
 
     /**
      * 消息中心线程池对象
@@ -43,31 +55,38 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
     /**
      * 构造方法注入
      *
+     * @param logService 日志服务对象
      * @param threadPool 消息中心线程池对象
      */
-    public ShortMessageLauncherServiceImpl(MessageCenterThreadPool threadPool) {
+    public ShortMessageLauncherServiceImpl(LogService logService, MessageCenterThreadPool threadPool) {
+        this.logService = logService;
         this.threadPool = threadPool;
     }
 
     @Override
     public String name() {
-        return "DEFAULT";
+        return DEFAULT_PARSER;
     }
 
     @Override
-    public List<String> execute(List<String> recipients, TemplateMessageModel template, ShortMessageConfigModel config) {
+    public Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, ShortMessageConfigModel config) {
         final int size = recipients.size();
+        final Map<String, List<String>> result = new HashMap<>(16);
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
             final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            final Map<String, List<String>> ls = logService.create(rs, template);
+            result.putAll(ls);
             threadPool.submit(() -> {
                 try {
                     execute(getClient(config), rs, template);
                 } catch (Exception e) {
-                    LOGGER.error("ALI_YUN SMS CONFIG ERROR >>> " + e.getMessage());
+                    LOGGER.error("A_LI_YUN SMS CONFIG ERROR >>> " + e.getMessage());
+                } finally {
+                    logService.update(ls, "SUCCESS");
                 }
             });
         }
-        return recipients;
+        return result;
     }
 
 
@@ -79,11 +98,9 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
      * @throws Exception 异常对象
      */
     private com.aliyun.dysmsapi20170525.Client getClient(ShortMessageConfigModel config) throws Exception {
-        final String name = config.getApplicationName();
-        com.aliyun.dysmsapi20170525.Client client = CLIENT_CACHE.get(name);
+        com.aliyun.dysmsapi20170525.Client client = ExpiredCache.get(CACHE_TYPE, config.getApplicationName());
         if (client == null) {
             client = createClient(config);
-            CLIENT_CACHE.put(name, client);
         }
         return client;
     }
@@ -100,13 +117,14 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
         final String name = config.getApplicationName();
         final String domain = config.getApplicationDomain();
         final String secret = config.getApplicationSecret();
-        final com.aliyun.dysmsapi20170525.Client client = CLIENT_CACHE.get(name);
+        com.aliyun.dysmsapi20170525.Client client = ExpiredCache.get(CACHE_TYPE, name);
         if (client == null) {
             final com.aliyun.teaopenapi.models.Config aliyunConfig = new com.aliyun.teaopenapi.models.Config();
             aliyunConfig.setAccessKeyId(id);
             aliyunConfig.setAccessKeySecret(secret);
             aliyunConfig.setEndpoint(domain);
-            return new com.aliyun.dysmsapi20170525.Client(aliyunConfig);
+            client = new com.aliyun.dysmsapi20170525.Client(aliyunConfig);
+            ExpiredCache.set(CACHE_TYPE, name, client);
         }
         return client;
     }
