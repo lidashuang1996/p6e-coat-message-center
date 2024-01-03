@@ -14,6 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +91,8 @@ public class DataSourceRepository {
             "      \"mcl\".\"name\" AS \"name\",    " +
             "      \"mcl\".\"route\" AS \"route\",    " +
             "      \"mcl\".\"route_source\" AS \"route_source\",    " +
+            "      \"mcl\".\"parser\" AS \"route\",    " +
+            "      \"mcl\".\"parser_source\" AS \"route_source\",    " +
             "      \"mcl\".\"template\" AS \"template\",    " +
             "      \"mcl\".\"description\" AS \"description\"    " +
             "    FROM    " +
@@ -110,6 +114,42 @@ public class DataSourceRepository {
             "      \"p6e_mc_launcher_config_mapper\" AS \"mcp\"    " +
             "    WHERE    " +
             "      \"mcp\".\"lid\"  =  ?    " +
+            "    ;    ";
+
+    /**
+     * 创建日志的 SQL
+     */
+    @SuppressWarnings("ALL")
+    private static final String CREATE_LOG_SQL = "" +
+            "    INSERT INTO " +
+            "      \"p6e_mc_log\" (    " +
+            "        \"no\",    " +
+            "        \"parent\",    " +
+            "        \"params\",    " +
+            "        \"lid\",    " +
+            "        \"tid\",    " +
+            "        \"cid\",    " +
+            "        \"date\",    " +
+            "        \"result\",    " +
+            "        \"result_date\"    " +
+            "      )    " +
+            "    VALUES  (    " +
+            "       ?, ?, ?, ?, ?, ?, ?, ?, ? " +
+            "    )    " +
+            "    ;    ";
+
+    /**
+     * 创建日志的 SQL
+     */
+    @SuppressWarnings("ALL")
+    private static final String UPDATE_LOG_SQL = "" +
+            "    UPDATE " +
+            "      \"p6e_mc_log\"     " +
+            "    SET     " +
+            "      \"result\"  =  ?,     " +
+            "      \"result_date\"  =  ?    " +
+            "    WHERE\n" +
+            "      \t\"no\" = ?    " +
             "    ;    ";
 
     /**
@@ -331,8 +371,10 @@ public class DataSourceRepository {
                     final String type = rs.getString("type");
                     final String name = rs.getString("name");
                     final String template = rs.getString("template");
-                    final String route = rs.getString("pattern");
+                    final String route = rs.getString("route");
                     final byte[] routeSource = blobToBytes(rs.getBlob("route_source"));
+                    final String parser = rs.getString("parser");
+                    final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
                     final String description = rs.getString("description");
 
                     @Override
@@ -381,6 +423,16 @@ public class DataSourceRepository {
                     }
 
                     @Override
+                    public String parser() {
+                        return parser;
+                    }
+
+                    @Override
+                    public byte[] parserSource() {
+                        return parserSource;
+                    }
+
+                    @Override
                     public List<ConfigMapperModel> configs() {
                         return configs;
                     }
@@ -423,6 +475,37 @@ public class DataSourceRepository {
             LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
         }
         return result;
+    }
+
+    public boolean createLog(String no, String parent, String params, int lid, int tid, int cid, LocalDateTime createDate) {
+        try (final Connection connection = dataSource.getConnection()) {
+            final PreparedStatement preparedStatement = connection.prepareStatement(CREATE_LOG_SQL);
+            final Date date = new Date(createDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+            preparedStatement.setString(1, no);
+            preparedStatement.setString(2, parent);
+            preparedStatement.setString(3, params);
+            preparedStatement.setInt(4, lid);
+            preparedStatement.setInt(5, tid);
+            preparedStatement.setInt(6, cid);
+            preparedStatement.setDate(7, date);
+            return preparedStatement.executeUpdate() > 0;
+        } catch (Exception e) {
+            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
+        }
+        return false;
+    }
+
+    public void updateLog(String no, String result, LocalDateTime resultDate) {
+        try (final Connection connection = dataSource.getConnection()) {
+            final PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_LOG_SQL);
+            final Date date = new Date(resultDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+            preparedStatement.setString(1, result);
+            preparedStatement.setDate(2, date);
+            preparedStatement.setString(3, no);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
+        }
     }
 
 }

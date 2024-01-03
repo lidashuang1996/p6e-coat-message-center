@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
@@ -244,6 +245,8 @@ public class TemplateParserServiceImpl implements TemplateParserService {
          */
         private final TemplateModel model;
 
+        private final Map<String, String> logData = new ConcurrentHashMap<>();
+
         /**
          * 构造方法注入源配置对象
          *
@@ -371,6 +374,22 @@ public class TemplateParserServiceImpl implements TemplateParserService {
         @Override
         public void setAttachment(List<File> files) {
             attachments = files;
+        }
+
+        @Override
+        public void setLogData(Map<String, String> param) {
+            logData.clear();
+            logData.putAll(param);
+        }
+
+        @Override
+        public void putLogData(String key, String value) {
+            logData.put(key, value);
+        }
+
+        @Override
+        public Map<String, String> getLogData() {
+            return logData;
         }
 
     }

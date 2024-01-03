@@ -333,7 +333,7 @@ public class TransmitterServiceImpl implements TransmitterService {
 
 
     @Override
-    public List<String> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments) {
+    public Map<String, List<String>> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments) {
         // 读取发射器数据对象
         LauncherModel launcherModel = getLauncherData(id);
         if (launcherModel == null) {
