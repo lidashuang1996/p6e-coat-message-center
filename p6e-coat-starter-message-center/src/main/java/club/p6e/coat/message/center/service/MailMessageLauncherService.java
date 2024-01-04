@@ -4,6 +4,7 @@ import club.p6e.coat.message.center.model.MailMessageConfigModel;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lidashuang
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface MailMessageLauncherService extends LauncherService<MailMessageConfigModel> {
 
-    List<String> execute(List<String> recipients, TemplateMessageModel template, MailMessageConfigModel config);
+    Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, MailMessageConfigModel config);
 
 
 }

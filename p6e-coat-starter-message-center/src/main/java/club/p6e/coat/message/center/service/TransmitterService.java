@@ -22,6 +22,6 @@ public interface TransmitterService {
      * @param attachments 附件对象
      * @return 发送结果
      */
-    List<String> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments);
+    Map<String, List<String>> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments);
 
 }

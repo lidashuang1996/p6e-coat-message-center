@@ -4,6 +4,7 @@ import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lidashuang
@@ -13,6 +14,6 @@ public interface LauncherService<T extends ConfigModel> {
 
     String name();
 
-    List<String> execute(List<String> recipients, TemplateMessageModel template, T config);
+    Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, T config);
 
 }

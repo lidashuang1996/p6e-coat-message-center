@@ -1,5 +1,7 @@
 package club.p6e.coat.message.center.service.impl;
 
+import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.message.center.ExternalSourceClassLoader;
 import club.p6e.coat.message.center.model.*;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.service.*;
@@ -222,31 +224,69 @@ public class TransmitterServiceImpl implements TransmitterService {
     }
 
     /**
-     * 获取发射器服务
+     * 获取发射器路由服务
+     *
+     * @param launcher 发射器数据对象
+     * @return 发射器路由服务
      */
-    private LauncherService<?> getLauncherService(ConfigModel config, Map<String, LauncherService<?>> data) {
+    private LauncherRouteService getLauncherRouteService(LauncherModel launcher) {
+        final String route = launcher.route();
+        if (route.startsWith("package:")) {
+            final byte[] classBytes = launcher.routeSource();
+            final String className = route.substring(8);
+            return ExternalSourceClassLoader.getInstance()
+                    .newClassInstance(className, classBytes, LauncherRouteService.class);
+        } else {
+            return launcherRouteServiceMap.get(route);
+        }
+    }
+
+    /**
+     * 获取配置解析器服务
+     *
+     * @param config 配置数据对象
+     * @return 配置解析器服务
+     */
+    private ConfigParserService getConfigParserService(ConfigModel config) {
         final String parser = config.parser();
         if (parser.startsWith("package:")) {
-            final String[] ps = parser.split(":");
-            if (ps.length == 2) {
-                final String className = ps[1];
-                try {
-                    final Class<?> clazz = Class.forName(className);
-                    final Object obj = clazz.newInstance();
-                    if (obj instanceof LauncherService) {
-                        final LauncherService<?> service = (LauncherService<?>) obj;
-                        data.put(parser, service);
-                        return service;
-                    } else {
-                        throw new RuntimeException("[" + parser + "] class is not implements LauncherService.");
-                    }
-                } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                    throw new RuntimeException("[" + parser + "] class not found.");
-                }
-            } else {
-                throw new RuntimeException("[" + parser + "] class name is null.");
-            }
+            final byte[] classBytes = config.parserSource();
+            final String className = parser.substring(8);
+            return ExternalSourceClassLoader.getInstance()
+                    .newClassInstance(className, classBytes, ConfigParserService.class);
+        } else {
+            return configParserServiceMap.get(parser);
+        }
+    }
 
+    /**
+     * 获取模板解析器服务
+     *
+     * @param template 模板数据对象
+     * @return 模板解析器服务
+     */
+    private TemplateParserService getTemplateParserService(TemplateModel template) {
+        final String parser = template.parser();
+        if (parser.startsWith("package:")) {
+            final byte[] classBytes = template.parserSource();
+            final String className = parser.substring(8);
+            return ExternalSourceClassLoader.getInstance()
+                    .newClassInstance(className, classBytes, TemplateParserService.class);
+        } else {
+            return templateParserServiceMap.get(parser);
+        }
+    }
+
+    /**
+     * 获取发射器服务
+     */
+    private LauncherService<?> getLauncherService(LauncherModel launcher, Map<String, LauncherService<?>> data) {
+        final String parser = launcher.parser();
+        if (parser.startsWith("package:")) {
+            final byte[] classBytes = launcher.parserSource();
+            final String className = parser.substring(8);
+            return ExternalSourceClassLoader.getInstance()
+                    .newClassInstance(className, classBytes, LauncherService.class);
         } else {
             return data.get(parser);
         }
@@ -255,77 +295,45 @@ public class TransmitterServiceImpl implements TransmitterService {
     /**
      * 获取邮件消息发射器服务
      */
-    private MailMessageLauncherService getMailMessageLauncherService(ConfigModel config) {
+    private MailMessageLauncherService getMailMessageLauncherService(LauncherModel launcher) {
         final LauncherService<?> launcherService =
-                getLauncherService(config, new HashMap<>(mailMessageLauncherServiceMap));
+                getLauncherService(launcher, new HashMap<>(mailMessageLauncherServiceMap));
         if (launcherService instanceof final MailMessageLauncherService service) {
             return service;
         }
-        throw new RuntimeException();
+        throw new RuntimeException("Unable to obtain corresponding mail " +
+                "message launcher service <" + MailMessageLauncherService.class + ">.");
     }
 
-    private ShortMessageLauncherService getShortMessageLauncherService(ConfigModel config) {
+    /**
+     * 获取短消息发射器服务
+     */
+    private ShortMessageLauncherService getShortMessageLauncherService(LauncherModel launcher) {
         final LauncherService<?> launcherService =
-                getLauncherService(config, new HashMap<>(shortMessageLauncherServiceMap));
+                getLauncherService(launcher, new HashMap<>(shortMessageLauncherServiceMap));
         if (launcherService instanceof final ShortMessageLauncherService service) {
             return service;
         }
-        throw new RuntimeException();
+        throw new RuntimeException("Unable to obtain corresponding short " +
+                "message launcher service <" + ShortMessageLauncherService.class + ">.");
     }
 
-    private MobileMessageLauncherService getMobileMessageLauncherService(ConfigModel config) {
+    /**
+     * 获取移动消息发射器服务
+     */
+    private MobileMessageLauncherService getMobileMessageLauncherService(LauncherModel launcher) {
         final LauncherService<?> launcherService =
-                getLauncherService(config, new HashMap<>(mobileMessageLauncherServiceMap));
+                getLauncherService(launcher, new HashMap<>(mobileMessageLauncherServiceMap));
         if (launcherService instanceof final MobileMessageLauncherService service) {
             return service;
         }
-        throw new RuntimeException();
+        throw new RuntimeException("Unable to obtain corresponding mobile " +
+                "message launcher service <" + MobileMessageLauncherService.class + ">.");
     }
 
-    private LauncherRouteService getLauncherRouteService(LauncherModel launcher) {
-        final String route = launcher.route();
-        if (route.startsWith("package:")) {
-            final String[] ps = route.split(":");
-            if (ps.length == 2) {
-                return null;
-            } else {
-                throw new RuntimeException("[" + route + "] class name is null.");
-            }
-        } else {
-            return launcherRouteServiceMap.get(route);
-        }
-    }
-
-    private ConfigParserService getConfigParserService(ConfigModel config) {
-        final String parser = config.parser();
-        if (parser.startsWith("package:")) {
-            final String[] ps = parser.split(":");
-            if (ps.length == 2) {
-                return null;
-            } else {
-                throw new RuntimeException("[" + parser + "] class name is null.");
-            }
-        } else {
-            return configParserServiceMap.get(parser);
-        }
-    }
-
-    private TemplateParserService getTemplateParserService(TemplateModel template) {
-        final String parser = template.parser();
-        if (parser.startsWith("package:")) {
-            final String[] ps = parser.split(":");
-            if (ps.length == 2) {
-                return null;
-            } else {
-                throw new RuntimeException("[" + parser + "] class name is null.");
-            }
-        } else {
-            return templateParserServiceMap.get(parser);
-        }
-    }
 
     @Override
-    public List<String> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments) {
+    public Map<String, List<String>> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments) {
         // 读取发射器数据对象
         LauncherModel launcherModel = getLauncherData(id);
         if (launcherModel == null) {
@@ -370,28 +378,31 @@ public class TransmitterServiceImpl implements TransmitterService {
         if (templateMessageModel == null) {
             throw new NullPointerException("[" + id + "] launcher model mapper template, analysis template convert exception.");
         }
+        templateMessageModel.putLogData("config", String.valueOf(configModel.id()));
+        templateMessageModel.putLogData("template", String.valueOf(templateModel.id()));
+        templateMessageModel.putLogData("launcher", String.valueOf(launcherModel.id()));
+        if (attachments != null) {
+            templateMessageModel.putLogData("attachment", JsonUtil.toJson(attachments.stream().map(File::getName).toList()));
+        }
         // 类型判断分发
         switch (launcherModel.type()) {
             case SMS:
                 if (configModel instanceof final ShortMessageConfigModel cm) {
-                    return getShortMessageLauncherService(cm).execute(
-                            recipients, templateMessageModel, (ShortMessageConfigModel) configModel);
+                    return getShortMessageLauncherService(launcherModel).execute(recipients, templateMessageModel, cm);
                 } else {
                     throw new RuntimeException("[" + id + "] launcher model SMS " +
                             "[ route-config/" + configModel.getClass() + " ] type exception.");
                 }
             case MAIL:
                 if (configModel instanceof final MailMessageConfigModel cm) {
-                    return getMailMessageLauncherService(cm).execute(
-                            recipients, templateMessageModel, cm);
+                    return getMailMessageLauncherService(launcherModel).execute(recipients, templateMessageModel, cm);
                 } else {
                     throw new RuntimeException("[" + id + "] launcher model MAIL " +
                             "[ route-config/" + configModel.getClass() + " ] type exception.");
                 }
             case MOBILE:
                 if (configModel instanceof final MobileMessageConfigModel cm) {
-                    return getMobileMessageLauncherService(cm).execute(
-                            recipients, templateMessageModel, cm);
+                    return getMobileMessageLauncherService(launcherModel).execute(recipients, templateMessageModel, cm);
                 } else {
                     throw new RuntimeException("[" + id + "] launcher model MOBILE " +
                             "[ route-config/" + configModel.getClass() + " ] type exception.");

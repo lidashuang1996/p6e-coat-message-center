@@ -23,7 +23,7 @@ import java.util.Map;
         value = MailMessageConfigParserService.class,
         ignored = MailMessageConfigParserServiceImpl.class
 )
-public abstract class MailMessageConfigParserServiceImpl implements MailMessageConfigParserService {
+public class MailMessageConfigParserServiceImpl implements MailMessageConfigParserService {
 
     /**
      * 默认的模板解析器名称

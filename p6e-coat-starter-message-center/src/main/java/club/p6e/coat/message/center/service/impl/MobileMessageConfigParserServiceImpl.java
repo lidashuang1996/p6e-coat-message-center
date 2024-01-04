@@ -21,7 +21,17 @@ import java.util.Map;
         value = MobileMessageConfigParserServiceImpl.class,
         ignored = MobileMessageConfigParserServiceImpl.class
 )
-public abstract class MobileMessageConfigParserServiceImpl implements MobileMessageConfigParserService {
+public class MobileMessageConfigParserServiceImpl implements MobileMessageConfigParserService {
+
+    /**
+     * 默认的模板解析器名称
+     */
+    private static final String DEFAULT_PARSER = "DEFAULT";
+
+    @Override
+    public String name() {
+        return DEFAULT_PARSER;
+    }
 
     @Override
     public MobileMessageConfigModel execute(ConfigModel config) {

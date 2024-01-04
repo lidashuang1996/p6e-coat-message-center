@@ -6,6 +6,7 @@ import club.p6e.coat.common.utils.Sha256Util;
 import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.model.MobileMessageConfigModel;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
+import club.p6e.coat.message.center.service.LogService;
 import club.p6e.coat.message.center.service.MobileMessageLauncherService;
 import club.p6e.coat.message.center.ExpiredCache;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,12 +28,20 @@ import java.util.Map;
 @Component
 public class MobileMessageLauncherServiceColorOsImpl implements MobileMessageLauncherService {
 
-    private static final String TYPE = "COLOR_OS";
-
     /**
      * 最多的收件人长度
      */
     public static final int MAX_RECIPIENT_LENGTH = 300;
+
+    /**
+     * 默认的模板解析器名称
+     */
+    private static final String COLOR_OS_PARSER = "COLOR_OS";
+
+    /**
+     * 缓存类型
+     */
+    private static final String CACHE_TYPE = "MOBILE_COLOR_OS_CLIENT";
 
     /**
      * 注入日志对象
@@ -40,29 +49,69 @@ public class MobileMessageLauncherServiceColorOsImpl implements MobileMessageLau
     private static final Logger LOGGER = LoggerFactory.getLogger(MobileMessageLauncherServiceColorOsImpl.class);
 
     /**
+     * 日志服务
+     */
+    private final LogService logService;
+
+    /**
      * 消息中心线程池对象
      */
     private final MessageCenterThreadPool threadPool;
 
     /**
-     * 构造方法注入
+     * 构造方法初始化
      *
      * @param threadPool 消息中心线程池对象
      */
-    public MobileMessageLauncherServiceColorOsImpl(MessageCenterThreadPool threadPool) {
+    public MobileMessageLauncherServiceColorOsImpl(LogService logService, MessageCenterThreadPool threadPool) {
+        this.logService = logService;
         this.threadPool = threadPool;
     }
 
     @Override
     public String name() {
-
-        return null;
+        return COLOR_OS_PARSER;
     }
 
     @Override
-    public List<String> execute(List<String> recipients, TemplateMessageModel template, MobileMessageConfigModel config) {
+    public Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, MobileMessageConfigModel config) {
+        final int size = recipients.size();
+        final String content = template.getMessageContent();
+        final Map<String, List<String>> result = new HashMap<>(16);
+        for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
+            final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            final Map<String, List<String>> ls = logService.create(rs, template);
+            result.putAll(ls);
+            threadPool.submit(() -> {
+                try {
+                    getClient(config).pushMessage(rs, content);
+                } catch (Exception e) {
+                    LOGGER.error("COLOR_OS MMS ERROR >>> " + e.getMessage());
+                } finally {
+                    logService.update(ls, "SUCCESS");
+                }
+            });
+        }
+        return result;
+    }
+
+    private Client getClient(MobileMessageConfigModel config) {
         final String name = config.getApplicationName();
-        Client client = ExpiredCache.get(TYPE, name);
+        Client client = ExpiredCache.get(CACHE_TYPE, name);
+        if (client == null) {
+            client = createClient(config);
+        }
+        return client;
+    }
+
+    /**
+     * 创建 FirebaseApp 对象
+     *
+     * @param config 配置对象
+     */
+    private synchronized Client createClient(MobileMessageConfigModel config) {
+        final String name = config.getApplicationName();
+        Client client = ExpiredCache.get(CACHE_TYPE, name);
         if (client == null) {
             client = new Client(
                     config.getApplicationId(),
@@ -70,22 +119,8 @@ public class MobileMessageLauncherServiceColorOsImpl implements MobileMessageLau
                     config.getApplicationSecret(),
                     config.getOther()
             );
-            ExpiredCache.set(TYPE, name, client);
         }
-        final Client finalClient = client;
-        final int size = recipients.size();
-        final String content = template.getMessageContent();
-        for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
-            final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
-            threadPool.submit(() -> {
-                try {
-                    finalClient.pushMessage(rs, content);
-                } catch (Exception e) {
-                    LOGGER.error("COLOR_OS MMS ERROR >>> " + e.getMessage());
-                }
-            });
-        }
-        return recipients;
+        return client;
     }
 
 

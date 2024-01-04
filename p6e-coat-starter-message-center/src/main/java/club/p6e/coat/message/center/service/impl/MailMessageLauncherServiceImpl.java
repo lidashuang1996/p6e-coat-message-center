@@ -1,12 +1,13 @@
 package club.p6e.coat.message.center.service.impl;
 
 import club.p6e.coat.common.utils.FileUtil;
+import club.p6e.coat.common.utils.Md5Util;
+import club.p6e.coat.message.center.ExpiredCache;
 import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.model.MailMessageConfigModel;
+import club.p6e.coat.message.center.service.LogService;
 import club.p6e.coat.message.center.service.MailMessageLauncherService;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -20,7 +21,7 @@ import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,22 +37,19 @@ import java.util.Map;
 public class MailMessageLauncherServiceImpl implements MailMessageLauncherService {
 
     /**
-     * 缓存模型对象
+     * 最大收件人长度
      */
-    @Data
-    @AllArgsConstructor
-    private static class CacheModel {
-        private String name;
-        private long date;
-        private Session session;
-    }
+    public static final int MAX_RECIPIENT_LENGTH = 20;
 
     /**
-     * 缓存时间
+     * 默认的模板解析器名称
      */
-    public static final long CACHE_TIME = 1000 * 60 * 60 * 24;
+    private static final String DEFAULT_PARSER = "DEFAULT";
 
-    public static final int MAX_RECIPIENT_LENGTH = 30;
+    /**
+     * 缓存类型
+     */
+    private static final String CACHE_TYPE = "MAIL_CLIENT";
 
     /**
      * 注入日志对象
@@ -59,47 +57,34 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
     private static final Logger LOGGER = LoggerFactory.getLogger(MailMessageLauncherServiceImpl.class);
 
     /**
+     * 日志服务
+     */
+    private final LogService logService;
+
+
+    /**
      * 消息中心线程池对象
      */
     private final MessageCenterThreadPool threadPool;
-
-    /**
-     * 缓存模型对象
-     */
-    private final Map<String, CacheModel> cache = new LinkedHashMap<>();
 
     /**
      * 构造方法初始化
      *
      * @param threadPool 消息中心线程池对象
      */
-    public MailMessageLauncherServiceImpl(MessageCenterThreadPool threadPool) {
+    public MailMessageLauncherServiceImpl(LogService logService, MessageCenterThreadPool threadPool) {
+        this.logService = logService;
         this.threadPool = threadPool;
     }
 
-    private Session getSession(String from, String password, java.util.Properties properties) {
-        final String key = from + "_" + password;
-        final long now = System.currentTimeMillis();
-        CacheModel model = cache.get(key);
-        if (model == null || model.getDate() + CACHE_TIME < now) {
-            model = new CacheModel(from, now, Session.getInstance(properties, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(from, password);
-                }
-            }));
-            cache.put(key, model);
-        }
-        return model.getSession() == null ? null : model.getSession();
-    }
 
     @Override
     public String name() {
-        return "DEFAULT";
+        return DEFAULT_PARSER;
     }
 
     @Override
-    public List<String> execute(List<String> recipients, TemplateMessageModel template, MailMessageConfigModel config) {
+    public Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, MailMessageConfigModel config) {
         if (config == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found config data is null");
@@ -112,8 +97,6 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
             throw new NullPointerException(
                     "when performing the send email operation, it was found recipients is null");
         }
-        String from;
-        String password;
         final java.util.Properties properties = new java.util.Properties();
         properties.put("mail.smtp.auth", config.isAuth());
         properties.put("mail.smtp.port", config.getPort());
@@ -128,14 +111,11 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the from in config data is null");
         } else {
-            from = config.getFrom();
             properties.put("mail.smtp.from", config.getFrom());
         }
         if (config.getPassword() == null) {
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the password in config data is null");
-        } else {
-            password = config.getPassword();
         }
         if (config.getOther() != null) {
             for (final String key : config.getOther().keySet()) {
@@ -152,13 +132,48 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
             throw new NullPointerException(
                     "when performing the send email operation, it was found that the content in template data is null");
         }
-        final Session session = getSession(from, password, properties);
         final int size = recipients.size();
+        final Map<String, List<String>> result = new HashMap<>(16);
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
             final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
-            threadPool.submit(() -> send(session, from, rs, template));
+            final Map<String, List<String>> ls = logService.create(rs, template);
+            result.putAll(ls);
+            threadPool.submit(() -> {
+                try {
+                    send(getClient(config, properties), config.getFrom(), rs, template);
+                } catch (Exception e) {
+                    // ignore
+                } finally {
+                    logService.update(ls, "SUCCESS");
+                }
+            });
         }
-        return null;
+        return result;
+    }
+
+
+    private Session getClient(MailMessageConfigModel config, java.util.Properties properties) {
+        final String key = Md5Util.execute(config.getFrom() + "_" + config.getPassword());
+        Session session = ExpiredCache.get(CACHE_TYPE, key);
+        if (session == null) {
+            session = createClient(config, properties);
+        }
+        return session;
+    }
+
+    private synchronized Session createClient(MailMessageConfigModel config, java.util.Properties properties) {
+        final String key = Md5Util.execute(config.getFrom() + "_" + config.getPassword());
+        Session session = ExpiredCache.get(CACHE_TYPE, key);
+        if (session == null) {
+            session = Session.getInstance(properties, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(config.getFrom(), config.getPassword());
+                }
+            });
+            ExpiredCache.set(CACHE_TYPE, key, session);
+        }
+        return session;
     }
 
 

@@ -5,7 +5,6 @@ import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.ShortMessageConfigModel;
 import club.p6e.coat.message.center.service.ShortMessageConfigParserService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -17,11 +16,7 @@ import java.util.Map;
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = ShortMessageConfigParserServiceImpl.class,
-        ignored = ShortMessageConfigParserServiceImpl.class
-)
-public abstract class ShortMessageConfigParserServiceImpl implements ShortMessageConfigParserService {
+public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigParserService {
 
     /**
      * 默认的模板解析器名称
@@ -51,11 +46,35 @@ public abstract class ShortMessageConfigParserServiceImpl implements ShortMessag
     }
 
     private static class SimpleShortMessageConfigModel implements ShortMessageConfigModel, Serializable {
+
+        /**
+         * 应用名称
+         */
         private String applicationName;
+
+        /**
+         * 应用 ID
+         */
         private String applicationId;
+
+        /**
+         * 应用 KEY
+         */
         private String applicationKey;
+
+        /**
+         * 应用密钥
+         */
         private String applicationSecret;
+
+        /**
+         * 应用作用域
+         */
         private String applicationDomain;
+
+        /**
+         * 其它参数
+         */
         private Map<String, String> other = new HashMap<>();
 
         /**

@@ -4,12 +4,13 @@ import club.p6e.coat.message.center.model.TemplateMessageModel;
 import club.p6e.coat.message.center.model.TemplateModel;
 import club.p6e.coat.message.center.service.TemplateParserService;
 import club.p6e.coat.message.center.service.TemplateVariableParserService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
@@ -19,10 +20,6 @@ import java.util.function.Function;
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = TemplateParserServiceImpl.class,
-        ignored = TemplateParserServiceImpl.class
-)
 public class TemplateParserServiceImpl implements TemplateParserService {
 
     /**
@@ -221,7 +218,7 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     /**
      * 简单的通讯模板模型
      */
-    private static class SimpleTemplateMessageModel implements TemplateMessageModel {
+    private static class SimpleTemplateMessageModel implements TemplateMessageModel, Serializable {
 
         /**
          * 请求参数
@@ -247,6 +244,8 @@ public class TemplateParserServiceImpl implements TemplateParserService {
          * 源配置对象
          */
         private final TemplateModel model;
+
+        private final Map<String, String> logData = new ConcurrentHashMap<>();
 
         /**
          * 构造方法注入源配置对象
@@ -375,6 +374,22 @@ public class TemplateParserServiceImpl implements TemplateParserService {
         @Override
         public void setAttachment(List<File> files) {
             attachments = files;
+        }
+
+        @Override
+        public void setLogData(Map<String, String> param) {
+            logData.clear();
+            logData.putAll(param);
+        }
+
+        @Override
+        public void putLogData(String key, String value) {
+            logData.put(key, value);
+        }
+
+        @Override
+        public Map<String, String> getLogData() {
+            return logData;
         }
 
     }
