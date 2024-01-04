@@ -148,8 +148,8 @@ public class DataSourceRepository {
             "    SET     " +
             "      \"result\"  =  ?,     " +
             "      \"result_date\"  =  ?    " +
-            "    WHERE\n" +
-            "      \t\"no\" = ?    " +
+            "    WHERE    " +
+            "      \"no\" = ?    " +
             "    ;    ";
 
     /**
