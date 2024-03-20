@@ -27,7 +27,6 @@ public final class ExpiredCache implements Serializable {
         }
     }
 
-
     private static final Map<String, ConcurrentHashMap<String, Model>> CACHE = new ConcurrentHashMap<>();
 
     @SuppressWarnings("ALL")

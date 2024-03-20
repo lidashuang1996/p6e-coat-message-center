@@ -5,6 +5,7 @@ import club.p6e.coat.common.utils.SnowflakeIdUtil;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.service.LogService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -14,10 +15,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 日志服务
+ *
  * @author lidashuang
  * @version 1.0
  */
 @Component
+@ConditionalOnMissingBean(
+        value = LogServiceImpl.class,
+        ignored = LogServiceImpl.class
+)
 public class LogServiceImpl implements LogService {
 
     private static final String LOG_SNOWFLAKE_NAME = "log";

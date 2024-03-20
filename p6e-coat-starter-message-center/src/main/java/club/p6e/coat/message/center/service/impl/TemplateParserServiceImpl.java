@@ -1,9 +1,10 @@
 package club.p6e.coat.message.center.service.impl;
 
-import club.p6e.coat.message.center.model.TemplateMessageModel;
 import club.p6e.coat.message.center.model.TemplateModel;
+import club.p6e.coat.message.center.model.TemplateMessageModel;
 import club.p6e.coat.message.center.service.TemplateParserService;
 import club.p6e.coat.message.center.service.TemplateVariableParserService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
@@ -20,17 +21,21 @@ import java.util.function.Function;
  * @version 1.0
  */
 @Component
+@ConditionalOnMissingBean(
+        value = TemplateParserService.class,
+        ignored = TemplateParserServiceImpl.class
+)
 public class TemplateParserServiceImpl implements TemplateParserService {
-
-    /**
-     * 是否用变量名替换空的值
-     */
-    public static boolean IS_VARIABLES_REPLACE_EMPTY_VALUE = false;
 
     /**
      * 默认的模板解析器名称
      */
     private static final String DEFAULT_PARSER = "DEFAULT";
+
+    /**
+     * 是否用变量名替换空的值
+     */
+    public static boolean IS_VARIABLES_REPLACE_EMPTY_VALUE = false;
 
     /**
      * 标记开始的符号
@@ -178,7 +183,6 @@ public class TemplateParserServiceImpl implements TemplateParserService {
      * @param templateVariableParserList 模板变量解析器列表
      */
     public TemplateParserServiceImpl(List<TemplateVariableParserService> templateVariableParserList) {
-        // 对模板变量解析器列表进行排序
         templateVariableParserList.sort(Comparator.comparingInt(Ordered::getOrder));
         this.templateVariableParserList = templateVariableParserList;
     }
@@ -207,11 +211,10 @@ public class TemplateParserServiceImpl implements TemplateParserService {
                 }
                 return value;
             };
-            final Map<String, String> param = Objects.requireNonNullElseGet(data, HashMap::new);
-            setMessageContent(convert(template.content(), vf));
-            setMessageTitle(convert(template.title(), vf));
             setAttachment(attachments);
-            setMessageParam(param);
+            setMessageParam(new HashMap<>(data));
+            setMessageTitle(convert(template.title(), vf));
+            setMessageContent(convert(template.content(), vf));
         }};
     }
 
@@ -219,11 +222,6 @@ public class TemplateParserServiceImpl implements TemplateParserService {
      * 简单的通讯模板模型
      */
     private static class SimpleTemplateMessageModel implements TemplateMessageModel, Serializable {
-
-        /**
-         * 请求参数
-         */
-        private Map<String, String> param;
 
         /**
          * 标题
@@ -241,10 +239,18 @@ public class TemplateParserServiceImpl implements TemplateParserService {
         private List<File> attachments;
 
         /**
+         * 请求参数
+         */
+        private Map<String, String> param;
+
+        /**
          * 源配置对象
          */
         private final TemplateModel model;
 
+        /**
+         * 日志数据对象
+         */
         private final Map<String, String> logData = new ConcurrentHashMap<>();
 
         /**

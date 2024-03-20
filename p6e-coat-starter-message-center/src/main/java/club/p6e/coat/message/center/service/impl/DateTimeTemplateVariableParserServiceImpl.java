@@ -50,4 +50,5 @@ public class DateTimeTemplateVariableParserServiceImpl implements TemplateVariab
     public int getOrder() {
         return ORDER;
     }
+    
 }

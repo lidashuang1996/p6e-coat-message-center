@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -31,7 +32,7 @@ public class MobileMessageLauncherServiceColorOsImpl implements MobileMessageLau
     /**
      * 最多的收件人长度
      */
-    public static final int MAX_RECIPIENT_LENGTH = 300;
+    public static int MAX_RECIPIENT_LENGTH = 300;
 
     /**
      * 默认的模板解析器名称

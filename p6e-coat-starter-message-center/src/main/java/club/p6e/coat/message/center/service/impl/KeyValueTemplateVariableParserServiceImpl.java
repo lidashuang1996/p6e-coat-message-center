@@ -79,4 +79,5 @@ public class KeyValueTemplateVariableParserServiceImpl implements TemplateVariab
     public int getOrder() {
         return ORDER;
     }
+
 }

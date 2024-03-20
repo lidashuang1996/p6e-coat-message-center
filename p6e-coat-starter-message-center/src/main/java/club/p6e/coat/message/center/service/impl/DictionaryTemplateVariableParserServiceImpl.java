@@ -79,4 +79,5 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
     public int getOrder() {
         return ORDER;
     }
+
 }

@@ -15,7 +15,7 @@ public interface TransmitterService {
     /**
      * 发送消息
      *
-     * @param id          发射器的编号
+     * @param id          编号
      * @param language    语言
      * @param recipients  收件人
      * @param data        参数对象

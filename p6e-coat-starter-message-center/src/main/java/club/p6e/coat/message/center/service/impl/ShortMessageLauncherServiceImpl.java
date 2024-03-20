@@ -25,17 +25,17 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
     /**
      * 最大收件人长度
      */
-    public static final int MAX_RECIPIENT_LENGTH = 50;
+    public static int MAX_RECIPIENT_LENGTH = 50;
+
+    /**
+     * 缓存类型
+     */
+    protected static final String CACHE_TYPE = "SMS_A_LI_YUN_CLIENT";
 
     /**
      * 默认的模板解析器名称
      */
     private static final String DEFAULT_PARSER = "DEFAULT";
-
-    /**
-     * 缓存类型
-     */
-    private static final String CACHE_TYPE = "SMS_A_LI_YUN_CLIENT";
 
     /**
      * 注入日志对象
@@ -73,22 +73,21 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
         final int size = recipients.size();
         final Map<String, List<String>> result = new HashMap<>(16);
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
-            final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
-            final Map<String, List<String>> ls = logService.create(rs, template);
-            result.putAll(ls);
+            final List<String> recipient = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            final Map<String, List<String>> logData = logService.create(recipient, template);
+            result.putAll(logData);
             threadPool.submit(() -> {
                 try {
-                    execute(getClient(config), rs, template);
+                    execute(getClient(config), recipient, template);
                 } catch (Exception e) {
-                    LOGGER.error("A_LI_YUN SMS CONFIG ERROR >>> " + e.getMessage());
+                    // ignore
                 } finally {
-                    logService.update(ls, "SUCCESS");
+                    logService.update(logData, "SUCCESS");
                 }
             });
         }
         return result;
     }
-
 
     /**
      * 获取客户端
@@ -97,7 +96,7 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
      * @return 短信客户端对象
      * @throws Exception 异常对象
      */
-    private com.aliyun.dysmsapi20170525.Client getClient(ShortMessageConfigModel config) throws Exception {
+    protected com.aliyun.dysmsapi20170525.Client getClient(ShortMessageConfigModel config) throws Exception {
         com.aliyun.dysmsapi20170525.Client client = ExpiredCache.get(CACHE_TYPE, config.getApplicationName());
         if (client == null) {
             client = createClient(config);
@@ -112,7 +111,7 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
      * @return 短信客户端对象
      * @throws Exception 异常对象
      */
-    private synchronized com.aliyun.dysmsapi20170525.Client createClient(ShortMessageConfigModel config) throws Exception {
+    protected synchronized com.aliyun.dysmsapi20170525.Client createClient(ShortMessageConfigModel config) throws Exception {
         final String id = config.getApplicationId();
         final String name = config.getApplicationName();
         final String domain = config.getApplicationDomain();
@@ -129,17 +128,21 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
         return client;
     }
 
-    private void execute(com.aliyun.dysmsapi20170525.Client client, List<String> recipients, TemplateMessageModel template) throws Exception {
-        final String title = template.getMessageTitle();
-        final Map<String, String> params = template.getMessageParam();
-        final com.aliyun.teautil.models.RuntimeOptions
-                runtimeOptions = new com.aliyun.teautil.models.RuntimeOptions();
-        final com.aliyun.dysmsapi20170525.models.SendBatchSmsRequest
-                sendBatchSmsRequest = new com.aliyun.dysmsapi20170525.models.SendBatchSmsRequest();
-        sendBatchSmsRequest.setTemplateCode(title);
-        sendBatchSmsRequest.setTemplateParamJson(JsonUtil.toJson(params));
-        sendBatchSmsRequest.setPhoneNumberJson(JsonUtil.toJson(recipients));
-        client.sendBatchSmsWithOptions(sendBatchSmsRequest, runtimeOptions);
+    protected void execute(com.aliyun.dysmsapi20170525.Client client, List<String> recipients, TemplateMessageModel template) throws Exception {
+        try {
+            final String title = template.getMessageTitle();
+            final Map<String, String> params = template.getMessageParam();
+            final com.aliyun.teautil.models.RuntimeOptions
+                    runtimeOptions = new com.aliyun.teautil.models.RuntimeOptions();
+            final com.aliyun.dysmsapi20170525.models.SendBatchSmsRequest
+                    sendBatchSmsRequest = new com.aliyun.dysmsapi20170525.models.SendBatchSmsRequest();
+            sendBatchSmsRequest.setTemplateCode(title);
+            sendBatchSmsRequest.setTemplateParamJson(JsonUtil.toJson(params));
+            sendBatchSmsRequest.setPhoneNumberJson(JsonUtil.toJson(recipients));
+            client.sendBatchSmsWithOptions(sendBatchSmsRequest, runtimeOptions);
+        } catch (Exception e) {
+            LOGGER.error("[ SHORT MESSAGE SEND ERROR ]", e);
+        }
     }
 
 }

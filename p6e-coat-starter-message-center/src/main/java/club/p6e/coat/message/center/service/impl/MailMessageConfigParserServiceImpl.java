@@ -56,7 +56,7 @@ public class MailMessageConfigParserServiceImpl implements MailMessageConfigPars
     /**
      * 简单邮件消息配置模型
      */
-    private static class SimpleMailMessageConfigModel implements MailMessageConfigModel, Serializable {
+    public static class SimpleMailMessageConfigModel implements MailMessageConfigModel, Serializable {
         /**
          * 端口
          */

@@ -5,6 +5,8 @@ import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.ShortMessageConfigModel;
 import club.p6e.coat.message.center.service.ShortMessageConfigParserService;
+import club.p6e.coat.message.center.service.ShortMessageLauncherService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -16,6 +18,10 @@ import java.util.Map;
  * @version 1.0
  */
 @Component
+@ConditionalOnMissingBean(
+        value = ShortMessageConfigParserService.class,
+        ignored = ShortMessageConfigParserServiceImpl.class
+)
 public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigParserService {
 
     /**
@@ -45,12 +51,7 @@ public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigPa
         }};
     }
 
-    private static class SimpleShortMessageConfigModel implements ShortMessageConfigModel, Serializable {
-
-        /**
-         * 应用名称
-         */
-        private String applicationName;
+    public static class SimpleShortMessageConfigModel implements ShortMessageConfigModel, Serializable {
 
         /**
          * 应用 ID
@@ -61,6 +62,11 @@ public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigPa
          * 应用 KEY
          */
         private String applicationKey;
+
+        /**
+         * 应用名称
+         */
+        private String applicationName;
 
         /**
          * 应用密钥
@@ -136,17 +142,6 @@ public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigPa
             return model == null ? null : model.rule();
         }
 
-
-        @Override
-        public void setApplicationName(String name) {
-            this.applicationName = name;
-        }
-
-        @Override
-        public String getApplicationName() {
-            return applicationName;
-        }
-
         @Override
         public void setApplicationId(String id) {
             this.applicationId = id;
@@ -165,6 +160,16 @@ public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigPa
         @Override
         public String getApplicationKey() {
             return applicationKey;
+        }
+
+        @Override
+        public void setApplicationName(String name) {
+            this.applicationName = name;
+        }
+
+        @Override
+        public String getApplicationName() {
+            return applicationName;
         }
 
         @Override

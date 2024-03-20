@@ -11,20 +11,6 @@ import java.util.Map;
 public interface MobileMessageConfigModel extends ConfigModel {
 
     /**
-     * 设置应用名称
-     *
-     * @param name 应用名称
-     */
-    void setApplicationName(String name);
-
-    /**
-     * 获取应用名称
-     *
-     * @return 应用名称
-     */
-    String getApplicationName();
-
-    /**
      * 设置应用编号
      *
      * @param id 应用编号
@@ -51,6 +37,20 @@ public interface MobileMessageConfigModel extends ConfigModel {
      * @return 应用 KEY
      */
     String getApplicationKey();
+
+    /**
+     * 设置应用名称
+     *
+     * @param name 应用名称
+     */
+    void setApplicationName(String name);
+
+    /**
+     * 获取应用名称
+     *
+     * @return 应用名称
+     */
+    String getApplicationName();
 
     /**
      * 设置应用密钥

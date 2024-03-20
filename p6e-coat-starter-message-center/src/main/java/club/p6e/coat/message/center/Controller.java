@@ -4,7 +4,6 @@ import club.p6e.coat.common.context.ResultContext;
 import club.p6e.coat.common.error.ParameterException;
 import club.p6e.coat.common.utils.FileUtil;
 import club.p6e.coat.message.center.service.TransmitterService;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +16,6 @@ import java.util.Map;
  * @author lidashuang
  * @version 1.0
  */
-@Component
 @RestController
 @RequestMapping("")
 public class Controller {
@@ -53,12 +51,10 @@ public class Controller {
                 }
                 file.transferTo(out);
             } catch (Exception e) {
-                throw new ParameterException(this.getClass(), e.getMessage(), "Request parameter exception.");
+                throw new ParameterException(this.getClass(), "fun push(...) >>> " + e.getMessage() + ".", "Request parameter exception.");
             }
         }
-        return ResultContext.build(
-                this.transmitterService.push(id, language, recipients, data, list)
-        );
+        return ResultContext.build(transmitterService.push(id, language, recipients, data, list));
     }
 
 }

@@ -10,7 +10,6 @@ import club.p6e.coat.message.center.service.MailMessageLauncherService;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import javax.mail.*;
@@ -30,26 +29,22 @@ import java.util.Map;
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = MailMessageLauncherService.class,
-        ignored = MailMessageLauncherServiceImpl.class
-)
 public class MailMessageLauncherServiceImpl implements MailMessageLauncherService {
 
     /**
      * 最大收件人长度
      */
-    public static final int MAX_RECIPIENT_LENGTH = 20;
+    public static int MAX_RECIPIENT_LENGTH = 20;
+
+    /**
+     * 缓存类型
+     */
+    protected static final String CACHE_TYPE = "MAIL_CLIENT";
 
     /**
      * 默认的模板解析器名称
      */
     private static final String DEFAULT_PARSER = "DEFAULT";
-
-    /**
-     * 缓存类型
-     */
-    private static final String CACHE_TYPE = "MAIL_CLIENT";
 
     /**
      * 注入日志对象
@@ -59,13 +54,12 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
     /**
      * 日志服务
      */
-    private final LogService logService;
-
+    protected final LogService logService;
 
     /**
      * 消息中心线程池对象
      */
-    private final MessageCenterThreadPool threadPool;
+    protected final MessageCenterThreadPool threadPool;
 
     /**
      * 构造方法初始化
@@ -76,7 +70,6 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
         this.logService = logService;
         this.threadPool = threadPool;
     }
-
 
     @Override
     public String name() {
@@ -135,16 +128,16 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
         final int size = recipients.size();
         final Map<String, List<String>> result = new HashMap<>(16);
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
-            final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
-            final Map<String, List<String>> ls = logService.create(rs, template);
-            result.putAll(ls);
+            final List<String> recipient = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            final Map<String, List<String>> logData = logService.create(recipient, template);
+            result.putAll(logData);
             threadPool.submit(() -> {
                 try {
-                    send(getClient(config, properties), config.getFrom(), rs, template);
+                    send(getClient(config, properties), config.getFrom(), recipient, template);
                 } catch (Exception e) {
                     // ignore
                 } finally {
-                    logService.update(ls, "SUCCESS");
+                    logService.update(logData, "SUCCESS");
                 }
             });
         }
@@ -152,18 +145,18 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
     }
 
 
-    private Session getClient(MailMessageConfigModel config, java.util.Properties properties) {
-        final String key = Md5Util.execute(config.getFrom() + "_" + config.getPassword());
-        Session session = ExpiredCache.get(CACHE_TYPE, key);
+    protected Session getClient(MailMessageConfigModel config, java.util.Properties properties) {
+        final String name = Md5Util.execute(config.getHost() + ":"
+                + config.getPort() + "@" + config.getFrom() + "_" + config.getPassword());
+        Session session = ExpiredCache.get(CACHE_TYPE, name);
         if (session == null) {
-            session = createClient(config, properties);
+            session = createClient(name, config, properties);
         }
         return session;
     }
 
-    private synchronized Session createClient(MailMessageConfigModel config, java.util.Properties properties) {
-        final String key = Md5Util.execute(config.getFrom() + "_" + config.getPassword());
-        Session session = ExpiredCache.get(CACHE_TYPE, key);
+    protected synchronized Session createClient(String name, MailMessageConfigModel config, java.util.Properties properties) {
+        Session session = ExpiredCache.get(CACHE_TYPE, name);
         if (session == null) {
             session = Session.getInstance(properties, new Authenticator() {
                 @Override
@@ -171,7 +164,7 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
                     return new PasswordAuthentication(config.getFrom(), config.getPassword());
                 }
             });
-            ExpiredCache.set(CACHE_TYPE, key, session);
+            ExpiredCache.set(CACHE_TYPE, name, session);
         }
         return session;
     }
@@ -185,7 +178,7 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
      * @param recipients 收件人
      * @param template   模板对象
      */
-    private void send(Session session, String from, List<String> recipients, TemplateMessageModel template) {
+    protected void send(Session session, String from, List<String> recipients, TemplateMessageModel template) {
         try {
             if (recipients != null && !recipients.isEmpty()) {
                 final List<InternetAddress> list = new ArrayList<>();
@@ -197,8 +190,8 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
                         Message.RecipientType.BCC,
                         list.toArray(new InternetAddress[0])
                 );
-                message.setFrom(new InternetAddress(from));
                 message.setSubject(template.title());
+                message.setFrom(new InternetAddress(from));
                 final MimeMultipart multipart = new MimeMultipart();
                 final MimeBodyPart htmlBodyPart = new MimeBodyPart();
                 htmlBodyPart.setContent(template.content(), "text/html; charset=utf-8");
@@ -220,15 +213,15 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
                                     "attachment" + (i == 0 ? "" : ("_" + i)), suffix));
                             multipart.addBodyPart(attachmentBodyPart);
                         } catch (Exception e) {
-                            LOGGER.error("[MAIL MESSAGE ATTACHMENT]", e);
+                            LOGGER.error("[ MAIL MESSAGE ATTACHMENT ERROR ]", e);
                         }
                     }
                 }
                 message.setContent(multipart);
                 Transport.send(message);
             }
-        } catch (MessagingException e) {
-            LOGGER.error("[MAIL MESSAGE]", e);
+        } catch (Exception e) {
+            LOGGER.error("[ MAIL MESSAGE SEND ERROR ]", e);
         }
     }
 

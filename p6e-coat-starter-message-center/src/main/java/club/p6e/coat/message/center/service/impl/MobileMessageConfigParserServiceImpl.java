@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Component
 @ConditionalOnMissingBean(
-        value = MobileMessageConfigParserServiceImpl.class,
+        value = MobileMessageConfigParserService.class,
         ignored = MobileMessageConfigParserServiceImpl.class
 )
 public class MobileMessageConfigParserServiceImpl implements MobileMessageConfigParserService {
@@ -52,12 +52,7 @@ public class MobileMessageConfigParserServiceImpl implements MobileMessageConfig
     /**
      * 简单邮件消息配置模型
      */
-    private static class SimpleMobileMessageConfigModel implements MobileMessageConfigModel, Serializable {
-
-        /**
-         * 应用名称
-         */
-        private String applicationName;
+    public static class SimpleMobileMessageConfigModel implements MobileMessageConfigModel, Serializable {
 
         /**
          * 应用编号
@@ -68,6 +63,11 @@ public class MobileMessageConfigParserServiceImpl implements MobileMessageConfig
          * 应用 KEY
          */
         private String applicationKey;
+
+        /**
+         * 应用名称
+         */
+        private String applicationName;
 
         /**
          * 应用密钥
@@ -140,16 +140,6 @@ public class MobileMessageConfigParserServiceImpl implements MobileMessageConfig
         }
 
         @Override
-        public void setApplicationName(String name) {
-            this.applicationName = name;
-        }
-
-        @Override
-        public String getApplicationName() {
-            return applicationName;
-        }
-
-        @Override
         public void setApplicationId(String id) {
             this.applicationId = id;
         }
@@ -167,6 +157,17 @@ public class MobileMessageConfigParserServiceImpl implements MobileMessageConfig
         @Override
         public String getApplicationKey() {
             return applicationKey;
+        }
+
+
+        @Override
+        public void setApplicationName(String name) {
+            this.applicationName = name;
+        }
+
+        @Override
+        public String getApplicationName() {
+            return applicationName;
         }
 
         @Override

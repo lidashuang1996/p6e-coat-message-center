@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 日志服务
+ *
  * @author lidashuang
  * @version 1.0
  */

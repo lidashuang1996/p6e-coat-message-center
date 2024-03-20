@@ -3,7 +3,7 @@ package club.p6e.coat.message.center.service;
 import org.springframework.core.Ordered;
 
 /**
- * 变量解析器
+ * 模板变量解析器服务
  *
  * @author lidashuang
  * @version 1.0
