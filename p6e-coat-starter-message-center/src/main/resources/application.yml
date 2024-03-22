@@ -1,8 +1,7 @@
 server:
-  port: 9999
+  port: 22000
 spring:
   config:
-#    import: /opt/p6e/console/p6e-console-application.yml
     import: D:\\env\p6e-coat-file-application.yml
 logging:
   config: 'classpath:p6e-coat-logback.xml'

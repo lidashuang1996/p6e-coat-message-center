@@ -1,6 +1,5 @@
 package club.p6e.coat.message.center.service;
 
-import club.p6e.coat.message.center.model.MailMessageConfigModel;
 import club.p6e.coat.message.center.model.MobileMessageConfigModel;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 

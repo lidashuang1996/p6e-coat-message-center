@@ -282,11 +282,11 @@ public class TransmitterServiceImpl implements TransmitterService {
      */
     protected LauncherRouteService getLauncherRouteService(LauncherModel launcher) {
         final String route = launcher.route();
-        if (route.startsWith("package:")) {
+        if (route.startsWith("classname:")) {
             final byte[] classBytes = launcher.routeSource();
             final String className = route.substring(8);
             return ExternalSourceClassLoader.getInstance()
-                    .newClassInstance(className, classBytes, LauncherRouteService.class);
+                    .newPackageClassInstance(className, classBytes, LauncherRouteService.class);
         } else {
             return launcherRouteServiceMap.get(route);
         }
@@ -300,11 +300,11 @@ public class TransmitterServiceImpl implements TransmitterService {
      */
     protected ConfigParserService getConfigParserService(ConfigModel config) {
         final String parser = config.parser();
-        if (parser.startsWith("package:")) {
+        if (parser.startsWith("classname:")) {
             final byte[] classBytes = config.parserSource();
             final String className = parser.substring(8);
             return ExternalSourceClassLoader.getInstance()
-                    .newClassInstance(className, classBytes, ConfigParserService.class);
+                    .newPackageClassInstance(className, classBytes, ConfigParserService.class);
         } else {
             return configParserServiceMap.get(parser);
         }
@@ -318,11 +318,11 @@ public class TransmitterServiceImpl implements TransmitterService {
      */
     protected TemplateParserService getTemplateParserService(TemplateModel template) {
         final String parser = template.parser();
-        if (parser.startsWith("package:")) {
+        if (parser.startsWith("classname:")) {
             final byte[] classBytes = template.parserSource();
             final String className = parser.substring(8);
             return ExternalSourceClassLoader.getInstance()
-                    .newClassInstance(className, classBytes, TemplateParserService.class);
+                    .newPackageClassInstance(className, classBytes, TemplateParserService.class);
         } else {
             return templateParserServiceMap.get(parser);
         }
@@ -333,11 +333,11 @@ public class TransmitterServiceImpl implements TransmitterService {
      */
     protected LauncherService<?> getLauncherService(LauncherModel launcher, Map<String, LauncherService<?>> data) {
         final String parser = launcher.parser();
-        if (parser.startsWith("package:")) {
+        if (parser.startsWith("classname:")) {
             final byte[] classBytes = launcher.parserSource();
             final String className = parser.substring(8);
             return ExternalSourceClassLoader.getInstance()
-                    .newClassInstance(className, classBytes, LauncherService.class);
+                    .newPackageClassInstance(className, classBytes, LauncherService.class);
         } else {
             return data.get(parser);
         }

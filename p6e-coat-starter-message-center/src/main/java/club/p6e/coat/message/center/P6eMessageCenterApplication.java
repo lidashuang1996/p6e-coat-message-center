@@ -2,11 +2,7 @@ package club.p6e.coat.message.center;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 
-import java.util.List;
-
-@ServletComponentScan
 @SpringBootApplication
 public class P6eMessageCenterApplication {
 
