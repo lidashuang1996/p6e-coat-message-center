@@ -173,7 +173,7 @@ public class DataSourceRepository {
             }
             return outputStream.toByteArray();
         } catch (SQLException | IOException e) {
-            LOGGER.info("DATA SOURCE BLOB TO BYTES ERROR", e);
+            LOGGER.error("DATA SOURCE BLOB TO BYTES ERROR", e);
             return null;
         }
     }
@@ -188,6 +188,7 @@ public class DataSourceRepository {
      *
      * @param dataSource 数据源对象
      */
+    @SuppressWarnings("ALL")
     public DataSourceRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -267,7 +268,7 @@ public class DataSourceRepository {
                 };
             }
         } catch (Exception e) {
-            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
+            LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
         }
         return null;
     }
@@ -348,7 +349,7 @@ public class DataSourceRepository {
                 };
             }
         } catch (Exception e) {
-            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
+            LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
         }
         return null;
     }
@@ -439,7 +440,7 @@ public class DataSourceRepository {
                 };
             }
         } catch (Exception e) {
-            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
+            LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
         }
         return null;
     }
@@ -472,7 +473,7 @@ public class DataSourceRepository {
                 });
             }
         } catch (Exception e) {
-            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
+            LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
         }
         return result;
     }
@@ -490,7 +491,7 @@ public class DataSourceRepository {
             preparedStatement.setDate(7, date);
             return preparedStatement.executeUpdate() > 0;
         } catch (Exception e) {
-            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
+            LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
         }
         return false;
     }
@@ -504,7 +505,7 @@ public class DataSourceRepository {
             preparedStatement.setString(3, no);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            LOGGER.info("DATA SOURCE REPOSITORY ERROR", e);
+            LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
         }
     }
 

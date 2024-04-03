@@ -4,6 +4,7 @@ import club.p6e.coat.common.context.ResultContext;
 import club.p6e.coat.common.error.ParameterException;
 import club.p6e.coat.common.utils.FileUtil;
 import club.p6e.coat.message.center.service.TransmitterService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,10 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("")
+@ConditionalOnMissingBean(
+        value = Controller.class,
+        ignored = Controller.class
+)
 public class Controller {
 
     public static String BASE_PATH = "./attachment";

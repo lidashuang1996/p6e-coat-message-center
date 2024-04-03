@@ -2,6 +2,7 @@ package club.p6e.coat.message.center.service.impl;
 
 import club.p6e.coat.common.utils.JsonUtil;
 import club.p6e.coat.common.utils.SnowflakeIdUtil;
+import club.p6e.coat.message.center.SnowflakeId;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.service.LogService;
@@ -27,11 +28,12 @@ import java.util.Map;
 )
 public class LogServiceImpl implements LogService {
 
-    private static final String LOG_SNOWFLAKE_NAME = "log";
+    private final SnowflakeId snowflakeId;
 
     private final DataSourceRepository repository;
 
-    public LogServiceImpl(DataSourceRepository repository) {
+    public LogServiceImpl(SnowflakeId snowflakeId, DataSourceRepository repository) {
+        this.snowflakeId = snowflakeId;
         this.repository = repository;
     }
 
@@ -40,7 +42,7 @@ public class LogServiceImpl implements LogService {
     public Map<String, List<String>> create(List<String> recipients, TemplateMessageModel message) {
         final LocalDateTime now = LocalDateTime.now();
         final Map<String, List<String>> result = new HashMap<>(16);
-        final String parent = String.valueOf(SnowflakeIdUtil.getInstance(LOG_SNOWFLAKE_NAME).nextId());
+        final String parent = String.valueOf(snowflakeId.generate());
         final int config = Integer.parseInt(message.getLogData().get("config"));
         final int template = Integer.parseInt(message.getLogData().get("template"));
         final int launcher = Integer.parseInt(message.getLogData().get("launcher"));
@@ -48,15 +50,13 @@ public class LogServiceImpl implements LogService {
         if (message.getLogData().get("attachment") != null) {
             params.put("__attachment__", message.getLogData().get("attachment"));
         }
-        if (repository.createLog(parent, null,
-                JsonUtil.toJson(params), launcher, template, config, now)) {
+        if (repository.createLog(parent, null, JsonUtil.toJson(params), launcher, template, config, now)) {
             result.put(parent, new ArrayList<>());
         }
         for (final String recipient : recipients) {
             params.put("__recipient__", recipient);
-            final String no = String.valueOf(SnowflakeIdUtil.getInstance(LOG_SNOWFLAKE_NAME).nextId());
-            if (repository.createLog(no, parent,
-                    JsonUtil.toJson(params), launcher, template, config, now)) {
+            final String no = String.valueOf(SnowflakeIdUtil.getInstance(SnowflakeId.LOG_SNOWFLAKE_NAME).nextId());
+            if (repository.createLog(no, parent, JsonUtil.toJson(params), launcher, template, config, now)) {
                 result.get(parent).add(no);
             }
         }

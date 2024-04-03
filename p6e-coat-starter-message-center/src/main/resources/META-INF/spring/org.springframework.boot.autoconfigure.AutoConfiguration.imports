@@ -13,4 +13,5 @@ club.p6e.coat.message.center.service.impl.ShortMessageLauncherServiceImpl
 club.p6e.coat.message.center.service.impl.TemplateParserServiceImpl
 club.p6e.coat.message.center.service.impl.TransmitterServiceImpl
 club.p6e.coat.message.center.Controller
+club.p6e.coat.message.center.SnowflakeId
 club.p6e.coat.message.center.MessageCenterThreadPool
