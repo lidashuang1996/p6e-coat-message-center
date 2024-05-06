@@ -15,9 +15,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lidashuang
@@ -91,8 +92,8 @@ public class DataSourceRepository {
             "      \"mcl\".\"name\" AS \"name\",    " +
             "      \"mcl\".\"route\" AS \"route\",    " +
             "      \"mcl\".\"route_source\" AS \"route_source\",    " +
-            "      \"mcl\".\"parser\" AS \"route\",    " +
-            "      \"mcl\".\"parser_source\" AS \"route_source\",    " +
+            "      \"mcl\".\"parser\" AS \"parser\",    " +
+            "      \"mcl\".\"parser_source\" AS \"parser_source\",    " +
             "      \"mcl\".\"template\" AS \"template\",    " +
             "      \"mcl\".\"description\" AS \"description\"    " +
             "    FROM    " +
@@ -117,6 +118,20 @@ public class DataSourceRepository {
             "    ;    ";
 
     /**
+     * 配置的查询 SQL
+     */
+    @SuppressWarnings("ALL")
+    private static final String QUERY_DICTIONARY_LIST_SQL = "" +
+            "    SELECT    " +
+            "      \"mcd\".\"id\" AS \"id\",    " +
+            "      \"mcd\".\"key\" AS \"key\",    " +
+            "      \"mcd\".\"value\" AS \"value\",    " +
+            "      \"mcd\".\"language\" AS \"language\"    " +
+            "    FROM    " +
+            "      \"p6e_mc_dictionary\" AS \"mcd\"    " +
+            "    ;    ";
+
+    /**
      * 创建日志的 SQL
      */
     @SuppressWarnings("ALL")
@@ -129,12 +144,10 @@ public class DataSourceRepository {
             "        \"lid\",    " +
             "        \"tid\",    " +
             "        \"cid\",    " +
-            "        \"date\",    " +
-            "        \"result\",    " +
-            "        \"result_date\"    " +
+            "        \"date_time\"    " +
             "      )    " +
             "    VALUES  (    " +
-            "       ?, ?, ?, ?, ?, ?, ?, ?, ? " +
+            "       ?, ?, ?, ?, ?, ?, ? " +
             "    )    " +
             "    ;    ";
 
@@ -147,7 +160,7 @@ public class DataSourceRepository {
             "      \"p6e_mc_log\"     " +
             "    SET     " +
             "      \"result\"  =  ?,     " +
-            "      \"result_date\"  =  ?    " +
+            "      \"result_date_time\"  =  ?    " +
             "    WHERE    " +
             "      \"no\" = ?    " +
             "    ;    ";
@@ -196,25 +209,25 @@ public class DataSourceRepository {
     /**
      * 查询配置源
      *
+     * @param configId 配置 ID
      * @return 配置源对象
      */
-    public ConfigModel getConfigData(int id) {
+    public ConfigModel getConfigData(int configId) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_CONFIG_SQL);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, configId);
             final ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
+                final Integer id = rs.getInt("id");
+                final String rule = rs.getString("rule");
+                final String type = rs.getString("type");
+                final Integer enable = rs.getInt("enable");
+                final String name = rs.getString("name");
+                final String content = rs.getString("content");
+                final String description = rs.getString("description");
+                final String parser = rs.getString("parser");
+                final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
                 return new ConfigModel() {
-                    private final Integer id = rs.getInt("id");
-                    private final String rule = rs.getString("rule");
-                    private final String type = rs.getString("type");
-                    private final Integer enable = rs.getInt("enable");
-                    private final String name = rs.getString("name");
-                    private final String content = rs.getString("content");
-                    private final String description = rs.getString("description");
-                    private final String parser = rs.getString("parser");
-                    private final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
-
                     @Override
                     public int id() {
                         return id;
@@ -276,26 +289,28 @@ public class DataSourceRepository {
     /**
      * 查询模板源
      *
+     * @param templateKey      模板 KEY
+     * @param templateLanguage 模板 LANGUAGE
      * @return 模板源对象
      */
-    public TemplateModel getTemplateData(String key, String language) {
+    public TemplateModel getTemplateData(String templateKey, String templateLanguage) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_KEY_LANGUAGE_TEMPLATE_SQL);
-            preparedStatement.setString(1, key);
-            preparedStatement.setString(2, language);
+            preparedStatement.setString(1, templateKey);
+            preparedStatement.setString(2, templateLanguage);
             final ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
+                final Integer id = rs.getInt("id");
+                final String key = rs.getString("key");
+                final String type = rs.getString("type");
+                final String name = rs.getString("name");
+                final String language = rs.getString("language");
+                final String title = rs.getString("title");
+                final String content = rs.getString("content");
+                final String description = rs.getString("description");
+                final String parser = rs.getString("parser");
+                final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
                 return new TemplateModel() {
-                    final Integer id = rs.getInt("id");
-                    final String key = rs.getString("key");
-                    final String type = rs.getString("type");
-                    final String name = rs.getString("name");
-                    final String language = rs.getString("language");
-                    final String title = rs.getString("title");
-                    final String content = rs.getString("content");
-                    final String description = rs.getString("description");
-                    final String parser = rs.getString("parser");
-                    final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
 
                     @Override
                     public Integer id() {
@@ -357,26 +372,27 @@ public class DataSourceRepository {
     /**
      * 查询发射器源
      *
+     * @param launcherId 发射器 ID
      * @return 发射器源对象
      */
-    public LauncherModel getLauncherData(int id) {
+    public LauncherModel getLauncherData(int launcherId) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID_LAUNCHER_SQL);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, launcherId);
             final ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                final List<LauncherModel.ConfigMapperModel> configs = getLauncherConfigMappers(id);
+                final List<LauncherModel.ConfigMapperModel> configs = getLauncherConfigMappers(launcherId);
+                final Integer id = rs.getInt("id");
+                final Integer enable = rs.getInt("enable");
+                final String type = rs.getString("type");
+                final String name = rs.getString("name");
+                final String template = rs.getString("template");
+                final String route = rs.getString("route");
+                final byte[] routeSource = blobToBytes(rs.getBlob("route_source"));
+                final String parser = rs.getString("parser");
+                final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
+                final String description = rs.getString("description");
                 return new LauncherModel() {
-                    final Integer id = rs.getInt("id");
-                    final Integer enable = rs.getInt("enable");
-                    final String type = rs.getString("type");
-                    final String name = rs.getString("name");
-                    final String template = rs.getString("template");
-                    final String route = rs.getString("route");
-                    final byte[] routeSource = blobToBytes(rs.getBlob("route_source"));
-                    final String parser = rs.getString("parser");
-                    final byte[] parserSource = blobToBytes(rs.getBlob("parser_source"));
-                    final String description = rs.getString("description");
 
                     @Override
                     public Integer id() {
@@ -448,19 +464,19 @@ public class DataSourceRepository {
     /**
      * 查询发射器映射源列表
      *
+     * @param launcherId 发射器 ID
      * @return 发射器映射源列表
      */
-    private List<LauncherModel.ConfigMapperModel> getLauncherConfigMappers(int id) {
+    private List<LauncherModel.ConfigMapperModel> getLauncherConfigMappers(int launcherId) {
         final List<LauncherModel.ConfigMapperModel> result = new ArrayList<>();
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_LAUNCHER_CONFIG_MAPPER_SQL);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, launcherId);
             final ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
+                final Integer lid = rs.getInt("lid");
+                final String attribute = rs.getString("attribute");
                 result.add(new LauncherModel.ConfigMapperModel() {
-                    private final Integer lid = rs.getInt("lid");
-                    private final String attribute = rs.getString("attribute");
-
                     @Override
                     public Integer id() {
                         return lid;
@@ -478,17 +494,57 @@ public class DataSourceRepository {
         return result;
     }
 
-    public boolean createLog(String no, String parent, String params, int lid, int tid, int cid, LocalDateTime createDate) {
+
+    /**
+     * 查询字典数据列表
+     *
+     * @return 字典数据列表
+     */
+    public List<Map<String, Object>> getDictionary() {
+        final List<Map<String, Object>> result = new ArrayList<>();
+        try (final Connection connection = dataSource.getConnection()) {
+            final PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DICTIONARY_LIST_SQL);
+            final ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                final Integer id = rs.getInt("id");
+                final String key = rs.getString("key");
+                final String value = rs.getString("value");
+                final String language = rs.getString("language");
+                result.add(new HashMap<>() {{
+                    put("id", id);
+                    put("key", key);
+                    put("value", value);
+                    put("language", language);
+                }});
+            }
+        } catch (Exception e) {
+            LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
+        }
+        return result;
+    }
+
+    /**
+     * 创建日志
+     *
+     * @param no       日志编号
+     * @param parent   父日志编号
+     * @param params   请求参数
+     * @param lid      发射 ID
+     * @param tid      模板 ID
+     * @param cid      配置 ID
+     * @param dateTime 创建时间
+     * @return 是否创建日志成功
+     */
+    public boolean createLog(String no, String parent, String params, int lid, int tid, int cid, LocalDateTime dateTime) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(CREATE_LOG_SQL);
-            final Date date = new Date(createDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
             preparedStatement.setString(1, no);
             preparedStatement.setString(2, parent);
             preparedStatement.setString(3, params);
             preparedStatement.setInt(4, lid);
             preparedStatement.setInt(5, tid);
             preparedStatement.setInt(6, cid);
-            preparedStatement.setDate(7, date);
+            preparedStatement.setTimestamp(7, Timestamp.valueOf(dateTime));
             return preparedStatement.executeUpdate() > 0;
         } catch (Exception e) {
             LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
@@ -496,12 +552,18 @@ public class DataSourceRepository {
         return false;
     }
 
-    public void updateLog(String no, String result, LocalDateTime resultDate) {
+    /**
+     * 更新日志
+     *
+     * @param no             日志编号
+     * @param result         日志结果
+     * @param resultDateTime 日志结果时间
+     */
+    public void updateLog(String no, String result, LocalDateTime resultDateTime) {
         try (final Connection connection = dataSource.getConnection()) {
             final PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_LOG_SQL);
-            final Date date = new Date(resultDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
             preparedStatement.setString(1, result);
-            preparedStatement.setDate(2, date);
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(resultDateTime));
             preparedStatement.setString(3, no);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

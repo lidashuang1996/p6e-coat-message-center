@@ -1,9 +1,0 @@
-{
-  "tls": "true",
-  "auth": "true",
-  "from": "15549562863@163.com",
-  "host": "smtp.163.com",
-  "port": "465",
-  "password": "OGZUYKJJIUFTYSJT",
-  "@mail.smtp.ssl.protocols": "TLSv1.2"
-}

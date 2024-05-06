@@ -37,7 +37,7 @@ public class MobileMessageLauncherServiceGoogleImpl implements MobileMessageLaun
     /**
      * 默认的模板解析器名称
      */
-    private static final String GOOGLE_PARSER = "GOOGLE";
+    private static final String GOOGLE_PARSER = "MOBILE_GOOGLE";
 
     /**
      * 缓存类型
@@ -79,14 +79,19 @@ public class MobileMessageLauncherServiceGoogleImpl implements MobileMessageLaun
         final int size = recipients.size();
         final Map<String, List<String>> result = new HashMap<>(16);
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
-            final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
-            final Map<String, List<String>> ls = logService.create(rs, template);
+            final List<String> recipient = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            final Map<String, List<String>> ls = logService.create(recipient, template);
             result.putAll(ls);
             threadPool.submit(() -> {
                 try {
-                    execute(getClient(config), rs, template);
+                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> start send mobile google.");
+                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> recipient: {}", recipient);
+                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> template title: {}", template.getMessageTitle());
+                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> template content: {}", template.getMessageContent());
+                    execute(getClient(config), recipient, template);
+                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> end send mobile google.");
                 } catch (Exception e) {
-                    LOGGER.error("GOOGLE MMS CONFIG ERROR >>> " + e.getMessage());
+                    LOGGER.error("[ MOBILE GOOGLE MESSAGE ERROR ] >>> {}", e.getMessage());
                 } finally {
                     logService.update(ls, "SUCCESS");
                 }

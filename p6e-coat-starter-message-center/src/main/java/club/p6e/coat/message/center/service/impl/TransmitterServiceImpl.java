@@ -11,10 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 发射机服务的实现类
@@ -266,7 +263,7 @@ public class TransmitterServiceImpl implements TransmitterService {
             if (tm == null) {
                 return null;
             } else {
-                ExpiredCache.set(TEMPLATE_TYPE, key + "_" + language, tm);
+                ExpiredCache.set(TEMPLATE_TYPE, key + "@" + language, tm);
                 return tm;
             }
         } else {
@@ -354,7 +351,7 @@ public class TransmitterServiceImpl implements TransmitterService {
         if (launcherService instanceof final MailMessageLauncherService service) {
             return service;
         }
-        throw new LauncherServiceNoExistException(this.getClass(),
+        throw new LauncherServiceNotExistException(this.getClass(),
                 "fun getMailMessageLauncherService(LauncherModel launcher).",
                 "Unable to obtain corresponding mail message launcher service <" + MailMessageLauncherService.class + ">."
         );
@@ -371,7 +368,7 @@ public class TransmitterServiceImpl implements TransmitterService {
         if (launcherService instanceof final ShortMessageLauncherService service) {
             return service;
         }
-        throw new LauncherServiceNoExistException(this.getClass(),
+        throw new LauncherServiceNotExistException(this.getClass(),
                 "fun getShortMessageLauncherService(LauncherModel launcher).",
                 "Unable to obtain corresponding short message launcher service <" + ShortMessageLauncherService.class + ">."
         );
@@ -388,7 +385,7 @@ public class TransmitterServiceImpl implements TransmitterService {
         if (launcherService instanceof final MobileMessageLauncherService service) {
             return service;
         }
-        throw new LauncherServiceNoExistException(this.getClass(),
+        throw new LauncherServiceNotExistException(this.getClass(),
                 "fun getMobileMessageLauncherService(LauncherModel launcher).",
                 "Unable to obtain corresponding mobile message launcher service <" + MobileMessageLauncherService.class + ">."
         );
@@ -399,11 +396,11 @@ public class TransmitterServiceImpl implements TransmitterService {
         final LauncherModel launcherModel = getLauncherData(id);
 
         if (launcherModel == null) {
-            throw new LauncherNoExistException(this.getClass(), "fun push(...).", "Launcher is not exist.");
+            throw new LauncherNotExistException(this.getClass(), "fun push(...).", "Launcher is not exist.");
         }
 
         if (!launcherModel.enable()) {
-            throw new LauncherNoEnableException(this.getClass(), "fun push(...).", "Launcher is not enabled.");
+            throw new LauncherNotEnableException(this.getClass(), "fun push(...).", "Launcher is not enabled.");
         }
 
         final List<ConfigModel> configs = new ArrayList<>();
@@ -440,7 +437,7 @@ public class TransmitterServiceImpl implements TransmitterService {
 
         final TemplateModel templateModel = getTemplateData(launcherModel.template(), language);
         if (templateModel == null) {
-            throw new LauncherTemplateNoExistException(this.getClass(), "fun push(...).",
+            throw new LauncherTemplateNotExistException(this.getClass(), "fun push(...).",
                     "Launcher(" + launcherModel.id() + ") model mapper template("
                             + launcherModel.template() + "/" + language + ") result is null.");
         }

@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -133,9 +135,13 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
             result.putAll(logData);
             threadPool.submit(() -> {
                 try {
+                    LOGGER.info("[ MAIL MESSAGE ] >>> start send mail.");
+                    LOGGER.info("[ MAIL MESSAGE ] >>> from: {}", config.getFrom());
+                    LOGGER.info("[ MAIL MESSAGE ] >>> recipient: {}", recipient);
+                    LOGGER.info("[ MAIL MESSAGE ] >>> template title: {}", template.getMessageTitle());
+                    LOGGER.info("[ MAIL MESSAGE ] >>> template content: {}", template.getMessageContent());
                     send(getClient(config, properties), config.getFrom(), recipient, template);
-                } catch (Exception e) {
-                    // ignore
+                    LOGGER.info("[ MAIL MESSAGE ] >>> end send mail.");
                 } finally {
                     logService.update(logData, "SUCCESS");
                 }
@@ -190,11 +196,11 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
                         Message.RecipientType.BCC,
                         list.toArray(new InternetAddress[0])
                 );
-                message.setSubject(template.title());
+                message.setSubject(template.getMessageTitle());
                 message.setFrom(new InternetAddress(from));
                 final MimeMultipart multipart = new MimeMultipart();
                 final MimeBodyPart htmlBodyPart = new MimeBodyPart();
-                htmlBodyPart.setContent(template.content(), "text/html; charset=utf-8");
+                htmlBodyPart.setContent(template.getMessageContent(), "text/html; charset=utf-8");
                 multipart.addBodyPart(htmlBodyPart);
                 if (template.getAttachment() != null
                         && !template.getAttachment().isEmpty()) {
@@ -206,12 +212,17 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
                                         "when performing an email sending operation, reading the attachment "
                                                 + "file [" + file + "], it was found that the file does not exist");
                             }
-                            final String suffix = FileUtil.getSuffix(file.getName());
-                            final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-                            attachmentBodyPart.attachFile(file);
-                            attachmentBodyPart.setFileName(FileUtil.composeFile(
-                                    "attachment" + (i == 0 ? "" : ("_" + i)), suffix));
-                            multipart.addBodyPart(attachmentBodyPart);
+                            if (file.getName().startsWith("embedded-")) {
+                                final MimeBodyPart embeddedBodyPart = new MimeBodyPart();
+                                embeddedBodyPart.setHeader("Content-ID", FileUtil.getName(file.getName()));
+                                embeddedBodyPart.setDataHandler(new DataHandler(new FileDataSource(file)));
+                                multipart.addBodyPart(embeddedBodyPart);
+                            } else {
+                                final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+                                attachmentBodyPart.attachFile(file);
+                                attachmentBodyPart.setFileName(file.getName());
+                                multipart.addBodyPart(attachmentBodyPart);
+                            }
                         } catch (Exception e) {
                             LOGGER.error("[ MAIL MESSAGE ATTACHMENT ERROR ]", e);
                         }

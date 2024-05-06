@@ -13,9 +13,10 @@ public interface TemplateVariableParserService extends Ordered {
     /**
      * 执行解析变量
      *
-     * @param key 变量的名称
+     * @param key      变量的名称
+     * @param language 环境的语言
      * @return 解析的值
      */
-    String execute(String key);
+    String execute(String key, String language);
 
 }

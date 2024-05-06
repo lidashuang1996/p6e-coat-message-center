@@ -2,6 +2,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 club.p6e.coat.message.center.repository.DataSourceRepository,\
 club.p6e.coat.message.center.service.impl.DateTimeTemplateVariableParserServiceImpl,\
+club.p6e.coat.message.center.service.impl.DefaultLauncherRouteServiceImpl,\
 club.p6e.coat.message.center.service.impl.DictionaryTemplateVariableParserServiceImpl,\
 club.p6e.coat.message.center.service.impl.KeyValueTemplateVariableParserServiceImpl,\
 club.p6e.coat.message.center.service.impl.LogServiceImpl,\
@@ -10,10 +11,14 @@ club.p6e.coat.message.center.service.impl.MailMessageLauncherServiceImpl,\
 club.p6e.coat.message.center.service.impl.MobileMessageConfigParserServiceImpl,\
 club.p6e.coat.message.center.service.impl.MobileMessageLauncherServiceColorOsImpl,\
 club.p6e.coat.message.center.service.impl.MobileMessageLauncherServiceGoogleImpl,\
+club.p6e.coat.message.center.service.impl.PollingLauncherRouteServiceImpl,\
+club.p6e.coat.message.center.service.impl.RandomLauncherRouteServiceImpl,\
 club.p6e.coat.message.center.service.impl.ShortMessageConfigParserServiceImpl,\
 club.p6e.coat.message.center.service.impl.ShortMessageLauncherServiceImpl,\
 club.p6e.coat.message.center.service.impl.TemplateParserServiceImpl,\
 club.p6e.coat.message.center.service.impl.TransmitterServiceImpl,\
+club.p6e.coat.message.center.service.impl.WeightPollingLauncherRouteServiceImpl,\
 club.p6e.coat.message.center.Controller,\
 club.p6e.coat.message.center.SnowflakeId,\
 club.p6e.coat.message.center.MessageCenterThreadPool
+

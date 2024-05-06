@@ -22,7 +22,7 @@ public final class ExpiredCache implements Serializable {
 
         public Model(Object data) {
             this.data = data;
-            this.interval = 20000;
+            this.interval = 3600_1000L;
             this.date = System.currentTimeMillis();
         }
     }
@@ -35,7 +35,18 @@ public final class ExpiredCache implements Serializable {
         if (data == null) {
             return null;
         } else {
-            return (T) data.get(key).getData();
+            final Model model = data.get(key);
+            if (model == null) {
+                data.remove(key);
+                return null;
+            } else {
+                if (System.currentTimeMillis() > model.getDate() + model.getInterval()) {
+                    data.remove(key);
+                    return null;
+                } else {
+                    return (T) model.getData();
+                }
+            }
         }
     }
 
@@ -50,6 +61,14 @@ public final class ExpiredCache implements Serializable {
     @SuppressWarnings("ALL")
     public synchronized static ConcurrentHashMap<String, Model> create(String type) {
         return CACHE.computeIfAbsent(type, k -> new ConcurrentHashMap<>(16));
+    }
+
+    @SuppressWarnings("ALL")
+    public static void clean() {
+        for (final ConcurrentHashMap<String, Model> value : CACHE.values()) {
+            value.clear();
+        }
+        CACHE.clear();
     }
 
 }

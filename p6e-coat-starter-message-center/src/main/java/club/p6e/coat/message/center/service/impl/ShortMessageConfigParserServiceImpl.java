@@ -5,8 +5,6 @@ import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.ShortMessageConfigModel;
 import club.p6e.coat.message.center.service.ShortMessageConfigParserService;
-import club.p6e.coat.message.center.service.ShortMessageLauncherService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -18,16 +16,12 @@ import java.util.Map;
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = ShortMessageConfigParserService.class,
-        ignored = ShortMessageConfigParserServiceImpl.class
-)
 public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigParserService {
 
     /**
      * 默认的模板解析器名称
      */
-    private static final String DEFAULT_PARSER = "DEFAULT";
+    private static final String DEFAULT_PARSER = "SMS_DEFAULT";
 
     @Override
     public String name() {

@@ -7,13 +7,13 @@ import club.p6e.coat.common.error.ResourceException;
  * @author lidashuang
  * @version 1.0
  */
-public class LauncherServiceNoExistException extends CustomException {
+public class LauncherServiceNotExistException extends CustomException {
 
     public static final int DEFAULT_CODE = 22900;
 
     private static final String DEFAULT_SKETCH = "LAUNCHER_SERVICE_NO_EXIST_EXCEPTION";
 
-    public LauncherServiceNoExistException(Class<?> sc, String error, String content) {
+    public LauncherServiceNotExistException(Class<?> sc, String error, String content) {
         super(sc, ResourceException.class, error, DEFAULT_CODE, DEFAULT_SKETCH, content);
     }
 

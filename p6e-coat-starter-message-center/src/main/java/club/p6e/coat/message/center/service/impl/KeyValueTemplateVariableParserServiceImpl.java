@@ -58,9 +58,8 @@ public class KeyValueTemplateVariableParserServiceImpl implements TemplateVariab
         return cache;
     }
 
-    @SuppressWarnings("ALL")
     @Override
-    public String execute(String key) {
+    public String execute(String key, String language) {
         try {
             if (key.startsWith(MARK_PREFIX)) {
                 final String value = cache.get(URLDecoder.decode(

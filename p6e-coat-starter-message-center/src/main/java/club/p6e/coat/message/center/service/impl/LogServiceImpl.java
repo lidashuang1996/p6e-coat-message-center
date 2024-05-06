@@ -37,7 +37,6 @@ public class LogServiceImpl implements LogService {
         this.repository = repository;
     }
 
-    @SuppressWarnings("ALL")
     @Override
     public Map<String, List<String>> create(List<String> recipients, TemplateMessageModel message) {
         final LocalDateTime now = LocalDateTime.now();
@@ -55,7 +54,7 @@ public class LogServiceImpl implements LogService {
         }
         for (final String recipient : recipients) {
             params.put("__recipient__", recipient);
-            final String no = String.valueOf(SnowflakeIdUtil.getInstance(SnowflakeId.LOG_SNOWFLAKE_NAME).nextId());
+            final String no = String.valueOf(SnowflakeIdUtil.getInstance(SnowflakeId.MESSAGE_CENTER_LOG_SNOWFLAKE_NAME).nextId());
             if (repository.createLog(no, parent, JsonUtil.toJson(params), launcher, template, config, now)) {
                 result.get(parent).add(no);
             }

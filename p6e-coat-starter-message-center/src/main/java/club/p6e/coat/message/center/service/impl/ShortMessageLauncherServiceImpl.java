@@ -35,7 +35,7 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
     /**
      * 默认的模板解析器名称
      */
-    private static final String DEFAULT_PARSER = "DEFAULT";
+    private static final String DEFAULT_PARSER = "SMS_DEFAULT";
 
     /**
      * 注入日志对象
@@ -78,7 +78,12 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
             result.putAll(logData);
             threadPool.submit(() -> {
                 try {
+                    LOGGER.info("[ SMS MESSAGE ] >>> start send SMS.");
+                    LOGGER.info("[ SMS MESSAGE ] >>> recipient: {}", recipient);
+                    LOGGER.info("[ SMS MESSAGE ] >>> template title: {}", template.getMessageTitle());
+                    LOGGER.info("[ SMS MESSAGE ] >>> template content: {}", template.getMessageContent());
                     execute(getClient(config), recipient, template);
+                    LOGGER.info("[ MAIL MESSAGE ] >>> end send SMS.");
                 } catch (Exception e) {
                     // ignore
                 } finally {

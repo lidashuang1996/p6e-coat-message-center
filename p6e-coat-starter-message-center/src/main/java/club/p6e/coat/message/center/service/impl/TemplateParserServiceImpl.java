@@ -202,7 +202,7 @@ public class TemplateParserServiceImpl implements TemplateParserService {
                 String value = data.get(name);
                 if (value == null) {
                     for (final TemplateVariableParserService parser : templateVariableParserList) {
-                        value = parser.execute(name);
+                        value = parser.execute(name, language());
                         if (value != null) {
                             data.put(name, value);
                             return value;

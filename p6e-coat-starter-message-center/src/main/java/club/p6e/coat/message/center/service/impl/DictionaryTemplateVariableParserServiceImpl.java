@@ -36,16 +36,20 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
     /**
      * 缓存对象
      */
-    private Map<String, String> cache = Collections.unmodifiableMap(new HashMap<>());
+    private Map<String, Map<String, String>> cache = Collections.unmodifiableMap(new HashMap<>());
 
     /**
      * 初始化字典
      *
      * @param data 字典对象
      */
-    public void init(Map<String, String> data) {
+    public void init(Map<String, Map<String, String>> data) {
         if (data != null) {
-            cache = Collections.unmodifiableMap(data);
+            final Map<String, Map<String, String>> map = new HashMap<>();
+            for (final Map.Entry<String, Map<String, String>> entry : data.entrySet()) {
+                map.put(entry.getKey(), Collections.unmodifiableMap(entry.getValue()));
+            }
+            cache = Collections.unmodifiableMap(map);
         }
     }
 
@@ -54,25 +58,49 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
      *
      * @return 字典内容对象
      */
-    public Map<String, String> getData() {
+    public Map<String, Map<String, String>> getData() {
         return cache;
     }
 
-    @SuppressWarnings("ALL")
     @Override
-    public String execute(String key) {
+    public String execute(String key, String language) {
         try {
             if (key.startsWith(MARK_PREFIX)) {
-                final String value = cache.get(URLDecoder.decode(
+                final Map<String, String> value = cache.get(URLDecoder.decode(
                         key.substring(MARK_PREFIX.length()), StandardCharsets.UTF_8));
                 if (value != null) {
-                    return value;
+                    if (language == null) {
+                        return executeDefaultValue(value);
+                    } else {
+                        final String lv = value.get(language);
+                        if (lv == null) {
+                            return executeDefaultValue(value);
+                        } else {
+                            return lv;
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
             // ignore
         }
         return null;
+    }
+
+    private String executeDefaultValue(Map<String, String> data) {
+        if (data == null) {
+            return null;
+        } else {
+            if (data.get("_") == null) {
+                if (data.get("-") == null) {
+                    return null;
+                } else {
+                    return data.get("-");
+                }
+            } else {
+                return data.get("_");
+            }
+        }
     }
 
     @Override

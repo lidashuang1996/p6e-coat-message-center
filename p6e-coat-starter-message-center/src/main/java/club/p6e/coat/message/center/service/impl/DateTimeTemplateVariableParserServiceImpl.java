@@ -34,7 +34,7 @@ public class DateTimeTemplateVariableParserServiceImpl implements TemplateVariab
     private static final String MARK_PREFIX = "#NOW_";
 
     @Override
-    public String execute(String key) {
+    public String execute(String key, String language) {
         if (key.startsWith(MARK_PREFIX)) {
             try {
                 final String nk = URLDecoder.decode(key.substring(MARK_PREFIX.length()), StandardCharsets.UTF_8);
@@ -50,5 +50,5 @@ public class DateTimeTemplateVariableParserServiceImpl implements TemplateVariab
     public int getOrder() {
         return ORDER;
     }
-    
+
 }

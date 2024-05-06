@@ -2,7 +2,6 @@ package club.p6e.coat.message.center;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -185,7 +184,6 @@ public final class ExternalSourceClassLoader extends ClassLoader {
                         final byte[] ab = read(ba.toByteArray());
                         final byte[] cb = read(bc.toByteArray());
                         if (ab != null && cb != null) {
-                            System.out.println(new String(ab, StandardCharsets.UTF_8) + "  " + Arrays.toString(cb));
                             loadClass(new String(ab, StandardCharsets.UTF_8), cb);
                         }
                     }

@@ -14,7 +14,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -37,7 +36,7 @@ public class MobileMessageLauncherServiceColorOsImpl implements MobileMessageLau
     /**
      * 默认的模板解析器名称
      */
-    private static final String COLOR_OS_PARSER = "COLOR_OS";
+    private static final String COLOR_OS_PARSER = "MOBILE_COLOR_OS";
 
     /**
      * 缓存类型
@@ -80,14 +79,19 @@ public class MobileMessageLauncherServiceColorOsImpl implements MobileMessageLau
         final String content = template.getMessageContent();
         final Map<String, List<String>> result = new HashMap<>(16);
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
-            final List<String> rs = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
-            final Map<String, List<String>> ls = logService.create(rs, template);
+            final List<String> recipient = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            final Map<String, List<String>> ls = logService.create(recipient, template);
             result.putAll(ls);
             threadPool.submit(() -> {
                 try {
-                    getClient(config).pushMessage(rs, content);
+                    LOGGER.info("[ MOBILE COLOR OS MESSAGE ] >>> start send mobile color os.");
+                    LOGGER.info("[ MOBILE COLOR OS MESSAGE ] >>> recipient: {}", recipient);
+                    LOGGER.info("[ MOBILE COLOR OS MESSAGE ] >>> template title: {}", template.getMessageTitle());
+                    LOGGER.info("[ MOBILE COLOR OS MESSAGE ] >>> template content: {}", template.getMessageContent());
+                    getClient(config).pushMessage(recipient, content);
+                    LOGGER.info("[ MOBILE COLOR OS MESSAGE ] >>> end send mobile color os.");
                 } catch (Exception e) {
-                    LOGGER.error("COLOR_OS MMS ERROR >>> " + e.getMessage());
+                    LOGGER.error("[ MOBILE COLOR OS MESSAGE ERROR ] >>> {}", e.getMessage());
                 } finally {
                     logService.update(ls, "SUCCESS");
                 }
