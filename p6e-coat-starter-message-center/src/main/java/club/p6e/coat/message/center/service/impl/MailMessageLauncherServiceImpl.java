@@ -46,7 +46,7 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
     /**
      * 默认的模板解析器名称
      */
-    private static final String DEFAULT_PARSER = "DEFAULT";
+    private static final String DEFAULT_PARSER = "MAIL_DEFAULT";
 
     /**
      * 注入日志对象

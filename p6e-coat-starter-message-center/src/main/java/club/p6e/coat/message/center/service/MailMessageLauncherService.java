@@ -14,5 +14,4 @@ public interface MailMessageLauncherService extends LauncherService<MailMessageC
 
     Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, MailMessageConfigModel config);
 
-
 }

@@ -9,5 +9,6 @@
 //    public static void main(String[] args) {
 //        SpringApplication.run(P6eMessageCenterApplication.class, args);
 //    }
+// 1. 日志记录的附件内容不含内嵌图片的信息（需要修复）
 //
 //}
