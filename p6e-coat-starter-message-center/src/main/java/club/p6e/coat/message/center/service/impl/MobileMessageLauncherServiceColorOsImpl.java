@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * ColorOs 移动消息发射服务
+ *
  * @author lidashuang
  * @version 1.0
  */

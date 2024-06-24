@@ -109,4 +109,5 @@ public interface LauncherModel {
          */
         String attribute();
     }
+    
 }

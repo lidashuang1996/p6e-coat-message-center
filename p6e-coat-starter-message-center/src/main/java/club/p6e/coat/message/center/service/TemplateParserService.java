@@ -25,9 +25,9 @@ public interface TemplateParserService {
     /**
      * TemplateModel >>> TemplateMessageModel
      *
-     * @param template    模板模型对象
-     * @param data        数据变量对象
-     * @param attachments 文件附件对象
+     * @param data        数据变量
+     * @param template    模板模型
+     * @param attachments 文件附件
      * @return 模板消息模型对象
      */
     TemplateMessageModel execute(TemplateModel template, Map<String, String> data, List<File> attachments);

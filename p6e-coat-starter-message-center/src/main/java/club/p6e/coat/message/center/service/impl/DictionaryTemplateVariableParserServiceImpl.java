@@ -43,6 +43,7 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
      *
      * @param data 字典对象
      */
+    @SuppressWarnings("ALL")
     public void init(Map<String, Map<String, String>> data) {
         if (data != null) {
             final Map<String, Map<String, String>> map = new HashMap<>();
@@ -66,22 +67,22 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
     public String execute(String key, String language) {
         try {
             if (key.startsWith(MARK_PREFIX)) {
-                final Map<String, String> value = cache.get(URLDecoder.decode(
+                final Map<String, String> data = cache.get(URLDecoder.decode(
                         key.substring(MARK_PREFIX.length()), StandardCharsets.UTF_8));
-                if (value != null) {
+                if (data != null) {
                     if (language == null) {
-                        return executeDefaultValue(value);
+                        return executeDefaultValue(data);
                     } else {
-                        final String lv = value.get(language);
-                        if (lv == null) {
-                            return executeDefaultValue(value);
+                        final String result = data.get(language);
+                        if (result == null) {
+                            return executeDefaultValue(data);
                         } else {
-                            return lv;
+                            return result;
                         }
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignore) {
             // ignore
         }
         return null;

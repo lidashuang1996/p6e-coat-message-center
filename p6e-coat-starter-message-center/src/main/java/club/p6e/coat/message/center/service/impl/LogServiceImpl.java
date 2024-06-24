@@ -28,13 +28,25 @@ import java.util.Map;
 )
 public class LogServiceImpl implements LogService {
 
+    /**
+     * 雪花算法对象
+     */
     private final SnowflakeId snowflakeId;
 
+    /**
+     * 数据源存储库对象
+     */
     private final DataSourceRepository repository;
 
+    /**
+     * 构造方法初始化
+     *
+     * @param repository  数据源存储库对象
+     * @param snowflakeId 雪花算法对象
+     */
     public LogServiceImpl(SnowflakeId snowflakeId, DataSourceRepository repository) {
-        this.snowflakeId = snowflakeId;
         this.repository = repository;
+        this.snowflakeId = snowflakeId;
     }
 
     @Override

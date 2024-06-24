@@ -1,5 +1,6 @@
 package club.p6e.coat.message.center.repository;
 
+import club.p6e.DatabaseConfig;
 import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.LauncherModel;
@@ -52,7 +53,7 @@ public class DataSourceRepository {
             "      \"mcc\".\"parser\" AS \"parser\",    " +
             "      \"mcc\".\"parser_source\" AS \"parser_source\"    " +
             "    FROM    " +
-            "      \"p6e_mc_config\" AS \"mcc\"    " +
+            "      \"" + DatabaseConfig.TABLE_PREFIX + "message_center_config\" AS \"mcc\"    " +
             "    WHERE    " +
             "      \"mcc\".\"id\"  =  ?    " +
             "    ;    ";
@@ -74,7 +75,7 @@ public class DataSourceRepository {
             "      \"mct\".\"parser\" AS \"parser\",    " +
             "      \"mct\".\"parser_source\" AS \"parser_source\"    " +
             "    FROM    " +
-            "      \"p6e_mc_template\" AS \"mct\"    " +
+            "      \"" + DatabaseConfig.TABLE_PREFIX + "message_center_template\" AS \"mct\"    " +
             "    WHERE    " +
             "      \"mct\".\"key\"  =  ?    " +
             "      AND \"mct\".\"language\"  =  ?    " +
@@ -97,7 +98,7 @@ public class DataSourceRepository {
             "      \"mcl\".\"template\" AS \"template\",    " +
             "      \"mcl\".\"description\" AS \"description\"    " +
             "    FROM    " +
-            "      \"p6e_mc_launcher\" AS \"mcl\"    " +
+            "      \"" + DatabaseConfig.TABLE_PREFIX + "message_center_launcher\" AS \"mcl\"    " +
             "    WHERE    " +
             "      \"mcl\".\"id\"  =  ?    " +
             "    ;    ";
@@ -112,7 +113,7 @@ public class DataSourceRepository {
             "      \"mcp\".\"cid\" AS \"cid\",    " +
             "      \"mcp\".\"attribute\" AS \"attribute\"    " +
             "    FROM    " +
-            "      \"p6e_mc_launcher_config_mapper\" AS \"mcp\"    " +
+            "      \"" + DatabaseConfig.TABLE_PREFIX + "message_center_launcher_config_mapper\" AS \"mcp\"    " +
             "    WHERE    " +
             "      \"mcp\".\"lid\"  =  ?    " +
             "    ;    ";
@@ -128,7 +129,7 @@ public class DataSourceRepository {
             "      \"mcd\".\"value\" AS \"value\",    " +
             "      \"mcd\".\"language\" AS \"language\"    " +
             "    FROM    " +
-            "      \"p6e_mc_dictionary\" AS \"mcd\"    " +
+            "      \"" + DatabaseConfig.TABLE_PREFIX + "message_center_dictionary\" AS \"mcd\"    " +
             "    ;    ";
 
     /**
@@ -137,7 +138,7 @@ public class DataSourceRepository {
     @SuppressWarnings("ALL")
     private static final String CREATE_LOG_SQL = "" +
             "    INSERT INTO " +
-            "      \"p6e_mc_log\" (    " +
+            "      \"" + DatabaseConfig.TABLE_PREFIX + "message_center_log\" (    " +
             "        \"no\",    " +
             "        \"parent\",    " +
             "        \"params\",    " +
@@ -157,7 +158,7 @@ public class DataSourceRepository {
     @SuppressWarnings("ALL")
     private static final String UPDATE_LOG_SQL = "" +
             "    UPDATE " +
-            "      \"p6e_mc_log\"     " +
+            "      \"" + DatabaseConfig.TABLE_PREFIX + "message_center_log\"     " +
             "    SET     " +
             "      \"result\"  =  ?,     " +
             "      \"result_date_time\"  =  ?    " +
@@ -500,6 +501,7 @@ public class DataSourceRepository {
      *
      * @return 字典数据列表
      */
+    @SuppressWarnings("ALL")
     public List<Map<String, Object>> getDictionary() {
         final List<Map<String, Object>> result = new ArrayList<>();
         try (final Connection connection = dataSource.getConnection()) {

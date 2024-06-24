@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 默认短消息发射服务
+ *
  * @author lidashuang
  * @version 1.0
  */
@@ -28,14 +30,14 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
     public static int MAX_RECIPIENT_LENGTH = 50;
 
     /**
-     * 缓存类型
-     */
-    protected static final String CACHE_TYPE = "SMS_A_LI_YUN_CLIENT";
-
-    /**
      * 默认的模板解析器名称
      */
     private static final String DEFAULT_PARSER = "SMS_DEFAULT";
+
+    /**
+     * 缓存类型
+     */
+    protected static final String CACHE_TYPE = "SMS_A_LI_YUN_CLIENT";
 
     /**
      * 注入日志对象
@@ -84,7 +86,7 @@ public class ShortMessageLauncherServiceImpl implements ShortMessageLauncherServ
                     LOGGER.info("[ SMS MESSAGE ] >>> template content: {}", template.getMessageContent());
                     execute(getClient(config), recipient, template);
                     LOGGER.info("[ MAIL MESSAGE ] >>> end send SMS.");
-                } catch (Exception e) {
+                } catch (Exception ignore) {
                     // ignore
                 } finally {
                     logService.update(logData, "SUCCESS");

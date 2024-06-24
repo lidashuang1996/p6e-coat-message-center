@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
- * 模板解析器实现
+ * 模板解析器
  *
  * @author lidashuang
  * @version 1.0

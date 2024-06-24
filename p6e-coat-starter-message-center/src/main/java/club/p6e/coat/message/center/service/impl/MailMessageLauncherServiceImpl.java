@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 默认邮件发送服务
+ *
  * @author lidashuang
  * @version 1.0
  */
@@ -66,6 +68,7 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
     /**
      * 构造方法初始化
      *
+     * @param logService 日志服务对象
      * @param threadPool 消息中心线程池对象
      */
     public MailMessageLauncherServiceImpl(LogService logService, MessageCenterThreadPool threadPool) {
@@ -149,7 +152,6 @@ public class MailMessageLauncherServiceImpl implements MailMessageLauncherServic
         }
         return result;
     }
-
 
     protected Session getClient(MailMessageConfigModel config, java.util.Properties properties) {
         final String name = Md5Util.execute(config.getHost() + ":"

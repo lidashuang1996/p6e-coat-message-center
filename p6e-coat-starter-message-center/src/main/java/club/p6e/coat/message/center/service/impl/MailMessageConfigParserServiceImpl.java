@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 源配置对象转邮件消息配置解析器实现
+ * 源配置对象转邮件消息配置对象解析器
  *
  * @author lidashuang
  * @version 1.0
@@ -215,6 +215,7 @@ public class MailMessageConfigParserServiceImpl implements MailMessageConfigPars
         public Map<String, String> getOther() {
             return other;
         }
+
     }
 
 }

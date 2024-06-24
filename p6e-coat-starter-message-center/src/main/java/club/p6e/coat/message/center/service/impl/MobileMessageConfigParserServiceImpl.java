@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 源配置对象转移动消息配置对象解析器
+ *
  * @author lidashuang
  * @version 1.0
  */

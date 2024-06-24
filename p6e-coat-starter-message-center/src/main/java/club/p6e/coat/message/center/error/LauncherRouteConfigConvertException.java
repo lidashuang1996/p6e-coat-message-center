@@ -4,6 +4,8 @@ import club.p6e.coat.common.error.CustomException;
 import club.p6e.coat.common.error.ResourceException;
 
 /**
+ * 启动器路由配置转换异常
+ *
  * @author lidashuang
  * @version 1.0
  */

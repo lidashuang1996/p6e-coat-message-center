@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Google 移动消息发射服务
+ *
  * @author lidashuang
  * @version 1.0
  */
@@ -62,6 +64,7 @@ public class MobileMessageLauncherServiceGoogleImpl implements MobileMessageLaun
     /**
      * 构造方法初始化
      *
+     * @param logService 日志服务对象
      * @param threadPool 消息中心线程池对象
      */
     public MobileMessageLauncherServiceGoogleImpl(LogService logService, MessageCenterThreadPool threadPool) {

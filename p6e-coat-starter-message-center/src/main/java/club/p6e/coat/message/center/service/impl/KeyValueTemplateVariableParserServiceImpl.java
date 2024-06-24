@@ -43,6 +43,7 @@ public class KeyValueTemplateVariableParserServiceImpl implements TemplateVariab
      *
      * @param data 字典对象
      */
+    @SuppressWarnings("ALL")
     public void init(Map<String, String> data) {
         if (data != null) {
             cache = Collections.unmodifiableMap(data);
@@ -68,7 +69,7 @@ public class KeyValueTemplateVariableParserServiceImpl implements TemplateVariab
                     return value;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignore) {
             // ignore
         }
         return null;

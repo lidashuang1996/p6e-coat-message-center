@@ -56,6 +56,7 @@ public final class ExternalSourceClassLoader extends ClassLoader {
         }
     }
 
+    @SuppressWarnings("ALL")
     public static byte[] classFileToBytes(List<File> files) {
         try (final ByteArrayOutputStream result = new ByteArrayOutputStream()) {
             for (final File file : files) {

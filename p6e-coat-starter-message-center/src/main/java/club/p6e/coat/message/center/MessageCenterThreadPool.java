@@ -47,6 +47,7 @@ public class MessageCenterThreadPool {
      *
      * @param threadPool 线程池对象
      */
+    @SuppressWarnings("ALL")
     public synchronized void setThreadPool(ThreadPoolExecutor threadPool) {
         closeThreadPool();
         this.threadPool = threadPool;

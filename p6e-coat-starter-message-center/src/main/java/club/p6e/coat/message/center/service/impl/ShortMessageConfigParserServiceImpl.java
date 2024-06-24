@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 源配置对象转短消息配置对象解析器
+ *
  * @author lidashuang
  * @version 1.0
  */
@@ -195,6 +197,7 @@ public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigPa
         public Map<String, String> getOther() {
             return other;
         }
+        
     }
 
 }

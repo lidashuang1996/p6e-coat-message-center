@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
+ * 默认的发射器路由服务
+ *
  * @author lidashuang
  * @version 1.0
  */
@@ -25,8 +27,8 @@ public class DefaultLauncherRouteServiceImpl extends PollingLauncherRouteService
     }
 
     @Override
-    public ConfigModel execute(LauncherModel launcher, List<ConfigModel> list) {
-        return super.execute(launcher, list);
+    public ConfigModel execute(LauncherModel launcher, List<ConfigModel> configs) {
+        return super.execute(launcher, configs);
     }
 
 }

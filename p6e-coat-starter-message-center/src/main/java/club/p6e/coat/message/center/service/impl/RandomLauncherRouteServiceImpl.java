@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
+ * 随机的发射器路由服务
+ *
  * @author lidashuang
  * @version 1.0
  */
@@ -27,11 +29,11 @@ public class RandomLauncherRouteServiceImpl implements LauncherRouteService {
     }
 
     @Override
-    public ConfigModel execute(LauncherModel launcher, List<ConfigModel> list) {
-        if (list == null || list.isEmpty()) {
+    public ConfigModel execute(LauncherModel launcher, List<ConfigModel> configs) {
+        if (configs == null || configs.isEmpty()) {
             return null;
         } else {
-            final List<ConfigModel> result = list
+            final List<ConfigModel> result = configs
                     .stream()
                     .filter(ConfigModel::enable)
                     .sorted(Comparator.comparing(ConfigModel::id))

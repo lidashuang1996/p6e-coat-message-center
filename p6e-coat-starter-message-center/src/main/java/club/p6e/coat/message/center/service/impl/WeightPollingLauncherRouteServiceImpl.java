@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
+ * 加权轮询发射器路由服务
+ *
  * @author lidashuang
  * @version 1.0
  */
@@ -27,11 +29,11 @@ public class WeightPollingLauncherRouteServiceImpl
     }
 
     @Override
-    public ConfigModel execute(LauncherModel launcher, List<ConfigModel> list) {
-        if (list == null || list.isEmpty()) {
+    public ConfigModel execute(LauncherModel launcher, List<ConfigModel> configs) {
+        if (configs == null || configs.isEmpty()) {
             return null;
         } else {
-            final List<ConfigModel> result = list
+            final List<ConfigModel> result = configs
                     .stream()
                     .filter(ConfigModel::enable)
                     .sorted(Comparator.comparing(ConfigModel::id))
@@ -41,34 +43,33 @@ public class WeightPollingLauncherRouteServiceImpl
             } else if (result.size() == 1) {
                 return result.get(0);
             } else {
-                final List<String> weight = new ArrayList<>();
-                final Map<String, ConfigModel> configs = new HashMap<>();
+                final List<String> wl = new ArrayList<>();
+                final Map<String, ConfigModel> wd = new HashMap<>();
                 for (final ConfigModel item : result) {
-                    final Integer attribute = getAttributeData(launcher, item);
-                    if (attribute != null) {
-                        weight.add(item.id() + "@" + attribute);
-                        configs.put(String.valueOf(item.id()), item);
+                    final Integer wn = getWeightAttributeData(launcher, item);
+                    if (wn != null) {
+                        wl.add(item.id() + "@" + wn);
+                        wd.put(String.valueOf(item.id()), item);
                     }
                 }
-                if (weight.isEmpty() || configs.isEmpty()) {
+                if (wl.isEmpty() || wd.isEmpty()) {
                     return null;
-                } else if (weight.size() == 1 || configs.size() == 1) {
-                    final List<String> ks = new ArrayList<>(configs.keySet());
-                    return configs.get(ks.get(0));
+                } else if (wl.size() == 1 || wd.size() == 1) {
+                    return wd.get(new ArrayList<>(wd.keySet()).get(0));
                 } else {
                     int total = 0;
-                    for (final String item : weight) {
+                    for (final String item : wl) {
                         total += Integer.parseInt(item.substring(item.lastIndexOf("@") + 1));
                     }
-                    int rTotal = 0;
-                    final int rIndex = index.getAndIncrement() % total;
-                    for (final String item : weight) {
-                        final int iMark = item.lastIndexOf("@");
-                        final int iIndex = Integer.parseInt(item.substring(iMark));
-                        if (rIndex < rTotal + iIndex) {
-                            return configs.get(item.substring(0, iMark));
+                    int rt = 0;
+                    final int ri = index.getAndIncrement() % total;
+                    for (final String item : wl) {
+                        final int im = item.lastIndexOf("@");
+                        final int ix = Integer.parseInt(item.substring((im + 1)));
+                        if (ri < rt + ix) {
+                            return wd.get(item.substring(0, im));
                         } else {
-                            rTotal = rTotal + iIndex;
+                            rt = rt + ix;
                         }
                     }
                     return null;
@@ -77,7 +78,14 @@ public class WeightPollingLauncherRouteServiceImpl
         }
     }
 
-    private Integer getAttributeData(LauncherModel launcher, ConfigModel config) {
+    /**
+     * 获取发射器上面对象配置模型对象的权重属性数据
+     *
+     * @param config   配置对象
+     * @param launcher 发射器模型
+     * @return 权重属性数据
+     */
+    private Integer getWeightAttributeData(LauncherModel launcher, ConfigModel config) {
         try {
             for (final LauncherModel.ConfigMapperModel item : launcher.configs()) {
                 if (item.id() == config.id()) {

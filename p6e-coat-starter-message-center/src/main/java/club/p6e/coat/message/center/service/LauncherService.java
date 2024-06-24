@@ -22,11 +22,12 @@ public interface LauncherService<T extends ConfigModel> {
     String name();
 
     /**
+     * 执行发射器
      *
-     * @param recipients
-     * @param template
-     * @param config
-     * @return
+     * @param config     配置对象
+     * @param template   模板对象
+     * @param recipients 收件人列表
+     * @return 执行结果
      */
     Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, T config);
 

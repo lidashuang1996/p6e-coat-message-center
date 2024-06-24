@@ -13,6 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class ExpiredCache implements Serializable {
 
+    /**
+     * 缓存数据对象
+     */
     @Data
     @Accessors(chain = true)
     private static class Model implements Serializable {
@@ -27,6 +30,7 @@ public final class ExpiredCache implements Serializable {
         }
     }
 
+    @SuppressWarnings("ALL")
     private static final Map<String, ConcurrentHashMap<String, Model>> CACHE = new ConcurrentHashMap<>();
 
     @SuppressWarnings("ALL")
@@ -50,6 +54,7 @@ public final class ExpiredCache implements Serializable {
         }
     }
 
+    @SuppressWarnings("ALL")
     public static void set(String type, String key, Object value) {
         ConcurrentHashMap<String, Model> data = CACHE.get(type);
         if (data == null) {
@@ -59,16 +64,16 @@ public final class ExpiredCache implements Serializable {
     }
 
     @SuppressWarnings("ALL")
-    public synchronized static ConcurrentHashMap<String, Model> create(String type) {
-        return CACHE.computeIfAbsent(type, k -> new ConcurrentHashMap<>(16));
-    }
-
-    @SuppressWarnings("ALL")
     public static void clean() {
         for (final ConcurrentHashMap<String, Model> value : CACHE.values()) {
             value.clear();
         }
         CACHE.clear();
+    }
+
+    @SuppressWarnings("ALL")
+    public synchronized static ConcurrentHashMap<String, Model> create(String type) {
+        return CACHE.computeIfAbsent(type, k -> new ConcurrentHashMap<>(16));
     }
 
 }
