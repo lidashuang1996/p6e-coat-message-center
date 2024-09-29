@@ -59,6 +59,19 @@ public class DataSourceRepository {
             "    ;    ";
 
     /**
+     * 创建日志的 SQL
+     */
+    @SuppressWarnings("ALL")
+    private static final String UPDATE_CONFIG_SQL = "" +
+            "    UPDATE " +
+            "      \"" + DatabaseConfig.TABLE_PREFIX + "message_center_config\"     " +
+            "    SET     " +
+            "      \"content\"  =  ?    " +
+            "    WHERE    " +
+            "      \"id\" = ?    " +
+            "    ;    ";
+
+    /**
      * 模板的查询 SQL
      */
     @SuppressWarnings("ALL")
@@ -573,4 +586,14 @@ public class DataSourceRepository {
         }
     }
 
+    public void updateConfigContent(int id, String content) {
+        try (final Connection connection = dataSource.getConnection()) {
+            final PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CONFIG_SQL);
+            preparedStatement.setString(1, content);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);
+        }
+    }
 }

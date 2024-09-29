@@ -62,8 +62,8 @@ public class Controller {
         if (id == null || data == null || language == null || recipients == null) {
             throw new ParameterException(
                     this.getClass(),
-                    "fun push(...) >>> id/data/language/recipients.",
-                    "Request parameter exception."
+                    "fun push(...) >>> Request parameter [id/data/language/recipients] exception .",
+                    "Request parameter [id/data/language/recipients] exception."
             );
         }
         final List<String> pRecipients;
@@ -89,9 +89,7 @@ public class Controller {
                                             + (attachmentIndex++ == 0 ? "" : ("-" + (attachmentIndex - 1))), suffix)
                             )
                     ));
-                    if (!FileUtil.checkFolderExist(out.getParentFile())) {
-                        FileUtil.createFolder(out.getParentFile());
-                    }
+                    FileUtil.createFolder(out.getParentFile());
                     file.transferTo(out);
                     pFiles.add(out);
                 }

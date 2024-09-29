@@ -19,6 +19,10 @@ public enum MessageType {
     /**
      * 移动消息类型
      */
-    MOBILE
+    MOBILE,
+    /**
+     * 电报消息类型
+     */
+    TELEGRAM
 
 }
