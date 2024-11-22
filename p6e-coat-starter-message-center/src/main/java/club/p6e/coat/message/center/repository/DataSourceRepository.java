@@ -158,10 +158,15 @@ public class DataSourceRepository {
             "        \"lid\",    " +
             "        \"tid\",    " +
             "        \"cid\",    " +
-            "        \"date_time\"    " +
+            "        \"date_time\",    " +
+            "        \"creator\",    " +
+            "        \"modifier\",    " +
+            "        \"creation_date_time\",    " +
+            "        \"modification_date_time\",    " +
+            "        \"version\"    " +
             "      )    " +
             "    VALUES  (    " +
-            "       ?, ?, ?, ?, ?, ?, ? " +
+            "       ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? " +
             "    )    " +
             "    ;    ";
 
@@ -424,6 +429,7 @@ public class DataSourceRepository {
                             case "SMS" -> MessageType.SMS;
                             case "MAIL" -> MessageType.MAIL;
                             case "MOBILE" -> MessageType.MOBILE;
+                            case "TELEGRAM" -> MessageType.TELEGRAM;
                             default -> null;
                         };
                     }
@@ -560,6 +566,11 @@ public class DataSourceRepository {
             preparedStatement.setInt(5, tid);
             preparedStatement.setInt(6, cid);
             preparedStatement.setTimestamp(7, Timestamp.valueOf(dateTime));
+            preparedStatement.setString(8, "sys");
+            preparedStatement.setString(9, "sys");
+            preparedStatement.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setTimestamp(11, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setInt(12, 0);
             return preparedStatement.executeUpdate() > 0;
         } catch (Exception e) {
             LOGGER.error("DATA SOURCE REPOSITORY ERROR", e);

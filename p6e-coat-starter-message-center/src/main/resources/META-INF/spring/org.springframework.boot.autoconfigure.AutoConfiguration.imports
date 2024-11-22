@@ -13,6 +13,8 @@ club.p6e.coat.message.center.service.impl.PollingLauncherRouteServiceImpl
 club.p6e.coat.message.center.service.impl.RandomLauncherRouteServiceImpl
 club.p6e.coat.message.center.service.impl.ShortMessageConfigParserServiceImpl
 club.p6e.coat.message.center.service.impl.ShortMessageLauncherServiceImpl
+club.p6e.coat.message.center.service.impl.TelegramMessageConfigParserServiceImpl
+club.p6e.coat.message.center.service.impl.TelegramMessageLauncherServiceImpl
 club.p6e.coat.message.center.service.impl.TemplateParserServiceImpl
 club.p6e.coat.message.center.service.impl.TransmitterServiceImpl
 club.p6e.coat.message.center.service.impl.WeightPollingLauncherRouteServiceImpl

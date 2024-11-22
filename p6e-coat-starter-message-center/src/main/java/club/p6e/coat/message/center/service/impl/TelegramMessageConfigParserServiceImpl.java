@@ -49,6 +49,14 @@ public class TelegramMessageConfigParserServiceImpl implements TelegramMessageCo
                     if (data.get("proxy-port") instanceof final String content) {
                         setProxyPort(Integer.parseInt(content));
                     }
+                    if (data.get("channel-chat") instanceof final Map<?, ?> content) {
+                        for (final Object key : content.keySet()) {
+                            final Object value = content.get(key);
+                            if (key instanceof final String k && value instanceof final String v) {
+                                putChannelChat(k, v);
+                            }
+                        }
+                    }
                 }
             }
         }};

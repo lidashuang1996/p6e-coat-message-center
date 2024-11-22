@@ -81,6 +81,10 @@ public class TransmitterServiceImpl implements TransmitterService {
      */
     protected final Map<String, MobileMessageLauncherService> mobileMessageLauncherServiceMap;
 
+    /**
+     * TELEGRAM 类型消息发射器
+     */
+    protected final Map<String, TelegramMessageLauncherService> telegramMessageLauncherServiceMap;
 
     /**
      * 构造方法初始化
@@ -100,7 +104,8 @@ public class TransmitterServiceImpl implements TransmitterService {
             List<LauncherRouteService> launcherRouteServiceList,
             List<MailMessageLauncherService> mailMessageLauncherServiceList,
             List<ShortMessageLauncherService> shortMessageLauncherServiceList,
-            List<MobileMessageLauncherService> mobileMessageLauncherServiceList
+            List<MobileMessageLauncherService> mobileMessageLauncherServiceList,
+            List<TelegramMessageLauncherService> telegramMessageLauncherServiceList
     ) {
         final Map<String, ConfigParserService> configParserServiceMap = new HashMap<>();
         if (configParserServiceList != null
@@ -150,6 +155,14 @@ public class TransmitterServiceImpl implements TransmitterService {
             }
         }
 
+        final Map<String, TelegramMessageLauncherService> telegramMessageLauncherServiceMap = new HashMap<>();
+        if (telegramMessageLauncherServiceList != null
+                && !telegramMessageLauncherServiceList.isEmpty()) {
+            for (final TelegramMessageLauncherService service : telegramMessageLauncherServiceList) {
+                telegramMessageLauncherServiceMap.put(service.name(), service);
+            }
+        }
+
         this.repository = repository;
         this.configParserServiceMap = configParserServiceMap;
         this.launcherRouteServiceMap = launcherRouteServiceMap;
@@ -157,6 +170,7 @@ public class TransmitterServiceImpl implements TransmitterService {
         this.mailMessageLauncherServiceMap = mailMessageLauncherServiceMap;
         this.shortMessageLauncherServiceMap = shortMessageLauncherServiceMap;
         this.mobileMessageLauncherServiceMap = mobileMessageLauncherServiceMap;
+        this.telegramMessageLauncherServiceMap = telegramMessageLauncherServiceMap;
     }
 
     /**
@@ -391,6 +405,23 @@ public class TransmitterServiceImpl implements TransmitterService {
         );
     }
 
+    /**
+     * 获取移动消息发射器服务
+     *
+     * @param launcher 发射器模型
+     */
+    protected TelegramMessageLauncherService getTelegramMessageLauncherService(LauncherModel launcher) {
+        final LauncherService<?> launcherService =
+                getLauncherService(launcher, new HashMap<>(telegramMessageLauncherServiceMap));
+        if (launcherService instanceof final TelegramMessageLauncherService service) {
+            return service;
+        }
+        throw new LauncherServiceNotExistException(this.getClass(),
+                "fun getTelegramMessageLauncherService(LauncherModel launcher).",
+                "Unable to obtain corresponding mobile message launcher service <" + TelegramMessageLauncherService.class + ">."
+        );
+    }
+
     @Override
     public Map<String, List<String>> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments) {
         final LauncherModel launcherModel = getLauncherData(id);
@@ -424,7 +455,6 @@ public class TransmitterServiceImpl implements TransmitterService {
                     "fun push(...).", "Launcher mapper config result is not exist.");
         }
 
-
         final LauncherRouteService launcherRouteService = getLauncherRouteService(launcherModel);
         if (launcherRouteService == null) {
             throw new LauncherRouteConfigException(this.getClass(), "fun push(...).",
@@ -436,7 +466,6 @@ public class TransmitterServiceImpl implements TransmitterService {
             throw new LauncherRouteConfigException(this.getClass(), "fun push(...).",
                     "Launcher(" + launcherModel.id() + ") model mapper route config result is null.");
         }
-
 
         final ConfigParserService configParserService = getConfigParserService(routeConfigModel);
         if (configParserService == null) {
@@ -465,7 +494,6 @@ public class TransmitterServiceImpl implements TransmitterService {
                     "Launcher(" + launcherModel.id() + ") model mapper template("
                             + launcherModel.template() + "/" + language + "), analysis template convert service does not exist.");
         }
-
         final TemplateMessageModel templateMessageModel = templateParserService.execute(templateModel, data, attachments);
         if (templateMessageModel == null) {
             throw new LauncherTemplateConvertException(this.getClass(), "fun push(...).",
@@ -473,16 +501,13 @@ public class TransmitterServiceImpl implements TransmitterService {
                             + launcherModel.template() + "/" + language + "), analysis template convert exception.");
         }
 
-
         templateMessageModel.putLogData("config", String.valueOf(configModel.id()));
         templateMessageModel.putLogData("template", String.valueOf(templateModel.id()));
         templateMessageModel.putLogData("launcher", String.valueOf(launcherModel.id()));
 
-
         if (attachments != null) {
             templateMessageModel.putLogData("attachment", JsonUtil.toJson(attachments.stream().map(File::getName).toList()));
         }
-
 
         switch (launcherModel.type()) {
             case SMS:
@@ -508,6 +533,14 @@ public class TransmitterServiceImpl implements TransmitterService {
                     throw new LauncherTypeMismatchException(this.getClass(), "fun push(...).",
                             "Launcher(" + launcherModel.id() + ") model MOBILE >>> "
                                     + MobileMessageConfigModel.class + "(" + configModel.getClass() + ") type mismatch exception.");
+                }
+            case TELEGRAM:
+                if (configModel instanceof final TelegramMessageConfigModel cm) {
+                    return getTelegramMessageLauncherService(launcherModel).execute(recipients, templateMessageModel, cm);
+                } else {
+                    throw new LauncherTypeMismatchException(this.getClass(), "fun push(...).",
+                            "Launcher(" + launcherModel.id() + ") model TELEGRAM >>> "
+                                    + TelegramMessageConfigModel.class + "(" + configModel.getClass() + ") type mismatch exception.");
                 }
             default:
                 throw new LauncherTypeMismatchException(this.getClass(), "fun push(...).",

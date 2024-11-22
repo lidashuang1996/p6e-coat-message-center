@@ -80,6 +80,9 @@ public class TelegramMessageLauncherServiceImpl implements TelegramMessageLaunch
 
     @Override
     public Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, TelegramMessageConfigModel config) {
+        final Map<String, List<String>> result = new HashMap<>(16);
+        final Map<String, List<String>> logData = logService.create(new ArrayList<>(config.getChats().values()), template);
+        result.putAll(logData);
         threadPool.submit(() -> {
             try {
                 LOGGER.info("[ TELEGRAM MESSAGE ] >>> start send message.");
@@ -87,10 +90,10 @@ public class TelegramMessageLauncherServiceImpl implements TelegramMessageLaunch
                 send(get(config), template);
                 LOGGER.info("[ TELEGRAM MESSAGE ] >>> end send message.");
             } finally {
-                //logService.update(logData, "SUCCESS");
+                logService.update(logData, "SUCCESS");
             }
         });
-        return Map.of();
+        return result;
     }
 
     @SuppressWarnings("ALL")
@@ -145,7 +148,7 @@ public class TelegramMessageLauncherServiceImpl implements TelegramMessageLaunch
         }
     }
 
-    public synchronized Session get(TelegramMessageConfigModel config) {
+    public Session get(TelegramMessageConfigModel config) {
         final String name = Md5Util.execute(config.getBotToken());
         Session session = ExpiredCache.get(CACHE_TYPE, name);
         if (session == null) {
@@ -154,7 +157,7 @@ public class TelegramMessageLauncherServiceImpl implements TelegramMessageLaunch
         return session;
     }
 
-    public synchronized Session create(String name, TelegramMessageConfigModel config) {
+    public Session create(String name, TelegramMessageConfigModel config) {
         Session session = ExpiredCache.get(CACHE_TYPE, name);
         if (session == null) {
             try {
@@ -202,15 +205,32 @@ public class TelegramMessageLauncherServiceImpl implements TelegramMessageLaunch
 
         @Override
         public void onUpdateReceived(Update update) {
-            final String text = update.getMessage().getText();
-            final long id = update.getMessage().getChat().getId();
-            final Map<String, String> chats = config.getChats();
-            if (chats != null && !chats.isEmpty()) {
-                for (final String key : chats.keySet()) {
-                    final String value = chats.get(key);
-                    if (value.startsWith("@") && value.equals(text)) {
-                        final String content = config.content().replaceAll(text, String.valueOf(id));
-                        SpringUtil.getBean(DataSourceRepository.class).updateConfigContent(config.id(), content);
+            String id = null;
+            String text = null;
+            if (update.getMessage() != null) {
+                text = update.getMessage().getText();
+                id = String.valueOf(update.getMessage().getChat().getId());
+            }
+            if (update.getChannelPost() != null) {
+                text = update.getChannelPost().getText();
+                id = String.valueOf(update.getChannelPost().getChat().getId());
+            }
+            if (id != null && text != null) {
+                final Map<String, String> chats = config.getChats();
+                if (chats != null && !chats.isEmpty()) {
+                    for (final String key : chats.keySet()) {
+                        final String value = chats.get(key);
+                        if (value.startsWith("@") && (key + value).equals(text)) {
+                            chats.put(key, id);
+                            final String content = config.content().replaceAll(value, id);
+                            SpringUtil.getBean(DataSourceRepository.class).updateConfigContent(config.id(), content);
+                            try {
+                                execute(SendMessage.builder().chatId(id).text("CONFIG SUCCESS").build());
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                            break;
+                        }
                     }
                 }
             }
