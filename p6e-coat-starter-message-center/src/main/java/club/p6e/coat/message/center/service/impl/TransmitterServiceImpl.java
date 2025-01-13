@@ -253,7 +253,7 @@ public class TransmitterServiceImpl implements TransmitterService {
      * @return 模板数据对象
      */
     protected TemplateModel getTemplateData(String key, String language) {
-        language = language == null ? DEFAULT_LANGUAGE : language;
+        language = language == null || language.isEmpty() ? DEFAULT_LANGUAGE : language;
         final TemplateModel model = ExpiredCache.get(TEMPLATE_TYPE, key + "@" + language);
         if (model == null) {
             return setTemplateData(key, language);

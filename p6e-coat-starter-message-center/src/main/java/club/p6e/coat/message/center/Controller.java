@@ -66,12 +66,27 @@ public class Controller {
                     "Request parameter [id/data/language/recipients] exception."
             );
         }
+        LOGGER.info("REQUEST PARAM ID >>> {}", id);
+        LOGGER.info("REQUEST PARAM DATA >>> {}", data);
+        LOGGER.info("REQUEST PARAM LANGUAGE >>> {}", language);
+        LOGGER.info("REQUEST PARAM RECIPIENTS >>> {}", recipients);
+        LOGGER.info("REQUEST PARAM FILES >>> {}", files);
         final List<String> pRecipients;
         final Map<String, String> pData;
         final List<File> pFiles = new ArrayList<>();
         try {
-            pData = new HashMap<>(JsonUtil.fromJsonToMap(data, String.class, String.class));
-            pRecipients = new ArrayList<>(JsonUtil.fromJsonToList(recipients, String.class));
+            final List<String> l = JsonUtil.fromJsonToList(recipients, String.class);
+            final Map<String, Object> m = JsonUtil.fromJsonToMap(data, String.class, Object.class);
+            pData = new HashMap<>();
+            pRecipients = new ArrayList<>();
+            if (l != null) {
+                pRecipients.addAll(l);
+            }
+            if (m != null) {
+                for (final String key : m.keySet()) {
+                    pData.put(key, String.valueOf(m.get(key)));
+                }
+            }
             if (files != null) {
                 int attachmentIndex = 0;
                 final String num = GeneratorUtil.uuid();
