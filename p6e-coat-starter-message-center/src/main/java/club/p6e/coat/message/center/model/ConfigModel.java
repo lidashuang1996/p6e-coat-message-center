@@ -2,13 +2,15 @@ package club.p6e.coat.message.center.model;
 
 import club.p6e.coat.message.center.MessageType;
 
+import java.io.Serializable;
+
 /**
- * 配置模型
+ * ConfigModel
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface ConfigModel {
+public interface ConfigModel extends Serializable {
 
     /**
      * ID
@@ -18,58 +20,58 @@ public interface ConfigModel {
     int id();
 
     /**
-     * 限流规则
+     * Rule
      *
      * @return 限流规则
      */
     String rule();
 
     /**
-     * 类型
+     * Type
      *
-     * @return 类型
+     * @return Type
      */
     MessageType type();
 
     /**
-     * 是否启用
+     * Enable
      *
-     * @return 是否启用
+     * @return Enable
      */
     boolean enable();
 
     /**
-     * 名称
+     * Name
      *
-     * @return 名称
+     * @return Name
      */
     String name();
 
     /**
-     * 内容
+     * Content
      *
-     * @return 内容
+     * @return Content
      */
     String content();
 
     /**
-     * 描述
+     * Description
      *
-     * @return 描述
+     * @return Description
      */
     String description();
 
     /**
-     * 解析器
+     * Parser
      *
-     * @return 解析器
+     * @return Parser
      */
     String parser();
 
     /**
-     * 解析器源码
+     * Parser Source
      *
-     * @return 解析器源码
+     * @return Parser Source
      */
     byte[] parserSource();
 

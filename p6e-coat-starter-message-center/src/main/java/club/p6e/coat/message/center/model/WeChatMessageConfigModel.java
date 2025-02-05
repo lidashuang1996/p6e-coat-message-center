@@ -3,12 +3,12 @@ package club.p6e.coat.message.center.model;
 import java.util.Map;
 
 /**
- * MobileMessageConfigModel
+ * WeChatMessageConfigModel
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface MobileMessageConfigModel extends ConfigModel {
+public interface WeChatMessageConfigModel extends ConfigModel {
 
     /**
      * Set Application ID
@@ -25,34 +25,6 @@ public interface MobileMessageConfigModel extends ConfigModel {
     String getApplicationId();
 
     /**
-     * Set Application Key
-     *
-     * @param key Application Key
-     */
-    void setApplicationKey(String key);
-
-    /**
-     * Get Application Key
-     *
-     * @return Application Key
-     */
-    String getApplicationKey();
-
-    /**
-     * Set Application Name
-     *
-     * @param name Application Name
-     */
-    void setApplicationName(String name);
-
-    /**
-     * Get Application Name
-     *
-     * @return Application Name
-     */
-    String getApplicationName();
-
-    /**
      * Set Application Secret
      *
      * @param secret Application Secret
@@ -65,6 +37,20 @@ public interface MobileMessageConfigModel extends ConfigModel {
      * @return Application Secret
      */
     String getApplicationSecret();
+
+    /**
+     * Set Application Name
+     *
+     * @param name Application Name
+     */
+    void setAccessTokenUrl(String name);
+
+    /**
+     * Get Application Name
+     *
+     * @return Application Name
+     */
+    String getAccessTokenUrl();
 
     /**
      * Set Other

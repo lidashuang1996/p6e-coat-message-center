@@ -2,91 +2,91 @@ package club.p6e.coat.message.center.model;
 
 import club.p6e.coat.message.center.MessageType;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * 发射器模型
+ * LauncherModel
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface LauncherModel {
+public interface LauncherModel extends Serializable {
 
     /**
-     * 获取 ID
+     * ID
      *
      * @return ID
      */
     Integer id();
 
     /**
-     * 是否启用
+     * Enable
      *
-     * @return 是否启用
+     * @return Enable
      */
     boolean enable();
 
     /**
-     * 类型
+     * Type
      *
-     * @return 类型
+     * @return Type
      */
     MessageType type();
 
     /**
-     * 名称
+     * Name
      *
-     * @return 名称
+     * @return Name
      */
     String name();
 
     /**
-     * 模板
+     * Template
      *
-     * @return 模板
+     * @return Template
      */
     String template();
 
     /**
-     * 描述
+     * Description
      *
-     * @return 描述
+     * @return Description
      */
     String description();
 
     /**
-     * 路由
+     * Route
      *
-     * @return 模式
+     * @return Route
      */
     String route();
 
     /**
-     * 路由源代码
+     * RouteSource
      *
-     * @return 路由源代码
+     * @return RouteSource
      */
     byte[] routeSource();
 
-
     /**
-     * 路由
+     * Parser
      *
-     * @return 模式
+     * @return Parser
      */
     String parser();
 
     /**
-     * 路由源代码
+     * Parser Source
      *
-     * @return 路由源代码
+     * @return ParserSource
      */
     byte[] parserSource();
 
     /**
-     * 配置列表
+     * Config List
      *
-     * @return 配置列表
+     * @return Config List
      */
     List<ConfigMapperModel> configs();
 
@@ -103,11 +103,12 @@ public interface LauncherModel {
         Integer id();
 
         /**
-         * 属性
+         * Attribute
          *
-         * @return 属性
+         * @return Attribute
          */
         String attribute();
+
     }
-    
+
 }

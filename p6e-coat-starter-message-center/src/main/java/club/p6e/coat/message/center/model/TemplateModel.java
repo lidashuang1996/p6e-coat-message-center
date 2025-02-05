@@ -1,80 +1,82 @@
 package club.p6e.coat.message.center.model;
 
+import java.io.Serializable;
+
 /**
- * 模板源模型
+ * TemplateModel
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface TemplateModel {
+public interface TemplateModel extends Serializable {
 
     /**
-     * 获取 ID
+     * ID
      *
      * @return ID
      */
     Integer id();
 
     /**
-     * 获取 KEY
+     * Key
      *
-     * @return KEY
+     * @return Key
      */
     String key();
 
     /**
-     * 获取名称
+     * Name
      *
-     * @return 名称
+     * @return Name
      */
     String name();
 
     /**
-     * 获取语言
+     * Language
      *
-     * @return 语言
+     * @return Language
      */
     String language();
 
     /**
-     * 获取类型
+     * Type
      *
-     * @return 类型
+     * @return Type
      */
     String type();
 
     /**
-     * 获取标题
+     * Title
      *
-     * @return 标题
+     * @return Title
      */
     String title();
 
     /**
-     * 获取内容
+     * Content
      *
-     * @return 内容
+     * @return Content
      */
     String content();
 
     /**
-     * 获取描述
+     * Description
      *
-     * @return 描述
+     * @return Description
      */
     String description();
 
     /**
-     * 获取解析器
+     * Parser
      *
-     * @return 解析器
+     * @return Parser
      */
     String parser();
 
     /**
-     * 获取解析器源
+     * Parser Source
      *
-     * @return 解析器字节码
+     * @return Parser Source
      */
     byte[] parserSource();
 

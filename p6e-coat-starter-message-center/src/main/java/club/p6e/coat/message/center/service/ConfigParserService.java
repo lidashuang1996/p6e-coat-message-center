@@ -1,28 +1,37 @@
 package club.p6e.coat.message.center.service;
 
+import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 
 /**
- * 配置解析器服务
+ * ConfigParserService
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface ConfigParserService {
+public interface ConfigParserService<T extends ConfigModel> {
 
     /**
-     * 获取配置解析器的名称
+     * Get Name
      *
-     * @return 配置解析器的名称
+     * @return Name
      */
     String name();
 
     /**
-     * ConfigModel >>> ([XXX]ConfigModel extends ConfigModel)
+     * Get Message Type
      *
-     * @param config 配置源对象
-     * @return XXX 配置数据对象
+     * @return Message Type
      */
-    ConfigModel execute(ConfigModel config);
+    MessageType type();
+
+    /**
+     * Execute Config Parser Service
+     * [Config Model] -- Transform --> [Config Model Subclass]
+     *
+     * @param cm Config Model
+     * @return Config Model Subclass
+     */
+    T execute(ConfigModel cm);
 
 }

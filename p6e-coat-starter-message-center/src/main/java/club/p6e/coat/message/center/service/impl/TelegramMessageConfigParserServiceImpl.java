@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * TelegramMessageConfigParserServiceImpl
+ *
  * @author lidashuang
  * @version 1.0
  */
@@ -19,9 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TelegramMessageConfigParserServiceImpl implements TelegramMessageConfigParserService {
 
     /**
-     * 默认的模板解析器名称
+     * PARSER_NAME
      */
-    private static final String DEFAULT_PARSER = "TELEGRAM_DEFAULT";
+    private static final String DEFAULT_PARSER = "TELEGRAM_CONFIG_DEFAULT_PARSER";
 
     @Override
     public String name() {

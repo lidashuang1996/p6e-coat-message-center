@@ -1,22 +1,34 @@
 package club.p6e.coat.message.center.service;
 
+import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.ShortMessageConfigModel;
 
 /**
- * 短消息配置解析器
+ * ShortMessageConfigParserService
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface ShortMessageConfigParserService extends ConfigParserService {
+public interface ShortMessageConfigParserService extends ConfigParserService<ShortMessageConfigModel> {
 
     /**
-     * 执行将配置数据对象转换为短消息配置数据对象
+     * Get Message Type
      *
-     * @param config 配置数据对象
-     * @return 短消息配置数据对象
+     * @return Message Type
      */
-    ShortMessageConfigModel execute(ConfigModel config);
+    @Override
+    default MessageType type() {
+        return MessageType.SMS;
+    }
+
+    /**
+     * Execute Config Parser Service
+     * [Config Model] -- Transform --> [Short Message Config Model]
+     *
+     * @param cm Config Model
+     * @return Short Message Config Model
+     */
+    ShortMessageConfigModel execute(ConfigModel cm);
 
 }

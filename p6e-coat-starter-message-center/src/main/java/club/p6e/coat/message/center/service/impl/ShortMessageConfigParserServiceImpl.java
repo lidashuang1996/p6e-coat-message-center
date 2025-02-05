@@ -1,6 +1,7 @@
 package club.p6e.coat.message.center.service.impl;
 
 import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.common.utils.TransformationUtil;
 import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.ShortMessageConfigModel;
@@ -8,11 +9,12 @@ import club.p6e.coat.message.center.service.ShortMessageConfigParserService;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 源配置对象转短消息配置对象解析器
+ * ShortMessageConfigParserServiceImpl
  *
  * @author lidashuang
  * @version 1.0
@@ -21,9 +23,9 @@ import java.util.Map;
 public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigParserService {
 
     /**
-     * 默认的模板解析器名称
+     * PARSER_NAME
      */
-    private static final String DEFAULT_PARSER = "SMS_DEFAULT";
+    private static final String DEFAULT_PARSER = "SMS_CONFIG_DEFAULT_PARSER";
 
     @Override
     public String name() {
@@ -32,172 +34,182 @@ public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigPa
 
     @Override
     public ShortMessageConfigModel execute(ConfigModel config) {
-        return new SimpleShortMessageConfigModel(config) {{
-            if (config.content() != null) {
-                final Map<String, String> data = JsonUtil.fromJsonToMap(config.content(), String.class, String.class);
-                if (data != null) {
-                    setApplicationId(data.get("applicationId"));
-                    setApplicationKey(data.get("applicationKey"));
-                    setApplicationName(data.get("applicationName"));
-                    setApplicationSecret(data.get("applicationSecret"));
-                    setApplicationDomain(data.get("applicationDomain"));
-                    setOther(data);
+        final ShortMessageConfigModel model = new SimpleShortMessageConfigModel(config);
+        if (config.content() != null) {
+            final Map<String, Object> data = JsonUtil.fromJsonToMap(config.content(), String.class, Object.class);
+            if (data != null) {
+                model.setApplicationId(TransformationUtil.objectToString(data.get("applicationId")));
+                model.setApplicationKey(TransformationUtil.objectToString(data.get("applicationKey")));
+                model.setApplicationName(TransformationUtil.objectToString(data.get("applicationName")));
+                model.setApplicationSecret(TransformationUtil.objectToString(data.get("applicationSecret")));
+                model.setApplicationDomain(TransformationUtil.objectToString(data.get("applicationDomain")));
+                final Map<String, String> other = new HashMap<>();
+                for (final String key : data.keySet()) {
+                    other.put(key, TransformationUtil.objectToString(data.get(key)));
                 }
+                model.setOther(other);
             }
-        }};
+        }
+        return model;
     }
 
+    /**
+     * SimpleShortMessageConfigModel
+     */
     public static class SimpleShortMessageConfigModel implements ShortMessageConfigModel, Serializable {
 
         /**
-         * 应用 ID
+         * Application ID
          */
         private String applicationId;
 
         /**
-         * 应用 KEY
+         * Application Key
          */
         private String applicationKey;
 
         /**
-         * 应用名称
+         * Application Name
          */
         private String applicationName;
 
         /**
-         * 应用密钥
+         * Application Secret
          */
         private String applicationSecret;
 
         /**
-         * 应用作用域
+         * Application Domain
          */
         private String applicationDomain;
 
         /**
-         * 其它参数
+         * Other Data
          */
         private Map<String, String> other = new HashMap<>();
 
         /**
-         * 源配置对象
+         * Source Config Model
          */
-        private final ConfigModel model;
+        private final ConfigModel source;
 
         /**
-         * 构造方法注入源配置对象
+         * Construct initialization
+         * Inject Source Config Model Object
          *
-         * @param model 配置对象
+         * @param source Source Config Model
          */
-        public SimpleShortMessageConfigModel(ConfigModel model) {
-            this.model = model;
+        public SimpleShortMessageConfigModel(ConfigModel source) {
+            this.source = source;
         }
 
         @Override
         public int id() {
-            return model == null ? 0 : model.id();
-        }
-
-        @Override
-        public boolean enable() {
-            return model != null && model.enable();
-        }
-
-        @Override
-        public String name() {
-            return model == null ? null : model.name();
-        }
-
-        @Override
-        public MessageType type() {
-            return model == null ? null : model.type();
-        }
-
-        @Override
-        public String content() {
-            return model == null ? null : model.content();
-        }
-
-        @Override
-        public String description() {
-            return model == null ? null : model.description();
-        }
-
-        @Override
-        public String parser() {
-            return model == null ? null : model.parser();
-        }
-
-        @Override
-        public byte[] parserSource() {
-            return model == null ? null : model.parserSource();
+            return this.source == null ? 0 : this.source.id();
         }
 
         @Override
         public String rule() {
-            return model == null ? null : model.rule();
+            return this.source == null ? null : this.source.rule();
         }
 
         @Override
-        public void setApplicationId(String id) {
-            this.applicationId = id;
+        public MessageType type() {
+            return this.source == null ? null : this.source.type();
+        }
+
+        @Override
+        public boolean enable() {
+            return this.source != null && this.source.enable();
+        }
+
+        @Override
+        public String name() {
+            return this.source == null ? null : this.source.name();
+        }
+
+        @Override
+        public String content() {
+            return this.source == null ? null : this.source.content();
+        }
+
+        @Override
+        public String description() {
+            return this.source == null ? null : this.source.description();
+        }
+
+        @Override
+        public String parser() {
+            return this.source == null ? null : this.source.parser();
+        }
+
+        @Override
+        public byte[] parserSource() {
+            return this.source == null ? null : this.source.parserSource();
+        }
+
+        @Override
+        public void setApplicationId(String applicationId) {
+            this.applicationId = applicationId;
         }
 
         @Override
         public String getApplicationId() {
-            return applicationId;
+            return this.applicationId;
         }
 
         @Override
-        public void setApplicationKey(String key) {
-            this.applicationKey = key;
+        public void setApplicationKey(String applicationKey) {
+            this.applicationKey = applicationKey;
         }
 
         @Override
         public String getApplicationKey() {
-            return applicationKey;
+            return this.applicationKey;
         }
 
         @Override
-        public void setApplicationName(String name) {
-            this.applicationName = name;
+        public void setApplicationName(String applicationName) {
+            this.applicationName = applicationName;
         }
 
         @Override
         public String getApplicationName() {
-            return applicationName;
+            return this.applicationName;
         }
 
         @Override
-        public void setApplicationSecret(String secret) {
-            this.applicationSecret = secret;
+        public void setApplicationSecret(String applicationSecret) {
+            this.applicationSecret = applicationSecret;
         }
 
         @Override
         public String getApplicationSecret() {
-            return applicationSecret;
+            return this.applicationSecret;
         }
 
         @Override
-        public void setApplicationDomain(String domain) {
-            this.applicationDomain = domain;
+        public void setApplicationDomain(String applicationDomain) {
+            this.applicationDomain = applicationDomain;
         }
 
         @Override
         public String getApplicationDomain() {
-            return applicationDomain;
+            return this.applicationDomain;
         }
 
         @Override
         public void setOther(Map<String, String> other) {
-            this.other = other;
+            if (other != null) {
+                this.other = Collections.unmodifiableMap(other);
+            }
         }
 
         @Override
         public Map<String, String> getOther() {
             return other;
         }
-        
+
     }
 
 }

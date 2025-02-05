@@ -1,6 +1,7 @@
 package club.p6e.coat.message.center.service.impl;
 
 import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.common.utils.TransformationUtil;
 import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.MailMessageConfigModel;
@@ -8,11 +9,12 @@ import club.p6e.coat.message.center.service.MailMessageConfigParserService;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 源配置对象转邮件消息配置对象解析器
+ * MailMessageConfigParserServiceImpl
  *
  * @author lidashuang
  * @version 1.0
@@ -21,129 +23,135 @@ import java.util.Map;
 public class MailMessageConfigParserServiceImpl implements MailMessageConfigParserService {
 
     /**
-     * 默认的模板解析器名称
+     * PARSER_NAME
      */
-    private static final String DEFAULT_PARSER = "MAIL_DEFAULT";
+    private static final String PARSER_NAME = "MAIL_CONFIG_DEFAULT_PARSER";
 
     @Override
     public String name() {
-        return DEFAULT_PARSER;
+        return PARSER_NAME;
     }
 
     @Override
-    public MailMessageConfigModel execute(ConfigModel config) {
-        return new SimpleMailMessageConfigModel(config) {{
-            if (config.content() != null) {
-                final Map<String, String> data = JsonUtil.fromJsonToMap(config.content(), String.class, String.class);
-                if (data != null) {
-                    setHost(data.get("host"));
-                    setFrom(data.get("from"));
-                    setPassword(data.get("password"));
-                    setPort(Integer.parseInt(data.get("port")));
-                    setTls(Boolean.parseBoolean(data.get("tls")));
-                    setAuth(Boolean.parseBoolean(data.get("auth")));
-                    setOther(data);
+    public MailMessageConfigModel execute(ConfigModel cm) {
+        final SimpleMailMessageConfigModel model = new SimpleMailMessageConfigModel(cm);
+        if (cm.content() != null) {
+            final Map<String, Object> data = JsonUtil.fromJsonToMap(cm.content(), String.class, Object.class);
+            if (data != null) {
+                model.setTls(TransformationUtil.objectToBoolean(data.get("tls")));
+                model.setAuth(TransformationUtil.objectToBoolean(data.get("auth")));
+                model.setFrom(TransformationUtil.objectToString(data.get("from")));
+                model.setHost(TransformationUtil.objectToString(data.get("host")));
+                model.setPort(TransformationUtil.objectToInteger(data.get("port")));
+                model.setPassword(TransformationUtil.objectToString(data.get("password")));
+                final Map<String, String> other = new HashMap<>();
+                for (final String key : data.keySet()) {
+                    other.put(key, TransformationUtil.objectToString(data.get(key)));
                 }
+                model.setOther(other);
             }
-        }};
+        }
+        return model;
     }
 
     /**
-     * 简单邮件消息配置模型
+     * SimpleMailMessageConfigModel
      */
     public static class SimpleMailMessageConfigModel implements MailMessageConfigModel, Serializable {
+
         /**
-         * 端口
+         * Port / Default Value 25
          */
         private int port = 25;
 
         /**
-         * 邮件服务器地址
+         * Host
          */
         private String host;
 
         /**
-         * 是否开启认证
-         */
-        private boolean auth = false;
-
-        /**
-         * 是否开启 TLS
+         * TLS / Default Value false
          */
         private boolean tls = false;
 
         /**
-         * 发送者
+         * Auth / Default Value false
+         */
+        private boolean auth = false;
+
+        /**
+         * From
          */
         private String from;
 
         /**
-         * 密码
+         * Password
          */
         private String password;
 
         /**
-         * 其他配置
+         * Other Data
          */
-        public Map<String, String> other = new HashMap<>();
+        public Map<String, String> other = Collections.unmodifiableMap(new HashMap<>());
 
         /**
-         * 源配置对象
+         * Source Config Model
          */
-        private final ConfigModel model;
+        private final ConfigModel source;
 
         /**
-         * 构造方法注入源配置对象
+         * Construct initialization
+         * Inject Source Config Model Object
          *
-         * @param model 配置对象
+         * @param source Source Config Model
          */
-        public SimpleMailMessageConfigModel(ConfigModel model) {
-            this.model = model;
+        public SimpleMailMessageConfigModel(ConfigModel source) {
+            this.source = source;
         }
 
         @Override
         public int id() {
-            return model == null ? 0 : model.id();
-        }
-
-        @Override
-        public boolean enable() {
-            return model != null && model.enable();
-        }
-
-        @Override
-        public String name() {
-            return model == null ? null : model.name();
-        }
-
-        @Override
-        public MessageType type() {
-            return model == null ? null : model.type();
-        }
-
-        @Override
-        public String content() {
-            return model == null ? null : model.content();
-        }
-
-        @Override
-        public String description() {
-            return model == null ? null : model.description();
-        }
-
-        @Override
-        public String parser() {
-            return model == null ? null : model.parser();
-        }
-
-        @Override
-        public byte[] parserSource() {
-            return model == null ? null : model.parserSource();
+            return this.source == null ? 0 : this.source.id();
         }
 
         @Override
         public String rule() {
-            return model == null ? null : model.rule();
+            return this.source == null ? null : this.source.rule();
+        }
+
+        @Override
+        public MessageType type() {
+            return this.source == null ? null : this.source.type();
+        }
+
+        @Override
+        public boolean enable() {
+            return this.source != null && this.source.enable();
+        }
+
+        @Override
+        public String name() {
+            return this.source == null ? null : this.source.name();
+        }
+
+        @Override
+        public String content() {
+            return this.source == null ? null : this.source.content();
+        }
+
+        @Override
+        public String description() {
+            return this.source == null ? null : this.source.description();
+        }
+
+        @Override
+        public String parser() {
+            return this.source == null ? null : this.source.parser();
+        }
+
+        @Override
+        public byte[] parserSource() {
+            return this.source == null ? null : this.source.parserSource();
         }
 
         @Override
@@ -208,7 +216,9 @@ public class MailMessageConfigParserServiceImpl implements MailMessageConfigPars
 
         @Override
         public void setOther(Map<String, String> other) {
-            this.other = other;
+            if (other != null) {
+                this.other = Collections.unmodifiableMap(other);
+            }
         }
 
         @Override

@@ -1,7 +1,7 @@
 package club.p6e.coat.message.center;
 
 /**
- * 消息类型
+ * MessageType
  *
  * @author lidashuang
  * @version 1.0
@@ -9,19 +9,23 @@ package club.p6e.coat.message.center;
 public enum MessageType {
 
     /**
-     * 短消息类型
+     * SMS 短消息类型
      */
     SMS,
     /**
-     * 邮件消息类型
+     * MAIL 邮件消息类型
      */
     MAIL,
     /**
-     * 移动消息类型
+     * WECHAT 微信消息类型
+     */
+    WECHAT,
+    /**
+     * MOBILE 移动消息类型
      */
     MOBILE,
     /**
-     * 电报消息类型
+     * TELEGRAM 电报消息类型
      */
     TELEGRAM
 

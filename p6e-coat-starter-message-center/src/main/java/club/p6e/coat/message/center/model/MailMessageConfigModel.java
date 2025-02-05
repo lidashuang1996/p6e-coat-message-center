@@ -1,110 +1,111 @@
 package club.p6e.coat.message.center.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
- * 邮件消息配置
+ * MailMessageConfigModel
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface MailMessageConfigModel extends ConfigModel {
+public interface MailMessageConfigModel extends ConfigModel, Serializable {
 
     /**
-     * 设置主机端口
+     * Set Port
      *
-     * @param port 主机端口
+     * @param port Port
      */
     void setPort(int port);
 
     /**
-     * 获取主机端口
+     * Get Port
      *
-     * @return 主机端口
+     * @return Port
      */
     int getPort();
 
     /**
-     * 设置主机地址
+     * Set Host
      *
-     * @param host 主机地址
+     * @param host Host
      */
     void setHost(String host);
 
     /**
-     * 获取主机地址
+     * Get Host
      *
-     * @return 主机地址
+     * @return Host
      */
     String getHost();
 
     /**
-     * 设置是否开启认证
+     * Set Auth
      *
-     * @param auth 是否开启认证
+     * @param auth Auth
      */
     void setAuth(boolean auth);
 
     /**
-     * 获取是否开启认证
+     * Get Auth
      *
-     * @return 是否开启认证
+     * @return Auth
      */
     boolean isAuth();
 
     /**
-     * 设置否开启TLS
+     * Set TLS
      *
-     * @param tls 是否开启 TLS
+     * @param tls TLS
      */
     void setTls(boolean tls);
 
     /**
-     * 获取是否开启TLS
+     * Get TLS
      *
-     * @return 是否开启TLS
+     * @return TLS
      */
     boolean isTls();
 
     /**
-     * 设置发件人
+     * Set From
      *
-     * @param from 发件人
+     * @param from From
      */
     void setFrom(String from);
 
     /**
-     * 获取发件人
+     * Get From
      *
-     * @return 发件人
+     * @return From
      */
     String getFrom();
 
     /**
-     * 设置密码
+     * Set Password
      *
-     * @param password 密码
+     * @param password Password
      */
     void setPassword(String password);
 
     /**
-     * 获取密码
+     * Get Password
      *
-     * @return 密码
+     * @return Password
      */
     String getPassword();
 
     /**
-     * 设置其他参数
+     * Set Other
      *
-     * @param other 其他参数
+     * @param other Other
      */
     void setOther(Map<String, String> other);
 
     /**
-     * 获取其他参数
+     * Get Other
      *
-     * @return 其他参数
+     * @return Other
      */
     Map<String, String> getOther();
 

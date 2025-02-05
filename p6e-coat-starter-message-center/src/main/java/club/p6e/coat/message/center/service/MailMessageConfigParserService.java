@@ -1,23 +1,35 @@
 package club.p6e.coat.message.center.service;
 
+import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.MailMessageConfigModel;
 
 /**
- * 邮件消息配置解析器
+ * MailMessageConfigParserService
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface MailMessageConfigParserService extends ConfigParserService {
+public interface MailMessageConfigParserService extends ConfigParserService<MailMessageConfigModel> {
 
     /**
-     * 执行将配置数据对象转换为邮件消息配置数据对象
+     * Get Message Type
      *
-     * @param config 配置数据对象
-     * @return 邮件消息配置数据对象
+     * @return Message Type
      */
     @Override
-    MailMessageConfigModel execute(ConfigModel config);
+    default MessageType type() {
+        return MessageType.MAIL;
+    }
+
+    /**
+     * Execute Config Parser Service
+     * [Config Model] -- Transform --> [Mail Message Config Model]
+     *
+     * @param cm Config Model
+     * @return Mail Message Config Model
+     */
+    @Override
+    MailMessageConfigModel execute(ConfigModel cm);
 
 }

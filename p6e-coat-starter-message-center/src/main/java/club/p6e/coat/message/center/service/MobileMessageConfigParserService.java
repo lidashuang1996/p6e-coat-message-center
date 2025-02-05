@@ -1,23 +1,35 @@
 package club.p6e.coat.message.center.service;
 
+import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.MobileMessageConfigModel;
 
 /**
- * 移动消息配置解析器
+ * MobileMessageConfigParserService
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface MobileMessageConfigParserService extends ConfigParserService {
+public interface MobileMessageConfigParserService extends ConfigParserService<MobileMessageConfigModel> {
 
     /**
-     * 执行将配置数据对象转换为移动消息配置数据对象
+     * Get Message Type
      *
-     * @param config 配置数据对象
-     * @return 移动消息配置数据对象
+     * @return Message Type
      */
     @Override
-    MobileMessageConfigModel execute(ConfigModel config);
+    default MessageType type() {
+        return MessageType.MOBILE;
+    }
+
+    /**
+     * Execute Config Parser Service
+     * [Config Model] -- Transform --> [Mobile Message Config Model]
+     *
+     * @param cm Config Model
+     * @return Mobile Message Config Model
+     */
+    @Override
+    MobileMessageConfigModel execute(ConfigModel cm);
 
 }

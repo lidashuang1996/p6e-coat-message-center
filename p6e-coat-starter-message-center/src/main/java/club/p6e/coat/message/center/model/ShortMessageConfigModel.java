@@ -3,7 +3,7 @@ package club.p6e.coat.message.center.model;
 import java.util.Map;
 
 /**
- * 短消息配置
+ * ShortMessageConfigModel
  *
  * @author lidashuang
  * @version 1.0
@@ -11,86 +11,86 @@ import java.util.Map;
 public interface ShortMessageConfigModel extends ConfigModel {
 
     /**
-     * 设置应用编号
+     * Set Application ID
      *
-     * @param id 应用编号
+     * @param id Application ID
      */
     void setApplicationId(String id);
 
     /**
-     * 获取应用编号
+     * Get Application ID
      *
-     * @return 应用编号
+     * @return Get Application ID
      */
     String getApplicationId();
 
     /**
-     * 设置应用 KEY
+     * Set Application Key
      *
-     * @param key 应用 KEY
+     * @param key Application Key
      */
     void setApplicationKey(String key);
 
     /**
-     * 获取应用 KEY
+     * Get Application Key
      *
-     * @return 应用 KEY
+     * @return Application Key
      */
     String getApplicationKey();
 
     /**
-     * 设置应用名称
+     * Set Application Name
      *
-     * @param name 应用名称
+     * @param name Application Name
      */
     void setApplicationName(String name);
 
     /**
-     * 获取应用名称
+     * Get Application Name
      *
-     * @return 应用名称
+     * @return Application Name
      */
     String getApplicationName();
 
     /**
-     * 设置应用密钥
+     * Set Application Secret
      *
-     * @param secret 应用密钥
+     * @param secret Application Secret
      */
     void setApplicationSecret(String secret);
 
     /**
-     * 获取应用密钥
+     * Get Application Secret
      *
-     * @return 应用密钥
+     * @return Application Secret
      */
     String getApplicationSecret();
 
     /**
-     * 设置应用领域
+     * Set Application Domain
      *
-     * @param domain 应用领域
+     * @param domain Application Domain
      */
     void setApplicationDomain(String domain);
 
     /**
-     * 获取应用领域
+     * Get Application Domain
      *
-     * @return 应用领域
+     * @return Application Domain
      */
     String getApplicationDomain();
 
     /**
-     * 设置其它参数
+     * Set Other
      *
-     * @param other 其它参数
+     * @param other Other
      */
     void setOther(Map<String, String> other);
 
     /**
-     * 获取其它参数
+     * Get Other
      *
-     * @return 其它参数
+     * @return Other
      */
     Map<String, String> getOther();
 
