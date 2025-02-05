@@ -88,7 +88,7 @@ public class MobileMessageConfigParserServiceImpl implements MobileMessageConfig
         private final ConfigModel source;
 
         /**
-         * Construct initialization
+         * Construct Initialization
          * Inject Source Config Model Object
          *
          * @param source Source Config Model

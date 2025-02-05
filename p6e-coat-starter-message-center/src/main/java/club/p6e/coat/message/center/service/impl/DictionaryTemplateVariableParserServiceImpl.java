@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 字典变量解析器
+ * DictionaryTemplateVariableParserServiceImpl
  *
  * @author lidashuang
  * @version 1.0
@@ -24,24 +24,24 @@ import java.util.Map;
 public class DictionaryTemplateVariableParserServiceImpl implements TemplateVariableParserService {
 
     /**
-     * 排序
+     * ORDER
      */
     private static final int ORDER = 2000;
 
     /**
-     * 标记的前缀
+     * MARK PREFIX
      */
     private static final String MARK_PREFIX = "#DIC_";
 
     /**
-     * 缓存对象
+     * Cache Dictionary Object
      */
     private Map<String, Map<String, String>> cache = Collections.unmodifiableMap(new HashMap<>());
 
     /**
-     * 初始化字典
+     * Initialize Dictionary
      *
-     * @param data 字典对象
+     * @param data Dictionary
      */
     @SuppressWarnings("ALL")
     public void init(Map<String, Map<String, String>> data) {
@@ -55,12 +55,17 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
     }
 
     /**
-     * 读取字典内容
+     * Get Dictionary
      *
-     * @return 字典内容对象
+     * @return Dictionary
      */
     public Map<String, Map<String, String>> getData() {
         return cache;
+    }
+
+    @Override
+    public int getOrder() {
+        return ORDER;
     }
 
     @Override
@@ -83,11 +88,17 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
                 }
             }
         } catch (Exception ignore) {
-            // ignore
+            // ignore exception
         }
         return null;
     }
 
+    /**
+     * Execute Dictionary Default Value
+     *
+     * @param data Dictionary Data
+     * @return Default Value
+     */
     private String executeDefaultValue(Map<String, String> data) {
         if (data == null) {
             return null;
@@ -102,11 +113,6 @@ public class DictionaryTemplateVariableParserServiceImpl implements TemplateVari
                 return data.get("_");
             }
         }
-    }
-
-    @Override
-    public int getOrder() {
-        return ORDER;
     }
 
 }

@@ -94,7 +94,7 @@ public class ShortMessageConfigParserServiceImpl implements ShortMessageConfigPa
         private final ConfigModel source;
 
         /**
-         * Construct initialization
+         * Construct Initialization
          * Inject Source Config Model Object
          *
          * @param source Source Config Model

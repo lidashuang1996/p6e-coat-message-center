@@ -2,7 +2,7 @@ package club.p6e.coat.message.center.service;
 
 import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
-import club.p6e.coat.message.center.model.MailMessageConfigModel;
+import club.p6e.coat.message.center.model.WeChatMessageConfigModel;
 
 /**
  * WeChatMessageConfigParserService
@@ -10,7 +10,7 @@ import club.p6e.coat.message.center.model.MailMessageConfigModel;
  * @author lidashuang
  * @version 1.0
  */
-public interface WeChatMessageConfigParserService extends ConfigParserService<MailMessageConfigModel> {
+public interface WeChatMessageConfigParserService extends ConfigParserService<WeChatMessageConfigModel> {
 
     /**
      * Get Message Type
@@ -19,17 +19,17 @@ public interface WeChatMessageConfigParserService extends ConfigParserService<Ma
      */
     @Override
     default MessageType type() {
-        return MessageType.MAIL;
+        return MessageType.WECHAT;
     }
 
     /**
      * Execute Config Parser Service
-     * [Config Model] -- Transform --> [Mail Message Config Model]
+     * [Config Model] -- Transform --> [We Chat Message Config Model]
      *
      * @param cm Config Model
-     * @return Mail Message Config Model
+     * @return We Chat Message Config Model
      */
     @Override
-    MailMessageConfigModel execute(ConfigModel cm);
+    WeChatMessageConfigModel execute(ConfigModel cm);
 
 }

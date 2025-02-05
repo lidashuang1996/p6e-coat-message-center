@@ -3,7 +3,7 @@ package club.p6e.coat.message.center.service;
 import org.springframework.core.Ordered;
 
 /**
- * 模板变量解析器服务
+ * TemplateVariableParserService
  *
  * @author lidashuang
  * @version 1.0
@@ -11,11 +11,11 @@ import org.springframework.core.Ordered;
 public interface TemplateVariableParserService extends Ordered {
 
     /**
-     * 执行解析变量
+     * Execute Template Variable Parser
      *
-     * @param key      变量的名称
-     * @param language 环境的语言
-     * @return 解析的值
+     * @param key      Key
+     * @param language Language
+     * @return Result Value
      */
     String execute(String key, String language);
 

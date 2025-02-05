@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * KEY/VALUE 变量解析器
+ * KeyValueTemplateVariableParserServiceImpl
  *
  * @author lidashuang
  * @version 1.0
@@ -24,24 +24,24 @@ import java.util.Map;
 public class KeyValueTemplateVariableParserServiceImpl implements TemplateVariableParserService {
 
     /**
-     * 排序
+     * ORDER
      */
     private static final int ORDER = 0;
 
     /**
-     * 标记的前缀
+     * MARK PREFIX
      */
     private static final String MARK_PREFIX = "#KV_";
 
     /**
-     * 缓存对象
+     * Cache Object
      */
     private Map<String, String> cache = Collections.unmodifiableMap(new HashMap<>());
 
     /**
-     * 初始化字典
+     * Initialize Key/Value
      *
-     * @param data 字典对象
+     * @param data Key/Value
      */
     @SuppressWarnings("ALL")
     public void init(Map<String, String> data) {
@@ -51,12 +51,17 @@ public class KeyValueTemplateVariableParserServiceImpl implements TemplateVariab
     }
 
     /**
-     * 读取 KEY/VALUE 数据
+     * Get Key/Value
      *
-     * @return KEY/VALUE 数据对象
+     * @return Key/Value
      */
     public Map<String, String> getData() {
         return cache;
+    }
+
+    @Override
+    public int getOrder() {
+        return ORDER;
     }
 
     @Override
@@ -70,14 +75,9 @@ public class KeyValueTemplateVariableParserServiceImpl implements TemplateVariab
                 }
             }
         } catch (Exception ignore) {
-            // ignore
+            // ignore exception
         }
         return null;
-    }
-
-    @Override
-    public int getOrder() {
-        return ORDER;
     }
 
 }

@@ -1,5 +1,6 @@
 package club.p6e.coat.message.center.service;
 
+import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.model.ConfigModel;
 import club.p6e.coat.message.center.model.TemplateMessageModel;
 
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 发射器服务
+ * LauncherService
  *
  * @author lidashuang
  * @version 1.0
@@ -15,19 +16,21 @@ import java.util.Map;
 public interface LauncherService<T extends ConfigModel> {
 
     /**
-     * 获取发射器的名称
+     * Get Name
      *
-     * @return 发射器的名称
+     * @return Name
      */
     String name();
 
     /**
-     * 执行发射器
+     * Get Message Type
      *
-     * @param config     配置对象
-     * @param template   模板对象
-     * @param recipients 收件人列表
-     * @return 执行结果
+     * @return Message Type
+     */
+    MessageType type();
+
+    /**
+     * Execute Launcher Service
      */
     Map<String, List<String>> execute(List<String> recipients, TemplateMessageModel template, T config);
 
