@@ -39,16 +39,16 @@ public interface WeChatMessageConfigModel extends ConfigModel {
     String getApplicationSecret();
 
     /**
-     * Set Application Name
+     * Set Access Token Url
      *
-     * @param name Application Name
+     * @param url Access Token Url
      */
-    void setAccessTokenUrl(String name);
+    void setAccessTokenUrl(String url);
 
     /**
-     * Get Application Name
+     * Get Access Token Url
      *
-     * @return Application Name
+     * @return Access Token Url
      */
     String getAccessTokenUrl();
 
