@@ -2,9 +2,9 @@ package club.p6e.coat.message.center.repository;
 
 import club.p6e.DatabaseConfig;
 import club.p6e.coat.message.center.MessageType;
-import club.p6e.coat.message.center.model.ConfigModel;
-import club.p6e.coat.message.center.model.LauncherModel;
-import club.p6e.coat.message.center.model.TemplateModel;
+import club.p6e.coat.message.center.config.ConfigModel;
+import club.p6e.coat.message.center.launcher.LauncherModel;
+import club.p6e.coat.message.center.template.TemplateModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

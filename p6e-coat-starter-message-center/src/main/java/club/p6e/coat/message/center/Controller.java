@@ -5,7 +5,7 @@ import club.p6e.coat.common.error.ParameterException;
 import club.p6e.coat.common.utils.FileUtil;
 import club.p6e.coat.common.utils.GeneratorUtil;
 import club.p6e.coat.common.utils.JsonUtil;
-import club.p6e.coat.message.center.service.TransmitterService;
+import club.p6e.coat.message.center.template.TransmitterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
