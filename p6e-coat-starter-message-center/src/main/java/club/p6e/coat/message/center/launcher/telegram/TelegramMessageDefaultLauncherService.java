@@ -7,11 +7,9 @@ import club.p6e.coat.message.center.ExpiredCache;
 import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.config.telegram.TelegramMessageConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherResultModel;
-import club.p6e.coat.message.center.launcher.LauncherStartingModel;
 import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.log.LogService;
-import club.p6e.coat.message.center.template.TemplateModel;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,9 +81,7 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
     }
 
     @Override
-    public LauncherResultModel execute(LauncherStartingModel starting, TemplateModel template, TelegramMessageConfigModel config) {
-        // build launcher template model object
-        final LauncherTemplateModel ltm = LauncherTemplateModel.build(starting, template);
+    public LauncherResultModel execute(LauncherTemplateModel ltm, TelegramMessageConfigModel config) {
         threadPool.submit(() -> {
             try {
                 LOGGER.info("[ TELEGRAM LAUNCHER ] >>> START SEND TELEGRAM.");

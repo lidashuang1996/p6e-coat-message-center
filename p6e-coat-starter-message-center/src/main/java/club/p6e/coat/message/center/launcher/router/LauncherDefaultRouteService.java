@@ -3,27 +3,27 @@ package club.p6e.coat.message.center.launcher.router;
 import club.p6e.coat.message.center.config.ConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherModel;
 import club.p6e.coat.message.center.launcher.LauncherRouteService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- * 默认的发射器路由服务
+ * LauncherDefaultRouteService
  *
  * @author lidashuang
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = DefaultLauncherRouteServiceImpl.class,
-        ignored = DefaultLauncherRouteServiceImpl.class
-)
-public class DefaultLauncherRouteServiceImpl extends PollingLauncherRouteServiceImpl implements LauncherRouteService {
+public class LauncherDefaultRouteService extends LauncherPollingRouteService implements LauncherRouteService {
+
+    /**
+     * Router Name
+     */
+    private static final String DEFAULT_ROUTER_NAME = "LAUNCHER_DEFAULT_ROUTER";
 
     @Override
     public String name() {
-        return "DEFAULT";
+        return DEFAULT_ROUTER_NAME;
     }
 
     @Override

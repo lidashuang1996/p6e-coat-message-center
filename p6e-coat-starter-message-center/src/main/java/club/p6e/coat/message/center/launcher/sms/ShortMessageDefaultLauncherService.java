@@ -1,24 +1,22 @@
 package club.p6e.coat.message.center.launcher.sms;
 
 import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.common.utils.Md5Util;
 import club.p6e.coat.message.center.ExpiredCache;
 import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.config.sms.ShortMessageConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherResultModel;
-import club.p6e.coat.message.center.launcher.LauncherStartingModel;
 import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
 import club.p6e.coat.message.center.log.LogService;
-import club.p6e.coat.message.center.template.TemplateModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 默认短消息发射服务
+ * ShortMessageDefaultLauncherService
  *
  * @author lidashuang
  * @version 1.0
@@ -27,40 +25,40 @@ import java.util.Map;
 public class ShortMessageDefaultLauncherService implements ShortMessageLauncherService {
 
     /**
-     * 最大收件人长度
+     * Maximum recipient length
      */
     public static int MAX_RECIPIENT_LENGTH = 50;
 
     /**
-     * 默认的模板解析器名称
-     */
-    private static final String DEFAULT_PARSER = "SMS_DEFAULT";
-
-    /**
-     * 缓存类型
+     * Cache Type
      */
     protected static final String CACHE_TYPE = "SMS_A_LI_YUN_CLIENT";
 
     /**
-     * 注入日志对象
+     * Launcher Name
+     */
+    private static final String DEFAULT_LAUNCHER_NAME = "SMS_DEFAULT_LAUNCHER";
+
+    /**
+     * Inject Log Object
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ShortMessageDefaultLauncherService.class);
 
     /**
-     * 日志服务
+     * Log Service
      */
-    private final LogService logService;
+    protected final LogService logService;
 
     /**
-     * 消息中心线程池对象
+     * Message Center Thread Pool Object
      */
-    private final MessageCenterThreadPool threadPool;
+    protected final MessageCenterThreadPool threadPool;
 
     /**
-     * 构造方法注入
+     * Construct Initialization
      *
-     * @param logService 日志服务对象
-     * @param threadPool 消息中心线程池对象
+     * @param logService Log Service
+     * @param threadPool Thread Pool Object
      */
     public ShortMessageDefaultLauncherService(LogService logService, MessageCenterThreadPool threadPool) {
         this.logService = logService;
@@ -69,83 +67,78 @@ public class ShortMessageDefaultLauncherService implements ShortMessageLauncherS
 
     @Override
     public String name() {
-        return DEFAULT_PARSER;
+        return DEFAULT_LAUNCHER_NAME;
     }
 
     @Override
-    public LauncherResultModel execute(LauncherStartingModel starting, TemplateModel template, ShortMessageConfigModel config) {
-        return null;
-    }
-
-    @Override
-    public Map<String, List<String>> execute(List<String> recipients, LauncherTemplateModel template, ShortMessageConfigModel config) {
-        final int size = recipients.size();
-        final Map<String, List<String>> result = new HashMap<>(16);
+    public LauncherResultModel execute(LauncherTemplateModel ltm, ShortMessageConfigModel config) {
+        // segmentation send mail task
+        final int size = ltm.getRecipients().size();
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
-            final List<String> recipient = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
-            final Map<String, List<String>> logData = logService.create(recipient, template);
-            result.putAll(logData);
+            final List<String> recipient = ltm.getRecipients().subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            // submit sms sending tasks in the thread pool
             threadPool.submit(() -> {
                 try {
-                    LOGGER.info("[ SMS MESSAGE ] >>> start send SMS.");
-                    LOGGER.info("[ SMS MESSAGE ] >>> recipient: {}", recipient);
-                    LOGGER.info("[ SMS MESSAGE ] >>> template title: {}", template.getMessageTitle());
-                    LOGGER.info("[ SMS MESSAGE ] >>> template content: {}", template.getMessageContent());
-                    execute(getClient(config), recipient, template);
-                    LOGGER.info("[ MAIL MESSAGE ] >>> end send SMS.");
-                } catch (Exception ignore) {
-                    // ignore
+                    LOGGER.info("[ SMS LAUNCHER ] >>> START SEND SMS.");
+                    LOGGER.info("[ SMS LAUNCHER ] >>> SMS RECIPIENTS: {}", recipient);
+                    LOGGER.info("[ SMS LAUNCHER ] >>> SMS CLIENT: {}", JsonUtil.toJson(config));
+                    LOGGER.info("[ SMS LAUNCHER ] >>> SMS TEMPLATE TITLE: {}", ltm.getMessageTitle());
+                    LOGGER.info("[ SMS LAUNCHER ] >>> SMS TEMPLATE PARAM: {}", ltm.getMessageParam());
+                    execute(client(config), recipient, ltm);
                 } finally {
-                    logService.update(logData, "SUCCESS");
+                    LOGGER.info("[ SMS LAUNCHER ] >>> END SEND SMS.");
                 }
             });
         }
-        return result;
+        return () -> 0;
     }
 
     /**
-     * 获取客户端
+     * Get Client
      *
-     * @param config 配置对象
-     * @return 短信客户端对象
-     * @throws Exception 异常对象
+     * @param config Client Config
+     * @return Client
      */
-    protected com.aliyun.dysmsapi20170525.Client getClient(ShortMessageConfigModel config) throws Exception {
-        com.aliyun.dysmsapi20170525.Client client = ExpiredCache.get(CACHE_TYPE, config.getApplicationName());
-        if (client == null) {
-            client = createClient(config);
+    protected com.aliyun.dysmsapi20170525.Client client(ShortMessageConfigModel config) {
+        try {
+            final String name = Md5Util.execute(Md5Util.execute(config.getApplicationId()));
+            com.aliyun.dysmsapi20170525.Client client = ExpiredCache.get(CACHE_TYPE, name);
+            if (client == null) {
+                client = client(name, config);
+            }
+            return client;
+        } catch (Exception e) {
+            return null;
         }
-        return client;
     }
 
     /**
-     * 创建客户端
+     * Create Client
      *
-     * @param config 配置对象
-     * @return 短信客户端对象
-     * @throws Exception 异常对象
+     * @param name   Client Name
+     * @param config Client Config
+     * @return Client
      */
-    protected synchronized com.aliyun.dysmsapi20170525.Client createClient(ShortMessageConfigModel config) throws Exception {
+    protected synchronized com.aliyun.dysmsapi20170525.Client client(String name, ShortMessageConfigModel config) throws Exception {
         final String id = config.getApplicationId();
-        final String name = config.getApplicationName();
         final String domain = config.getApplicationDomain();
         final String secret = config.getApplicationSecret();
         com.aliyun.dysmsapi20170525.Client client = ExpiredCache.get(CACHE_TYPE, name);
         if (client == null) {
             final com.aliyun.teaopenapi.models.Config aliyunConfig = new com.aliyun.teaopenapi.models.Config();
             aliyunConfig.setAccessKeyId(id);
-            aliyunConfig.setAccessKeySecret(secret);
             aliyunConfig.setEndpoint(domain);
+            aliyunConfig.setAccessKeySecret(secret);
             client = new com.aliyun.dysmsapi20170525.Client(aliyunConfig);
             ExpiredCache.set(CACHE_TYPE, name, client);
         }
         return client;
     }
 
-    protected void execute(com.aliyun.dysmsapi20170525.Client client, List<String> recipients, LauncherTemplateModel template) throws Exception {
+    protected void execute(com.aliyun.dysmsapi20170525.Client client, List<String> recipients, LauncherTemplateModel ltm) {
         try {
-            final String title = template.getMessageTitle();
-            final Map<String, String> params = template.getMessageParam();
+            final String title = ltm.getMessageTitle();
+            final Map<String, String> params = ltm.getMessageParam();
             final com.aliyun.teautil.models.RuntimeOptions
                     runtimeOptions = new com.aliyun.teautil.models.RuntimeOptions();
             final com.aliyun.dysmsapi20170525.models.SendBatchSmsRequest
@@ -155,7 +148,7 @@ public class ShortMessageDefaultLauncherService implements ShortMessageLauncherS
             sendBatchSmsRequest.setPhoneNumberJson(JsonUtil.toJson(recipients));
             client.sendBatchSmsWithOptions(sendBatchSmsRequest, runtimeOptions);
         } catch (Exception e) {
-            LOGGER.error("[ SHORT MESSAGE SEND ERROR ]", e);
+            LOGGER.error("[ SMS LAUNCHER ] SEND ERROR >>> {}", e.getMessage());
         }
     }
 

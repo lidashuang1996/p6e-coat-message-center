@@ -2,7 +2,6 @@ package club.p6e.coat.message.center.launcher;
 
 import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigModel;
-import club.p6e.coat.message.center.template.TemplateModel;
 
 /**
  * LauncherService
@@ -20,15 +19,19 @@ public interface LauncherService<T extends ConfigModel> {
     String name();
 
     /**
-     * Get Message Type
+     * Get Message Center Type
      *
-     * @return Message Type
+     * @return Message Center Type
      */
     MessageCenterType type();
 
     /**
      * Execute Launcher Service
+     *
+     * @param ltm    Launcher Template Model
+     * @param config Config Model
+     * @return Launcher Result Model
      */
-    LauncherResultModel execute(LauncherStartingModel starting, TemplateModel template, T config);
+    LauncherResultModel execute(LauncherTemplateModel ltm, T config);
 
 }

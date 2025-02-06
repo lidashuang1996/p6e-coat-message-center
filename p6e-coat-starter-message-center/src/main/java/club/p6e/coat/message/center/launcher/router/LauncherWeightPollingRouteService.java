@@ -4,28 +4,28 @@ import club.p6e.coat.common.utils.JsonUtil;
 import club.p6e.coat.message.center.config.ConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherModel;
 import club.p6e.coat.message.center.launcher.LauncherRouteService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
- * 加权轮询发射器路由服务
+ * LauncherWeightPollingRouteService
  *
  * @author lidashuang
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = WeightPollingLauncherRouteServiceImpl.class,
-        ignored = WeightPollingLauncherRouteServiceImpl.class
-)
-public class WeightPollingLauncherRouteServiceImpl
-        extends PollingLauncherRouteServiceImpl implements LauncherRouteService {
+public class LauncherWeightPollingRouteService
+        extends LauncherPollingRouteService implements LauncherRouteService {
+
+    /**
+     * Router Name
+     */
+    private static final String DEFAULT_ROUTER_NAME = "LAUNCHER_WEIGHT_POLLING_ROUTER";
 
     @Override
     public String name() {
-        return "WEIGHT_POLLING";
+        return DEFAULT_ROUTER_NAME;
     }
 
     @Override
@@ -79,11 +79,11 @@ public class WeightPollingLauncherRouteServiceImpl
     }
 
     /**
-     * 获取发射器上面对象配置模型对象的权重属性数据
+     * Get Launcher Config Weight Number
      *
-     * @param config   配置对象
-     * @param launcher 发射器模型
-     * @return 权重属性数据
+     * @param config   Config Model
+     * @param launcher Launcher Model
+     * @return Weight Number
      */
     private Integer getWeightAttributeData(LauncherModel launcher, ConfigModel config) {
         try {
@@ -96,10 +96,10 @@ public class WeightPollingLauncherRouteServiceImpl
                     }
                 }
             }
-            return null;
         } catch (Exception e) {
-            return null;
+            //ignore exception
         }
+        return null;
     }
 
 }

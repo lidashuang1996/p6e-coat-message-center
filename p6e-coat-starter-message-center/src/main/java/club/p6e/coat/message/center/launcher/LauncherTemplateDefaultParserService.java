@@ -239,7 +239,6 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
          * Attachments
          */
         private final List<File> attachments = new CopyOnWriteArrayList<>();
-        ;
 
         /**
          * Construct Initialization
@@ -368,6 +367,11 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
         public void setAttachment(List<File> files) {
             this.attachments.clear();
             this.attachments.addAll(files);
+        }
+
+        @Override
+        public List<String> getRecipients() {
+            return List.of();
         }
 
     }

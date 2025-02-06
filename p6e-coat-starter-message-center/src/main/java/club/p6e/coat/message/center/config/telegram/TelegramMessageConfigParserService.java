@@ -12,9 +12,9 @@ import club.p6e.coat.message.center.config.ConfigParserService;
 public interface TelegramMessageConfigParserService extends ConfigParserService<TelegramMessageConfigModel> {
 
     /**
-     * Get Message Type
+     * Get Message Center Type
      *
-     * @return Message Type
+     * @return Message Center Type
      */
     @Override
     default MessageCenterType type() {

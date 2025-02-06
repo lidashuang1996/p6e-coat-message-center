@@ -13,9 +13,9 @@ import club.p6e.coat.message.center.launcher.LauncherService;
 public interface ShortMessageLauncherService extends LauncherService<ShortMessageConfigModel> {
 
     /**
-     * Get Message Type
+     * Get Message Center Type
      *
-     * @return Message Type
+     * @return Message Center Type
      */
     @Override
     default MessageCenterType type() {

@@ -9,10 +9,8 @@ import club.p6e.coat.message.center.config.mail.MailMessageConfigModel;
 import club.p6e.coat.message.center.error.MessageCenterConfigException;
 import club.p6e.coat.message.center.error.MessageCenterFileException;
 import club.p6e.coat.message.center.launcher.LauncherResultModel;
-import club.p6e.coat.message.center.launcher.LauncherStartingModel;
 import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
 import club.p6e.coat.message.center.log.LogService;
-import club.p6e.coat.message.center.template.TemplateModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -45,7 +43,7 @@ public class MailMessageDefaultLauncherService implements MailMessageLauncherSer
     /**
      * Cache Type
      */
-    protected static final String CACHE_TYPE = "MAIL_CLIENT";
+    private static final String CACHE_TYPE = "MAIL_CLIENT";
 
     /**
      * Launcher Name
@@ -84,15 +82,13 @@ public class MailMessageDefaultLauncherService implements MailMessageLauncherSer
     }
 
     @Override
-    public LauncherResultModel execute(LauncherStartingModel starting, TemplateModel template, MailMessageConfigModel config) {
+    public LauncherResultModel execute(LauncherTemplateModel ltm, MailMessageConfigModel config) {
         // validate config object
         validate(config);
         // segmentation send mail task
-        final int size = starting.recipients().size();
-        // build launcher template model object
-        final LauncherTemplateModel ltm = LauncherTemplateModel.build(starting, template);
+        final int size = ltm.getRecipients().size();
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
-            final List<String> recipient = starting.recipients().subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            final List<String> recipient = ltm.getRecipients().subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
             // submit email sending tasks in the thread pool
             threadPool.submit(() -> {
                 try {
@@ -100,7 +96,7 @@ public class MailMessageDefaultLauncherService implements MailMessageLauncherSer
                     LOGGER.info("[ MAIL LAUNCHER ] >>> MAIL FROM: {}", config.getFrom());
                     LOGGER.info("[ MAIL LAUNCHER ] >>> MAIL RECIPIENTS: {}", recipient);
                     LOGGER.info("[ MAIL LAUNCHER ] >>> MAIL CLIENT: {}", JsonUtil.toJson(config));
-                    LOGGER.info("[ MAIL LAUNCHER ] >>> MAIL TEMPLATE: {}", ltm.getMessageTitle());
+                    LOGGER.info("[ MAIL LAUNCHER ] >>> MAIL TEMPLATE TITLE: {}", ltm.getMessageTitle());
                     LOGGER.info("[ MAIL LAUNCHER ] >>> MAIL TEMPLATE CONTENT: {}", ltm.getMessageContent());
                     // execute the operation of sending emails
                     send(client(config), config.getFrom(), recipient, ltm);
@@ -208,12 +204,12 @@ public class MailMessageDefaultLauncherService implements MailMessageLauncherSer
     /**
      * Send Mail Message
      *
-     * @param session    Client Session
-     * @param from       From
+     * @param form       Form Address
      * @param recipients Recipients
-     * @param template   Launcher Template Model
+     * @param session    Client Session
+     * @param ltm        Launcher Template Model
      */
-    protected void send(Session session, String from, List<String> recipients, LauncherTemplateModel template) {
+    protected void send(Session session, String form, List<String> recipients, LauncherTemplateModel ltm) {
         try {
             if (recipients != null && !recipients.isEmpty()) {
                 final List<InternetAddress> list = new ArrayList<>();
@@ -225,15 +221,15 @@ public class MailMessageDefaultLauncherService implements MailMessageLauncherSer
                         Message.RecipientType.BCC,
                         list.toArray(new InternetAddress[0])
                 );
-                message.setSubject(template.getMessageTitle());
-                message.setFrom(new InternetAddress(from));
+                message.setSubject(ltm.getMessageTitle());
+                message.setFrom(new InternetAddress(form));
                 final MimeMultipart multipart = new MimeMultipart();
                 final MimeBodyPart htmlBodyPart = new MimeBodyPart();
-                htmlBodyPart.setContent(template.getMessageContent(), "text/html; charset=utf-8");
+                htmlBodyPart.setContent(ltm.getMessageContent(), "text/html; charset=utf-8");
                 multipart.addBodyPart(htmlBodyPart);
-                if (template.getAttachment() != null
-                        && !template.getAttachment().isEmpty()) {
-                    for (final File file : template.getAttachment()) {
+                if (ltm.getAttachment() != null
+                        && !ltm.getAttachment().isEmpty()) {
+                    for (final File file : ltm.getAttachment()) {
                         try {
                             if (!FileUtil.checkFileExist(file)) {
                                 throw new MessageCenterFileException(

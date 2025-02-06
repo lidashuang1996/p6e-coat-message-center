@@ -2,7 +2,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 club.p6e.coat.message.center.repository.DataSourceRepository,\
 club.p6e.coat.message.center.template.DateTimeTemplateVariableParserService,\
-club.p6e.coat.message.center.launcher.router.DefaultLauncherRouteServiceImpl,\
+club.p6e.coat.message.center.launcher.router.LauncherDefaultRouteService,\
 club.p6e.coat.message.center.template.DictionaryTemplateVariableParserService,\
 club.p6e.coat.message.center.template.KeyValueTemplateVariableParserService,\
 club.p6e.coat.message.center.log.LogServiceImpl,\
@@ -11,15 +11,15 @@ club.p6e.coat.message.center.launcher.mail.MailMessageDefaultLauncherService,\
 club.p6e.coat.message.center.config.mobile.MobileMessageConfigDefaultParserService,\
 club.p6e.coat.message.center.launcher.mobile.MobileMessageColorOsLauncherService,\
 club.p6e.coat.message.center.launcher.mobile.MobileMessageGoogleLauncherService,\
-club.p6e.coat.message.center.launcher.router.PollingLauncherRouteServiceImpl,\
-club.p6e.coat.message.center.launcher.router.RandomLauncherRouteServiceImpl,\
+club.p6e.coat.message.center.launcher.router.LauncherPollingRouteService,\
+club.p6e.coat.message.center.launcher.router.LauncherRandomRouteService,\
 club.p6e.coat.message.center.config.sms.ShortMessageConfigDefaultParserService,\
 club.p6e.coat.message.center.launcher.sms.ShortMessageDefaultLauncherService,\
 club.p6e.coat.message.center.config.telegram.TelegramMessageConfigDefaultParserService,\
 club.p6e.coat.message.center.launcher.telegram.TelegramMessageDefaultLauncherService,\
 club.p6e.coat.message.center.launcher.LauncherTemplateDefaultParserService,\
 club.p6e.coat.message.center.MessageCenterServiceDefaultAchieve,\
-club.p6e.coat.message.center.launcher.router.WeightPollingLauncherRouteServiceImpl,\
+club.p6e.coat.message.center.launcher.router.LauncherWeightPollingRouteService,\
 club.p6e.coat.message.center.Controller,\
 club.p6e.coat.message.center.MessageCenterSnowflakeId,\
 club.p6e.coat.message.center.MessageCenterThreadPool

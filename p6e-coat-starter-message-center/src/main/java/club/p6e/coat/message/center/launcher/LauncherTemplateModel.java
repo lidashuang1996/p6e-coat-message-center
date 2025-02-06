@@ -104,5 +104,6 @@ public interface LauncherTemplateModel extends TemplateModel, Serializable {
      */
     void setAttachment(List<File> files);
 
+    List<String> getRecipients();
 
 }

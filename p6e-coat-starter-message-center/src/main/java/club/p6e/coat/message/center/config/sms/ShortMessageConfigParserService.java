@@ -12,9 +12,9 @@ import club.p6e.coat.message.center.config.ConfigParserService;
 public interface ShortMessageConfigParserService extends ConfigParserService<ShortMessageConfigModel> {
 
     /**
-     * Get Message Type
+     * Get Message Center Type
      *
-     * @return Message Type
+     * @return Message Center Type
      */
     @Override
     default MessageCenterType type() {

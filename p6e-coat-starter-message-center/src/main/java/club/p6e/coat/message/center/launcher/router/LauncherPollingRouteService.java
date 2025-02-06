@@ -3,7 +3,6 @@ package club.p6e.coat.message.center.launcher.router;
 import club.p6e.coat.message.center.config.ConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherModel;
 import club.p6e.coat.message.center.launcher.LauncherRouteService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -11,26 +10,27 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 轮询发射器路由服务
+ * LauncherPollingRouteService
  *
  * @author lidashuang
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = PollingLauncherRouteServiceImpl.class,
-        ignored = PollingLauncherRouteServiceImpl.class
-)
-public class PollingLauncherRouteServiceImpl implements LauncherRouteService {
+public class LauncherPollingRouteService implements LauncherRouteService {
 
     /**
-     * 轮询的索引对象
+     * Router Name
+     */
+    private static final String DEFAULT_ROUTER_NAME = "LAUNCHER_POLLING_ROUTER";
+
+    /**
+     * Index Number
      */
     protected final AtomicInteger index = new AtomicInteger(0);
 
     @Override
     public String name() {
-        return "POLLING";
+        return DEFAULT_ROUTER_NAME;
     }
 
     @Override

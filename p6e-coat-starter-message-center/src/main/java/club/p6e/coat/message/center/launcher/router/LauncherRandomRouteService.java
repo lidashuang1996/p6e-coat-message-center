@@ -3,7 +3,6 @@ package club.p6e.coat.message.center.launcher.router;
 import club.p6e.coat.message.center.config.ConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherModel;
 import club.p6e.coat.message.center.launcher.LauncherRouteService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -11,21 +10,22 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * 随机的发射器路由服务
+ * LauncherRandomRouteService
  *
  * @author lidashuang
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = RandomLauncherRouteServiceImpl.class,
-        ignored = RandomLauncherRouteServiceImpl.class
-)
-public class RandomLauncherRouteServiceImpl implements LauncherRouteService {
+public class LauncherRandomRouteService implements LauncherRouteService {
+
+    /**
+     * Router Name
+     */
+    private static final String DEFAULT_ROUTER_NAME = "LAUNCHER_RANDOM_ROUTER";
 
     @Override
     public String name() {
-        return "RANDOM";
+        return DEFAULT_ROUTER_NAME;
     }
 
     @Override

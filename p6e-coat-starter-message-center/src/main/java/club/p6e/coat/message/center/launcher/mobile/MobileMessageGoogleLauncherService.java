@@ -1,9 +1,11 @@
 package club.p6e.coat.message.center.launcher.mobile;
 
 import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.common.utils.Md5Util;
 import club.p6e.coat.message.center.ExpiredCache;
 import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.config.mobile.MobileMessageConfigModel;
+import club.p6e.coat.message.center.launcher.LauncherResultModel;
 import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
 import club.p6e.coat.message.center.log.LogService;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,40 +32,40 @@ import java.util.Map;
 public class MobileMessageGoogleLauncherService implements MobileMessageLauncherService {
 
     /**
-     * 最多的收件人长度
+     * Maximum recipient length
      */
     public static final int MAX_RECIPIENT_LENGTH = 300;
 
     /**
-     * 默认的模板解析器名称
-     */
-    private static final String GOOGLE_PARSER = "MOBILE_GOOGLE";
-
-    /**
-     * 缓存类型
+     * Cache Type
      */
     private static final String CACHE_TYPE = "MOBILE_GOOGLE_CLIENT";
 
     /**
-     * 注入日志对象
+     * Launcher Name
+     */
+    private static final String GOOGLE_LAUNCHER_NAME = "MOBILE_GOOGLE_LAUNCHER";
+
+    /**
+     * Inject Log Object
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(MobileMessageGoogleLauncherService.class);
 
     /**
-     * 日志服务
+     * Log Service
      */
-    private final LogService logService;
+    protected final LogService logService;
 
     /**
-     * 消息中心线程池对象
+     * Message Center Thread Pool Object
      */
     private final MessageCenterThreadPool threadPool;
 
     /**
-     * 构造方法初始化
+     * Construct Initialization
      *
-     * @param logService 日志服务对象
-     * @param threadPool 消息中心线程池对象
+     * @param logService Log Service
+     * @param threadPool Thread Pool Object
      */
     public MobileMessageGoogleLauncherService(LogService logService, MessageCenterThreadPool threadPool) {
         this.logService = logService;
@@ -73,64 +74,66 @@ public class MobileMessageGoogleLauncherService implements MobileMessageLauncher
 
     @Override
     public String name() {
-        return GOOGLE_PARSER;
+        return GOOGLE_LAUNCHER_NAME;
     }
 
     @Override
-    public Map<String, List<String>> execute(List<String> recipients, LauncherTemplateModel template, MobileMessageConfigModel config) {
-        final int size = recipients.size();
-        final Map<String, List<String>> result = new HashMap<>(16);
+    public LauncherResultModel execute(LauncherTemplateModel ltm, MobileMessageConfigModel config) {
+        // segmentation send mail task
+        final int size = ltm.getRecipients().size();
         for (int i = 0; i < size; i = i + MAX_RECIPIENT_LENGTH) {
-            final List<String> recipient = recipients.subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
-            final Map<String, List<String>> ls = logService.create(recipient, template);
-            result.putAll(ls);
+            final List<String> recipient = ltm.getRecipients().subList(i, Math.min(i + MAX_RECIPIENT_LENGTH, size));
+            // submit email sending tasks in the thread pool
             threadPool.submit(() -> {
                 try {
-                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> start send mobile google.");
-                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> recipient: {}", recipient);
-                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> template title: {}", template.getMessageTitle());
-                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> template content: {}", template.getMessageContent());
-                    execute(getClient(config), recipient, template);
-                    LOGGER.info("[ MOBILE GOOGLE MESSAGE ] >>> end send mobile google.");
-                } catch (Exception e) {
-                    LOGGER.error("[ MOBILE GOOGLE MESSAGE ERROR ] >>> {}", e.getMessage());
+                    LOGGER.info("[ MOBILE GOOGLE LAUNCHER ] >>> START SEND MOBILE GOOGLE.");
+                    LOGGER.info("[ MOBILE GOOGLE LAUNCHER ] >>> MOBILE GOOGLE RECIPIENTS: {}", recipient);
+                    LOGGER.info("[ MOBILE GOOGLE LAUNCHER ] >>> MOBILE GOOGLE CLIENT: {}", JsonUtil.toJson(config));
+                    LOGGER.info("[ MOBILE GOOGLE LAUNCHER ] >>> MOBILE GOOGLE TEMPLATE TITLE: {}", ltm.getMessageTitle());
+                    LOGGER.info("[ MOBILE GOOGLE LAUNCHER ] >>> MOBILE GOOGLE TEMPLATE CONTENT: {}", ltm.getMessageContent());
+                    // execute the operation of sending mobile
+                    execute(client(config), recipient, ltm);
                 } finally {
-                    logService.update(ls, "SUCCESS");
+                    LOGGER.info("[ MOBILE GOOGLE LAUNCHER ] >>> END SEND MOBILE GOOGLE.");
                 }
             });
         }
-        return result;
+        return () -> 0;
     }
 
     /**
-     * 获取 FirebaseApp 对象
+     * Get Client Firebase App
      *
-     * @param config 配置对象
-     * @return FirebaseApp 对象
-     * @throws Exception 异常对象
+     * @param config Client Config
+     * @return Client Firebase App
      */
-    private FirebaseApp getClient(MobileMessageConfigModel config) throws Exception {
-        final String name = config.getApplicationName();
-        FirebaseApp firebase = ExpiredCache.get(CACHE_TYPE, name);
-        if (firebase == null) {
-            firebase = createClient(config);
+    protected FirebaseApp client(MobileMessageConfigModel config) {
+        try {
+            final String name = Md5Util.execute(Md5Util.execute(config.getApplicationName()));
+            FirebaseApp firebase = ExpiredCache.get(CACHE_TYPE, name);
+            if (firebase == null) {
+                firebase = client(name, config);
+            }
+            return firebase;
+        } catch (Exception e) {
+            return null;
         }
-        return firebase;
     }
 
     /**
-     * 创建 FirebaseApp 对象
+     * Create Client Firebase App
      *
-     * @param config 配置对象
-     * @throws Exception 异常对象
+     * @param name   Client Name
+     * @param config Client Config
+     * @return Client Firebase App
      */
-    private synchronized FirebaseApp createClient(MobileMessageConfigModel config) throws Exception {
-        final String name = config.getApplicationName();
+    protected synchronized FirebaseApp client(String name, MobileMessageConfigModel config) throws Exception {
         final String content = config.content();
         FirebaseApp firebase = ExpiredCache.get(CACHE_TYPE, name);
         if (firebase == null) {
             try (final InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))) {
-                final FirebaseOptions options = FirebaseOptions.builder()
+                final FirebaseOptions options = FirebaseOptions
+                        .builder()
                         .setCredentials(GoogleCredentials.fromStream(input))
                         .build();
                 firebase = FirebaseApp.initializeApp(options);
@@ -140,13 +143,19 @@ public class MobileMessageGoogleLauncherService implements MobileMessageLauncher
         return firebase;
     }
 
-    @SuppressWarnings("ALL")
-    private void execute(FirebaseApp firebase, List<String> recipients, LauncherTemplateModel template) {
+
+    /**
+     * Send Mobile Message
+     *
+     * @param firebase   Client Firebase App
+     * @param recipients Recipients
+     * @param ltm        Launcher Template Model
+     */
+    protected void execute(FirebaseApp firebase, List<String> recipients, LauncherTemplateModel ltm) {
         try {
             final MulticastMessage.Builder builder = MulticastMessage.builder();
             builder.addAllTokens(recipients);
-            final Map<String, String> content = JsonUtil.fromJsonToMap(
-                    template.getMessageContent(), String.class, String.class);
+            final Map<String, String> content = JsonUtil.fromJsonToMap(ltm.getMessageContent(), String.class, String.class);
             if (content != null && content.get("fcm-options") != null) {
                 builder.setFcmOptions(JsonUtil.fromJson(content.get("fcm-options"), FcmOptions.class));
             }
@@ -160,10 +169,10 @@ public class MobileMessageGoogleLauncherService implements MobileMessageLauncher
                 builder.putAllData(JsonUtil.fromJsonToMap(content.get("data"), String.class, String.class));
             }
             final BatchResponse batchResponse = FirebaseMessaging.getInstance(firebase).sendEachForMulticast(builder.build());
-            LOGGER.info("[ANDROID GOOGLE PUSH SUCCESS] >>> " + batchResponse.getSuccessCount());
+            LOGGER.info("[ MOBILE GOOGLE LAUNCHER ] RESULT >>> {}", batchResponse.getSuccessCount());
         } catch (FirebaseMessagingException e) {
-            LOGGER.error("[ANDROID GOOGLE PUSH ERROR]", e);
-            throw new RuntimeException(e);
+            LOGGER.error("[ MOBILE GOOGLE LAUNCHER ] ERROR >>> {}", e.getMessage());
         }
     }
+
 }

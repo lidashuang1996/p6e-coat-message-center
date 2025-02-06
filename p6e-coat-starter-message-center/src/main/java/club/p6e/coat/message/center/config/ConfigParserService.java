@@ -18,9 +18,9 @@ public interface ConfigParserService<T extends ConfigModel> {
     String name();
 
     /**
-     * Get Message Type
+     * Get Message Center Type
      *
-     * @return Message Type
+     * @return Message Center Type
      */
     MessageCenterType type();
 

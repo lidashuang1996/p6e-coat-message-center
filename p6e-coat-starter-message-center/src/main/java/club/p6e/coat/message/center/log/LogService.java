@@ -22,7 +22,6 @@ public interface LogService {
      */
     Map<String, List<String>> create(List<String> recipients, LauncherTemplateModel message);
 
-
     /**
      * 修改
      *
