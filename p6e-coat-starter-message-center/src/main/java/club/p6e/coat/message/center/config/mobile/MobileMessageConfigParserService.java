@@ -1,7 +1,6 @@
 package club.p6e.coat.message.center.config.mobile;
 
-import club.p6e.coat.message.center.MessageType;
-import club.p6e.coat.message.center.config.ConfigModel;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigParserService;
 
 /**
@@ -18,18 +17,8 @@ public interface MobileMessageConfigParserService extends ConfigParserService<Mo
      * @return Message Type
      */
     @Override
-    default MessageType type() {
-        return MessageType.MOBILE;
+    default MessageCenterType type() {
+        return MessageCenterType.MOBILE;
     }
-
-    /**
-     * Execute Config Parser Service
-     * [Config Model] -- Transform --> [Mobile Message Config Model]
-     *
-     * @param cm Config Model
-     * @return Mobile Message Config Model
-     */
-    @Override
-    MobileMessageConfigModel execute(ConfigModel cm);
 
 }

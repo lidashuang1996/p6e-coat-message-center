@@ -1,9 +1,6 @@
 package club.p6e.coat.message.center.launcher;
 
-import club.p6e.coat.message.center.MessageType;
-
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * LauncherModel

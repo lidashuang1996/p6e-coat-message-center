@@ -2,7 +2,7 @@ package club.p6e.coat.message.center.config.mobile;
 
 import club.p6e.coat.common.utils.JsonUtil;
 import club.p6e.coat.common.utils.TransformationUtil;
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigModel;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 public class MobileMessageConfigDefaultParserService implements MobileMessageConfigParserService {
 
     /**
-     * PARSER_NAME
+     * Parser Name
      */
     private static final String PARSER_NAME = "MOBILE_CONFIG_DEFAULT_PARSER";
 
@@ -78,7 +78,7 @@ public class MobileMessageConfigDefaultParserService implements MobileMessageCon
         /**
          * Other Data
          */
-        private Map<String, String> other = new HashMap<>();
+        private Map<String, String> other = Collections.unmodifiableMap(new HashMap<>());
 
         /**
          * Source Config Model
@@ -106,7 +106,7 @@ public class MobileMessageConfigDefaultParserService implements MobileMessageCon
         }
 
         @Override
-        public MessageType type() {
+        public MessageCenterType type() {
             return this.source == null ? null : this.source.type();
         }
 

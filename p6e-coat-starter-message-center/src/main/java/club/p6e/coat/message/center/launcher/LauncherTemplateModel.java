@@ -3,6 +3,7 @@ package club.p6e.coat.message.center.launcher;
 import club.p6e.coat.message.center.template.TemplateModel;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,14 @@ import java.util.Map;
  * @author lidashuang
  * @version 1.0
  */
-public interface LauncherTemplateModel extends TemplateModel {
+public interface LauncherTemplateModel extends TemplateModel, Serializable {
+
+    /**
+     * 获取消息参数
+     *
+     * @return 消息参数
+     */
+    String getChat();
 
     /**
      * 获取消息参数
@@ -96,156 +104,5 @@ public interface LauncherTemplateModel extends TemplateModel {
      */
     void setAttachment(List<File> files);
 
-    /**
-     * 设置日志参数
-     *
-     * @param param 日志参数
-     */
-    void setLogData(Map<String, String> param);
-
-    /**
-     * 添加日志参数
-     *
-     * @param key   日志参数 KEY
-     * @param value 日志参数 VALUE
-     */
-    void putLogData(String key, String value);
-
-    /**
-     * 获取日志参数
-     *
-     * @return 日志参数
-     */
-    Map<String, String> getLogData();
-
-    static LauncherTemplateModel build(LauncherStartingModel starting, TemplateModel template) {
-        return new LauncherTemplateModel() {
-
-            @Override
-            public Integer id() {
-                return 0;
-            }
-
-            @Override
-            public String key() {
-                return "";
-            }
-
-            @Override
-            public String name() {
-                return "";
-            }
-
-            @Override
-            public String language() {
-                return "";
-            }
-
-            @Override
-            public String type() {
-                return "";
-            }
-
-            @Override
-            public String title() {
-                return "";
-            }
-
-            @Override
-            public String content() {
-                return "";
-            }
-
-            @Override
-            public String description() {
-                return "";
-            }
-
-            @Override
-            public String parser() {
-                return "";
-            }
-
-            @Override
-            public byte[] parserSource() {
-                return new byte[0];
-            }
-
-            @Override
-            public Map<String, String> getMessageParam() {
-                return Map.of();
-            }
-
-            @Override
-            public void setMessageParam(Map<String, String> param) {
-
-            }
-
-            @Override
-            public String getMessageTitle() {
-                return "";
-            }
-
-            @Override
-            public void setMessageTitle(String title) {
-
-            }
-
-            @Override
-            public String getMessageContent() {
-                return "";
-            }
-
-            @Override
-            public void setMessageContent(String content) {
-
-            }
-
-            @Override
-            public List<File> getAttachment() {
-                return List.of();
-            }
-
-            @Override
-            public void cleanAttachment() {
-
-            }
-
-            @Override
-            public void addAttachment(File file) {
-
-            }
-
-            @Override
-            public void removeAttachment(File file) {
-
-            }
-
-            @Override
-            public void removeAttachmentAt(int index) {
-
-            }
-
-            @Override
-            public void setAttachment(List<File> files) {
-
-            }
-
-            @Override
-            public void setLogData(Map<String, String> param) {
-
-            }
-
-            @Override
-            public void putLogData(String key, String value) {
-
-            }
-
-            @Override
-            public Map<String, String> getLogData() {
-                return Map.of();
-            }
-        };
-    }
 
 }

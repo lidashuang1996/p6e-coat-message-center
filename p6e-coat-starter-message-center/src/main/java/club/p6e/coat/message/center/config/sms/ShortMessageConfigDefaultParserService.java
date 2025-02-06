@@ -2,7 +2,7 @@ package club.p6e.coat.message.center.config.sms;
 
 import club.p6e.coat.common.utils.JsonUtil;
 import club.p6e.coat.common.utils.TransformationUtil;
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigModel;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 public class ShortMessageConfigDefaultParserService implements ShortMessageConfigParserService {
 
     /**
-     * PARSER_NAME
+     * Parser Name
      */
     private static final String DEFAULT_PARSER = "SMS_CONFIG_DEFAULT_PARSER";
 
@@ -84,7 +84,7 @@ public class ShortMessageConfigDefaultParserService implements ShortMessageConfi
         /**
          * Other Data
          */
-        private Map<String, String> other = new HashMap<>();
+        private Map<String, String> other = Collections.unmodifiableMap(new HashMap<>());
 
         /**
          * Source Config Model
@@ -112,7 +112,7 @@ public class ShortMessageConfigDefaultParserService implements ShortMessageConfi
         }
 
         @Override
-        public MessageType type() {
+        public MessageCenterType type() {
             return this.source == null ? null : this.source.type();
         }
 

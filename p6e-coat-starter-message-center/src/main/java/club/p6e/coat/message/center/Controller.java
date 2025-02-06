@@ -5,7 +5,6 @@ import club.p6e.coat.common.error.ParameterException;
 import club.p6e.coat.common.utils.FileUtil;
 import club.p6e.coat.common.utils.GeneratorUtil;
 import club.p6e.coat.common.utils.JsonUtil;
-import club.p6e.coat.message.center.template.TransmitterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -40,14 +39,14 @@ public class Controller {
     /**
      * 发报机服务对象
      */
-    private final TransmitterService transmitterService;
+    private final MessageCenterService transmitterService;
 
     /**
      * 构造方法初始化
      *
      * @param transmitterService 发报机服务对象
      */
-    public Controller(TransmitterService transmitterService) {
+    public Controller(MessageCenterService transmitterService) {
         this.transmitterService = transmitterService;
     }
 

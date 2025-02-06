@@ -1,6 +1,6 @@
 package club.p6e.coat.message.center.launcher;
 
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigModel;
 import club.p6e.coat.message.center.template.TemplateModel;
 
@@ -24,7 +24,7 @@ public interface LauncherService<T extends ConfigModel> {
      *
      * @return Message Type
      */
-    MessageType type();
+    MessageCenterType type();
 
     /**
      * Execute Launcher Service

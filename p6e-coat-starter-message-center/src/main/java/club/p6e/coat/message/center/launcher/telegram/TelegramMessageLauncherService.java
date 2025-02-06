@@ -1,6 +1,6 @@
 package club.p6e.coat.message.center.launcher.telegram;
 
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.telegram.TelegramMessageConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherService;
 
@@ -18,8 +18,8 @@ public interface TelegramMessageLauncherService extends LauncherService<Telegram
      * @return Message Type
      */
     @Override
-    default MessageType type() {
-        return MessageType.TELEGRAM;
+    default MessageCenterType type() {
+        return MessageCenterType.TELEGRAM;
     }
 
 }

@@ -1,6 +1,6 @@
 package club.p6e.coat.message.center.launcher.mail;
 
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.mail.MailMessageConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherService;
 
@@ -18,8 +18,8 @@ public interface MailMessageLauncherService extends LauncherService<MailMessageC
      * @return Message Type
      */
     @Override
-    default MessageType type() {
-        return MessageType.MAIL;
+    default MessageCenterType type() {
+        return MessageCenterType.MAIL;
     }
 
 }

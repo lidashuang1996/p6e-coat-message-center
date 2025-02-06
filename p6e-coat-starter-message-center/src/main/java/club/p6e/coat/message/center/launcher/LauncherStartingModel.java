@@ -1,13 +1,12 @@
 package club.p6e.coat.message.center.launcher;
 
-import club.p6e.coat.message.center.MessageType;
-
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
- * LauncherModel
+ * LauncherStartingModel
  *
  * @author lidashuang
  * @version 1.0
@@ -15,67 +14,25 @@ import java.util.List;
 public interface LauncherStartingModel extends Serializable {
 
     /**
-     * ID
+     * Get ID
      *
      * @return ID
      */
-    Integer id();
+    String id();
 
     /**
-     * Enable
+     * Get Language
      *
-     * @return Enable
+     * @return Language
      */
-    boolean enable();
+    String language();
 
     /**
-     * Type
+     * Get Param
      *
-     * @return Type
+     * @return Param
      */
-    MessageType type();
-
-    /**
-     * Name
-     *
-     * @return Name
-     */
-    String name();
-
-    /**
-     * Template
-     *
-     * @return Template
-     */
-    String template();
-
-    /**
-     * Description
-     *
-     * @return Description
-     */
-    String description();
-
-    /**
-     * Route
-     *
-     * @return Route
-     */
-    String route();
-
-    /**
-     * RouteSource
-     *
-     * @return RouteSource
-     */
-    byte[] routeSource();
-
-    /**
-     * Parser
-     *
-     * @return Parser
-     */
-    String parser();
+    Map<String, String> param();
 
     /**
      * Parser Source
@@ -90,26 +47,5 @@ public interface LauncherStartingModel extends Serializable {
      * @return Config List
      */
     List<File> attachment();
-
-    /**
-     * 发射器映射配置模型
-     */
-    interface ConfigMapperModel {
-
-        /**
-         * ID
-         *
-         * @return ID
-         */
-        Integer id();
-
-        /**
-         * Attribute
-         *
-         * @return Attribute
-         */
-        String attribute();
-
-    }
 
 }

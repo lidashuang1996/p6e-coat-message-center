@@ -1,82 +1,78 @@
-package club.p6e.coat.message.center.template;
+package club.p6e.coat.message.center.launcher;
 
-import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import club.p6e.coat.message.center.template.TemplateModel;
+import club.p6e.coat.message.center.template.TemplateVariableParserService;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 /**
- * 模板解析器
+ * LauncherTemplateDefaultParserService
  *
  * @author lidashuang
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = TemplateParserService.class,
-        ignored = TemplateParserServiceImpl.class
-)
-public class TemplateParserServiceImpl implements TemplateParserService {
+public class LauncherTemplateDefaultParserService implements LauncherTemplateParserService {
 
     /**
-     * 默认的模板解析器名称
+     * Parser Name
      */
-    private static final String DEFAULT_PARSER = "DEFAULT";
+    private static final String DEFAULT_PARSER = "LAUNCHER_TEMPLATE_DEFAULT_PARSER";
 
     /**
-     * 是否用变量名替换空的值
+     * Replace Empty Values With Variable Names
      */
     public static boolean IS_VARIABLES_REPLACE_EMPTY_VALUE = false;
 
     /**
-     * 标记开始的符号
+     * Mark Start Symbol
      */
     private static final String START_CHAR = "@";
 
     /**
-     * 内容结束的符号
+     * Content End Symbol
      */
     private static final String CONTENT_END_CHAR = "}";
 
     /**
-     * 内容开始的符号
+     * Content Start Symbol
      */
     private static final String CONTENT_START_CHAR = "{";
 
     /**
-     * 内容默认值的符号
+     * Content Default Symbol
      */
     private static final String CONTENT_DEFAULT_VALUE_CHAR = ":";
 
     /**
-     * 模板变量解析器列表
+     * Template Variable Parser List
      */
-    private final List<TemplateVariableParserService> templateVariableParserList;
+    private final List<TemplateVariableParserService> templateVariableParserServices;
 
     /**
      * 执行解析模板的内容
      *
-     * @param content 模板的内容
-     * @param vf      变量替换的方法
-     * @return 模板解析后的内容
+     * @param content Content Data
+     * @param vf      Callback Replace Function
+     * @return Parsing Template Content
      */
     private static String convert(String content, Function<String, String> vf) {
         return convert(content, vf, IS_VARIABLES_REPLACE_EMPTY_VALUE);
     }
 
     /**
-     * 执行解析模板的内容
+     * Execute Parsing Template
      *
-     * @param content                      模板的内容
-     * @param vf                           变量替换的方法
-     * @param isVariablesReplaceEmptyValue 是否用变量名称替换空的数据内容
-     * @return 模板解析后的内容
+     * @param content                      Content Data
+     * @param vf                           Callback Replace Function
+     * @param isVariablesReplaceEmptyValue Variables Replace Empty Value
+     * @return Parsing Template Content
      */
     private static String convert(String content, Function<String, String> vf, boolean isVariablesReplaceEmptyValue) {
         if (content == null || content.isEmpty()) {
@@ -132,10 +128,10 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     }
 
     /**
-     * 读取键的内容
+     * Get Key Value
      *
-     * @param content 模板的内容
-     * @return 键的值
+     * @param content Content Data
+     * @return Key Value
      */
     private static String getKey(String content) {
         if (content != null && !content.isEmpty()) {
@@ -154,10 +150,10 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     }
 
     /**
-     * 读取默认值的内容
+     * Get Default Value
      *
-     * @param content 模板的内容
-     * @return 默认值
+     * @param content Content Data
+     * @return Default Value
      */
     private static String getDefaultValue(String content) {
         if (content != null && !content.isEmpty()) {
@@ -175,13 +171,13 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     }
 
     /**
-     * 构造方法初始化
+     * Construct Initialization
      *
-     * @param templateVariableParserList 模板变量解析器列表
+     * @param list Template Variable Parser Service List
      */
-    public TemplateParserServiceImpl(List<TemplateVariableParserService> templateVariableParserList) {
-        templateVariableParserList.sort(Comparator.comparingInt(Ordered::getOrder));
-        this.templateVariableParserList = templateVariableParserList;
+    public LauncherTemplateDefaultParserService(List<TemplateVariableParserService> list) {
+        list.sort(Comparator.comparingInt(Ordered::getOrder));
+        this.templateVariableParserServices = list;
     }
 
     @Override
@@ -190,128 +186,132 @@ public class TemplateParserServiceImpl implements TemplateParserService {
     }
 
     @Override
-    public LauncherTemplateModel execute(TemplateModel template, Map<String, String> data, List<File> attachments) {
+    public LauncherTemplateModel execute(LauncherStartingModel starting, TemplateModel template) {
         if (template == null || template.parser() == null || template.content() == null) {
             return null;
         }
-        return new SimpleTemplateMessageModel(template) {{
-            final Function<String, String> vf = name -> {
-                String value = data.get(name);
-                if (value == null) {
-                    for (final TemplateVariableParserService parser : templateVariableParserList) {
-                        value = parser.execute(name, language());
-                        if (value != null) {
-                            data.put(name, value);
-                            return value;
-                        }
+        final SimpleTemplateMessageModel model = new SimpleTemplateMessageModel(template);
+        final Function<String, String> vf = name -> {
+            String value = starting.param().get(name);
+            if (value == null) {
+                for (final TemplateVariableParserService service : templateVariableParserServices) {
+                    value = service.execute(name, starting.language());
+                    if (value != null) {
+                        return value;
                     }
                 }
-                return value;
-            };
-            setAttachment(attachments);
-            setMessageParam(new HashMap<>(data));
-            setMessageTitle(convert(template.title(), vf));
-            setMessageContent(convert(template.content(), vf));
-        }};
+            }
+            return value;
+        };
+        model.setAttachment(starting.attachment());
+        model.setMessageParam(new HashMap<>(starting.param()));
+        model.setMessageTitle(convert(template.title(), vf));
+        model.setMessageContent(convert(template.content(), vf));
+        return model;
     }
 
     /**
-     * 简单的通讯模板模型
+     * SimpleTemplateMessageModel
      */
     private static class SimpleTemplateMessageModel implements LauncherTemplateModel, Serializable {
 
         /**
-         * 标题
+         * Title
          */
         private String title;
 
         /**
-         * 请求内容
+         * Content
          */
         private String content;
 
         /**
-         * 通讯的模板附件
-         */
-        private List<File> attachments;
-
-        /**
-         * 请求参数
+         * Param
          */
         private Map<String, String> param;
 
         /**
-         * 源配置对象
+         * Source Config Model
          */
-        private final TemplateModel model;
+        private final TemplateModel source;
 
         /**
-         * 日志数据对象
+         * Attachments
          */
-        private final Map<String, String> logData = new ConcurrentHashMap<>();
+        private final List<File> attachments = new CopyOnWriteArrayList<>();
+        ;
 
         /**
-         * 构造方法注入源配置对象
+         * Construct Initialization
+         * Inject Source Template Model Object
          *
-         * @param model 配置对象
+         * @param source Source Template Model
          */
-        private SimpleTemplateMessageModel(TemplateModel model) {
-            this.model = model;
+        private SimpleTemplateMessageModel(TemplateModel source) {
+            this.source = source;
         }
 
         @Override
         public Integer id() {
-            return model == null ? null : model.id();
+            return this.source == null ? null : this.source.id();
         }
 
         @Override
         public String key() {
-            return model == null ? null : model.key();
+            return this.source == null ? null : this.source.key();
         }
 
         @Override
         public String type() {
-            return model == null ? null : model.type();
+            return this.source == null ? null : this.source.type();
         }
 
         @Override
         public String name() {
-            return model == null ? null : model.name();
+            return this.source == null ? null : this.source.name();
         }
 
         @Override
         public String language() {
-            return model == null ? null : model.language();
+            return this.source == null ? null : this.source.language();
         }
 
         @Override
         public String title() {
-            return model == null ? null : model.title();
+            return this.source == null ? null : this.source.title();
         }
 
         @Override
         public String content() {
-            return model == null ? null : model.content();
+            return this.source == null ? null : this.source.content();
         }
 
         @Override
         public String description() {
-            return model == null ? null : model.description();
+            return this.source == null ? null : this.source.description();
         }
 
         @Override
         public String parser() {
-            return model == null ? null : model.parser();
+            return this.source == null ? null : this.source.parser();
         }
 
         @Override
         public byte[] parserSource() {
-            return model == null ? null : model.parserSource();
+            return this.source == null ? null : this.source.parserSource();
+        }
+
+        @Override
+        public String getChat() {
+            if (this.param != null) {
+                return this.param.get("chat");
+            }
+            return null;
         }
 
         @Override
         public Map<String, String> getMessageParam() {
-            return param;
+            return this.param;
         }
 
         @Override
@@ -341,58 +341,33 @@ public class TemplateParserServiceImpl implements TemplateParserService {
 
         @Override
         public List<File> getAttachment() {
-            return attachments;
+            return Collections.unmodifiableList(this.attachments);
         }
 
         @Override
         public void cleanAttachment() {
-            if (attachments != null) {
-                attachments.clear();
-                attachments = null;
-            }
+            this.attachments.clear();
         }
 
         @Override
         public void addAttachment(File file) {
-            if (attachments == null) {
-                attachments = new ArrayList<>();
-            }
-            attachments.add(file);
+            this.attachments.add(file);
         }
 
         @Override
         public void removeAttachment(File file) {
-            if (attachments != null) {
-                attachments.remove(file);
-            }
+            this.attachments.remove(file);
         }
 
         @Override
         public void removeAttachmentAt(int index) {
-            if (attachments != null) {
-                attachments.remove(index);
-            }
+            this.attachments.remove(index);
         }
 
         @Override
         public void setAttachment(List<File> files) {
-            attachments = files;
-        }
-
-        @Override
-        public void setLogData(Map<String, String> param) {
-            logData.clear();
-            logData.putAll(param);
-        }
-
-        @Override
-        public void putLogData(String key, String value) {
-            logData.put(key, value);
-        }
-
-        @Override
-        public Map<String, String> getLogData() {
-            return logData;
+            this.attachments.clear();
+            this.attachments.addAll(files);
         }
 
     }

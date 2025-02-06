@@ -1,7 +1,6 @@
 package club.p6e.coat.message.center.config.mail;
 
-import club.p6e.coat.message.center.MessageType;
-import club.p6e.coat.message.center.config.ConfigModel;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigParserService;
 
 /**
@@ -18,18 +17,8 @@ public interface MailMessageConfigParserService extends ConfigParserService<Mail
      * @return Message Type
      */
     @Override
-    default MessageType type() {
-        return MessageType.MAIL;
+    default MessageCenterType type() {
+        return MessageCenterType.MAIL;
     }
-
-    /**
-     * Execute Config Parser Service
-     * [Config Model] -- Transform --> [Mail Message Config Model]
-     *
-     * @param cm Config Model
-     * @return Mail Message Config Model
-     */
-    @Override
-    MailMessageConfigModel execute(ConfigModel cm);
 
 }

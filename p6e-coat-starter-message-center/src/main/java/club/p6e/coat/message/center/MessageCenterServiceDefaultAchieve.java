@@ -1,7 +1,6 @@
-package club.p6e.coat.message.center.template;
+package club.p6e.coat.message.center;
 
 import club.p6e.coat.common.utils.JsonUtil;
-import club.p6e.coat.message.center.ExternalSourceClassLoader;
 import club.p6e.coat.message.center.config.*;
 import club.p6e.coat.message.center.config.mail.MailMessageConfigModel;
 import club.p6e.coat.message.center.config.mobile.MobileMessageConfigModel;
@@ -14,7 +13,8 @@ import club.p6e.coat.message.center.launcher.mobile.MobileMessageLauncherService
 import club.p6e.coat.message.center.launcher.sms.ShortMessageLauncherService;
 import club.p6e.coat.message.center.launcher.telegram.TelegramMessageLauncherService;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
-import club.p6e.coat.message.center.ExpiredCache;
+import club.p6e.coat.message.center.template.TemplateModel;
+import club.p6e.coat.message.center.template.TemplateParserService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
@@ -29,10 +29,10 @@ import java.util.*;
  */
 @Component
 @ConditionalOnMissingBean(
-        value = TransmitterService.class,
-        ignored = TransmitterServiceImpl.class
+        value = MessageCenterService.class,
+        ignored = MessageCenterServiceDefaultAchieve.class
 )
-public class TransmitterServiceImpl implements TransmitterService {
+public class MessageCenterServiceDefaultAchieve implements MessageCenterService {
 
     /**
      * 默认的语言
@@ -105,7 +105,7 @@ public class TransmitterServiceImpl implements TransmitterService {
      * @param shortMessageLauncherServiceList  SMS 类型消息发射器
      * @param mobileMessageLauncherServiceList MMS 类型消息发射器
      */
-    public TransmitterServiceImpl(
+    public MessageCenterServiceDefaultAchieve(
             DataSourceRepository repository,
             List<ConfigParserService> configParserServiceList,
             List<TemplateParserService> templateParserServiceList,

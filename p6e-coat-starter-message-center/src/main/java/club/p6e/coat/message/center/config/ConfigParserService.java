@@ -1,6 +1,6 @@
 package club.p6e.coat.message.center.config;
 
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 
 /**
  * ConfigParserService
@@ -22,7 +22,7 @@ public interface ConfigParserService<T extends ConfigModel> {
      *
      * @return Message Type
      */
-    MessageType type();
+    MessageCenterType type();
 
     /**
      * Execute Config Parser Service

@@ -2,6 +2,7 @@ package club.p6e.coat.message.center.config.mobile;
 
 import club.p6e.coat.message.center.config.ConfigModel;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author lidashuang
  * @version 1.0
  */
-public interface MobileMessageConfigModel extends ConfigModel {
+public interface MobileMessageConfigModel extends ConfigModel, Serializable {
 
     /**
      * Set Application ID

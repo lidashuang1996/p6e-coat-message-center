@@ -1,7 +1,7 @@
 package club.p6e.coat.message.center.repository;
 
 import club.p6e.DatabaseConfig;
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherModel;
 import club.p6e.coat.message.center.template.TemplateModel;
@@ -258,11 +258,11 @@ public class DataSourceRepository {
                     }
 
                     @Override
-                    public MessageType type() {
+                    public MessageCenterType type() {
                         return switch (type) {
-                            case "SMS" -> MessageType.SMS;
-                            case "MAIL" -> MessageType.MAIL;
-                            case "MOBILE" -> MessageType.MOBILE;
+                            case "SMS" -> MessageCenterType.SMS;
+                            case "MAIL" -> MessageCenterType.MAIL;
+                            case "MOBILE" -> MessageCenterType.MOBILE;
                             default -> null;
                         };
                     }
@@ -424,12 +424,12 @@ public class DataSourceRepository {
                     }
 
                     @Override
-                    public MessageType type() {
+                    public MessageCenterType type() {
                         return switch (type) {
-                            case "SMS" -> MessageType.SMS;
-                            case "MAIL" -> MessageType.MAIL;
-                            case "MOBILE" -> MessageType.MOBILE;
-                            case "TELEGRAM" -> MessageType.TELEGRAM;
+                            case "SMS" -> MessageCenterType.SMS;
+                            case "MAIL" -> MessageCenterType.MAIL;
+                            case "MOBILE" -> MessageCenterType.MOBILE;
+                            case "TELEGRAM" -> MessageCenterType.TELEGRAM;
                             default -> null;
                         };
                     }

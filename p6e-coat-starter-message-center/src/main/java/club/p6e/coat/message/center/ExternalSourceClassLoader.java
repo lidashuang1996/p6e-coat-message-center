@@ -7,13 +7,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * ExternalSourceClassLoader
+ *
  * @author lidashuang
  * @version 1.0
  */
 public final class ExternalSourceClassLoader extends ClassLoader {
 
     /**
-     * 实列对象
+     * External Source Class Loader
      */
     private static final ExternalSourceClassLoader INSTANCE = new ExternalSourceClassLoader();
 

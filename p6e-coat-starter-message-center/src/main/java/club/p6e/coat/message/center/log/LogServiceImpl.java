@@ -2,7 +2,7 @@ package club.p6e.coat.message.center.log;
 
 import club.p6e.coat.common.utils.JsonUtil;
 import club.p6e.coat.common.utils.SnowflakeIdUtil;
-import club.p6e.coat.message.center.SnowflakeId;
+import club.p6e.coat.message.center.MessageCenterSnowflakeId;
 import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -30,7 +30,7 @@ public class LogServiceImpl implements LogService {
     /**
      * 雪花算法对象
      */
-    private final SnowflakeId snowflakeId;
+    private final MessageCenterSnowflakeId snowflakeId;
 
     /**
      * 数据源存储库对象
@@ -43,7 +43,7 @@ public class LogServiceImpl implements LogService {
      * @param repository  数据源存储库对象
      * @param snowflakeId 雪花算法对象
      */
-    public LogServiceImpl(SnowflakeId snowflakeId, DataSourceRepository repository) {
+    public LogServiceImpl(MessageCenterSnowflakeId snowflakeId, DataSourceRepository repository) {
         this.repository = repository;
         this.snowflakeId = snowflakeId;
     }
@@ -65,7 +65,7 @@ public class LogServiceImpl implements LogService {
         }
         for (final String recipient : recipients) {
             params.put("__recipient__", recipient);
-            final String no = String.valueOf(SnowflakeIdUtil.getInstance(SnowflakeId.MESSAGE_CENTER_LOG_SNOWFLAKE_NAME).nextId());
+            final String no = String.valueOf(SnowflakeIdUtil.getInstance(MessageCenterSnowflakeId.MESSAGE_CENTER_LOG_SNOWFLAKE_NAME).nextId());
             if (repository.createLog(no, parent, JsonUtil.toJson(params), launcher, template, config, now)) {
                 result.get(parent).add(no);
             }

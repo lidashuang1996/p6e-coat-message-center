@@ -8,17 +8,20 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * ExpiredCache
+ *
  * @author lidashuang
  * @version 1.0
  */
+@SuppressWarnings("ALL")
 public final class ExpiredCache implements Serializable {
 
     /**
-     * 缓存数据对象
+     * Expired Cache Model
      */
     @Data
     @Accessors(chain = true)
-    private static class Model implements Serializable {
+    public static class Model implements Serializable {
         private volatile long date;
         private volatile long interval;
         private volatile Object data;
@@ -30,10 +33,19 @@ public final class ExpiredCache implements Serializable {
         }
     }
 
-    @SuppressWarnings("ALL")
+    /**
+     * Cache Object
+     */
     private static final Map<String, ConcurrentHashMap<String, Model>> CACHE = new ConcurrentHashMap<>();
 
-    @SuppressWarnings("ALL")
+    /**
+     * Get Cache Object
+     *
+     * @param type Cache Type
+     * @param key  Cache Key
+     * @param <T>  Cache Value Class Type
+     * @return Cache Value Class Type
+     */
     public static <T> T get(String type, String key) {
         final ConcurrentHashMap<String, Model> data = CACHE.get(type);
         if (data == null) {
@@ -54,7 +66,13 @@ public final class ExpiredCache implements Serializable {
         }
     }
 
-    @SuppressWarnings("ALL")
+    /**
+     * Set Cache Object
+     *
+     * @param type  Cache Type
+     * @param key   Cache Key
+     * @param value Cache Value
+     */
     public static void set(String type, String key, Object value) {
         ConcurrentHashMap<String, Model> data = CACHE.get(type);
         if (data == null) {
@@ -63,15 +81,22 @@ public final class ExpiredCache implements Serializable {
         data.put(key, new Model(value));
     }
 
-    @SuppressWarnings("ALL")
-    public static void clean() {
+    /**
+     * Clear Cache Object
+     */
+    public static void clear() {
         for (final ConcurrentHashMap<String, Model> value : CACHE.values()) {
             value.clear();
         }
         CACHE.clear();
     }
 
-    @SuppressWarnings("ALL")
+    /**
+     * Create Cache Object
+     *
+     * @param type Type
+     * @return ConcurrentHashMap Object
+     */
     public synchronized static ConcurrentHashMap<String, Model> create(String type) {
         return CACHE.computeIfAbsent(type, k -> new ConcurrentHashMap<>(16));
     }

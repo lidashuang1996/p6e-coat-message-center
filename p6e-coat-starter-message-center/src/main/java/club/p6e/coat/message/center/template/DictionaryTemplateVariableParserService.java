@@ -1,6 +1,5 @@
 package club.p6e.coat.message.center.template;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.net.URLDecoder;
@@ -16,11 +15,7 @@ import java.util.Map;
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = DictionaryTemplateVariableParserServiceImpl.class,
-        ignored = DictionaryTemplateVariableParserServiceImpl.class
-)
-public class DictionaryTemplateVariableParserServiceImpl implements TemplateVariableParserService {
+public class DictionaryTemplateVariableParserService implements TemplateVariableParserService {
 
     /**
      * ORDER

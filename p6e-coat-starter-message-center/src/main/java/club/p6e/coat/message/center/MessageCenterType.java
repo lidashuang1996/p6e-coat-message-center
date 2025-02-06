@@ -1,12 +1,12 @@
 package club.p6e.coat.message.center;
 
 /**
- * MessageType
+ * MessageCenterType
  *
  * @author lidashuang
  * @version 1.0
  */
-public enum MessageType {
+public enum MessageCenterType {
 
     /**
      * SMS 短消息类型

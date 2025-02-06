@@ -206,12 +206,12 @@ public class MailMessageDefaultLauncherService implements MailMessageLauncherSer
     }
 
     /**
-     * 发送邮件
+     * Send Mail Message
      *
-     * @param session    会话对象
-     * @param from       发件人
-     * @param recipients 收件人
-     * @param template   模板对象
+     * @param session    Client Session
+     * @param from       From
+     * @param recipients Recipients
+     * @param template   Launcher Template Model
      */
     protected void send(Session session, String from, List<String> recipients, LauncherTemplateModel template) {
         try {

@@ -5,15 +5,14 @@ import club.p6e.coat.common.utils.Md5Util;
 import club.p6e.coat.common.utils.SpringUtil;
 import club.p6e.coat.message.center.ExpiredCache;
 import club.p6e.coat.message.center.MessageCenterThreadPool;
-import club.p6e.coat.message.center.MessageType;
 import club.p6e.coat.message.center.config.telegram.TelegramMessageConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherResultModel;
 import club.p6e.coat.message.center.launcher.LauncherStartingModel;
 import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
-import club.p6e.coat.message.center.launcher.mail.MailMessageDefaultLauncherService;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.log.LogService;
 import club.p6e.coat.message.center.template.TemplateModel;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -29,8 +28,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -85,18 +83,13 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
     }
 
     @Override
-    public MessageType type() {
-        return null;
-    }
-
-    @Override
     public LauncherResultModel execute(LauncherStartingModel starting, TemplateModel template, TelegramMessageConfigModel config) {
         // build launcher template model object
         final LauncherTemplateModel ltm = LauncherTemplateModel.build(starting, template);
         threadPool.submit(() -> {
             try {
                 LOGGER.info("[ TELEGRAM LAUNCHER ] >>> START SEND TELEGRAM.");
-                LOGGER.info("[ TELEGRAM LAUNCHER ] >>> CLIENT: {}", JsonUtil.toJson(config));
+                LOGGER.info("[ TELEGRAM LAUNCHER ] >>> TELEGRAM CLIENT: {}", JsonUtil.toJson(config));
                 LOGGER.info("[ TELEGRAM LAUNCHER ] >>> TELEGRAM TEMPLATE: {}", ltm.getMessageTitle());
                 LOGGER.info("[ TELEGRAM LAUNCHER ] >>> TELEGRAM TEMPLATE CONTENT: {}", ltm.getMessageContent());
                 // execute the operation of sending telegram
@@ -108,50 +101,43 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         return () -> 0;
     }
 
-    @SuppressWarnings("ALL")
+    /**
+     * Send Telegram Message
+     *
+     * @param session  Session
+     * @param template Template
+     */
     public void send(Session session, LauncherTemplateModel template) {
-        final Map<String, String> param = template.getMessageParam();
-        if (param != null && param.get("channel") != null) {
-            final String channel = param.get("channel");
-            final List<Map> data = JsonUtil.fromJsonToList(template.getMessageContent(), Map.class);
-            if (data != null) {
-                final List<Map<String, String>> list = new ArrayList<>();
-                for (Map item : data) {
-                    final Map<String, String> option = new HashMap<>();
-                    list.add(option);
-                    for (final Object key : item.keySet()) {
-                        final Object value = item.get(key);
-                        if (key != null && value != null) {
-                            option.put(String.valueOf(key), String.valueOf(value));
-                        }
-                    }
-                }
-                for (Map<String, String> item : list) {
-                    if (item != null && item.get("type") != null && item.get("content") != null) {
-                        switch (item.get("type").toLowerCase()) {
+        final String chat = template.getChat();
+        if (chat != null) {
+            final List<Model> list = JsonUtil.fromJsonToList(template.getMessageContent(), Model.class);
+            if (list != null) {
+                for (final Model item : list) {
+                    if (item != null && item.getType() != null && item.getContent() != null) {
+                        switch (item.getType().toLowerCase()) {
                             case "text":
-                                session.sendText(channel, item.get("content"));
+                                session.sendText(chat, item.getContent());
                                 break;
                             case "html":
-                                session.sendHtml(channel, item.get("content"));
+                                session.sendHtml(chat, item.getContent());
                                 break;
                             case "photo":
                                 File photo = null;
-                                if (item.get("photo") != null && !item.get("photo").isEmpty()) {
-                                    photo = template.getAttachment().get(Integer.parseInt(item.get("photo")));
+                                if (item.getPhoto() != null && !item.getPhoto().isEmpty()) {
+                                    photo = template.getAttachment().get(Integer.parseInt(item.getPhoto()));
                                 }
-                                session.sendPhoto(channel, photo, item.get("content"));
+                                session.sendPhoto(chat, photo, item.getContent());
                                 break;
                             case "video":
                                 File thumb = null;
                                 File video = null;
-                                if (item.get("thumb") != null && !item.get("thumb").isEmpty()) {
-                                    thumb = template.getAttachment().get(Integer.parseInt(item.get("thumb")));
+                                if (item.getThumb() != null && !item.getThumb().isEmpty()) {
+                                    thumb = template.getAttachment().get(Integer.parseInt(item.getThumb()));
                                 }
-                                if (item.get("video") != null && !item.get("video").isEmpty()) {
-                                    video = template.getAttachment().get(Integer.parseInt(item.get("video")));
+                                if (item.getVideo() != null && !item.getVideo().isEmpty()) {
+                                    video = template.getAttachment().get(Integer.parseInt(item.getVideo()));
                                 }
-                                session.sendVideo(channel, thumb, video, item.get("content"));
+                                session.sendVideo(chat, thumb, video, item.getContent());
                                 break;
                         }
                     }
@@ -203,6 +189,15 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
             }
         }
         return session;
+    }
+
+    @Data
+    public static class Model implements Serializable {
+        private String type;
+        private String photo;
+        private String thumb;
+        private String video;
+        private String content;
     }
 
     /**
@@ -262,6 +257,7 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
                 if (chats != null && !chats.isEmpty()) {
                     for (final String key : chats.keySet()) {
                         final String value = chats.get(key);
+                        // write channel ID through message reverse injection
                         if (value.startsWith("@") && (key + value).equals(text)) {
                             // refresh cache chats data
                             chats.put(key, id);
@@ -285,12 +281,12 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         /**
          * Send Text Message
          *
-         * @param channel Channel
+         * @param chat    Chat
          * @param content Content Data
          */
-        public void sendText(String channel, String content) {
+        public void sendText(String chat, String content) {
             try {
-                final String id = config.getChats().get(channel);
+                final String id = config.getChats().get(chat);
                 if (id != null) {
                     execute(SendMessage.builder().chatId(id).text(content).build());
                 }
@@ -302,12 +298,12 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         /**
          * Send Html Message
          *
-         * @param channel Channel
+         * @param chat    Chat
          * @param content Content Data
          */
-        public void sendHtml(String channel, String content) {
+        public void sendHtml(String chat, String content) {
             try {
-                final String id = config.getChats().get(channel);
+                final String id = config.getChats().get(chat);
                 if (id != null) {
                     execute(SendMessage.builder().chatId(id).text(content).parseMode(ParseMode.HTML).build());
                 }
@@ -319,13 +315,13 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         /**
          * Send Photo Message
          *
-         * @param channel Channel
+         * @param chat    Chat
          * @param photo   Photo File
          * @param content Content Data
          */
-        public void sendPhoto(String channel, File photo, String content) {
+        public void sendPhoto(String chat, File photo, String content) {
             try {
-                final String id = config.getChats().get(channel);
+                final String id = config.getChats().get(chat);
                 if (id != null) {
                     final SendPhoto.SendPhotoBuilder builder = SendPhoto.builder().chatId(id);
                     if (content != null && !content.isEmpty()) {
@@ -341,14 +337,14 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         /**
          * Send Video Message
          *
-         * @param channel Channel
+         * @param chat    Chat
          * @param thumb   Thumb File
          * @param video   Video File
          * @param content Content Data
          */
-        public void sendVideo(String channel, File thumb, File video, String content) {
+        public void sendVideo(String chat, File thumb, File video, String content) {
             try {
-                final String id = config.getChats().get(channel);
+                final String id = config.getChats().get(chat);
                 if (id != null) {
                     final SendVideo.SendVideoBuilder builder = SendVideo.builder().chatId(id);
                     if (thumb != null) {

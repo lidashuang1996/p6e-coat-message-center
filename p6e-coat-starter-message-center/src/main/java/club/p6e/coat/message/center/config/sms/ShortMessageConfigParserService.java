@@ -1,7 +1,6 @@
 package club.p6e.coat.message.center.config.sms;
 
-import club.p6e.coat.message.center.MessageType;
-import club.p6e.coat.message.center.config.ConfigModel;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigParserService;
 
 /**
@@ -18,17 +17,8 @@ public interface ShortMessageConfigParserService extends ConfigParserService<Sho
      * @return Message Type
      */
     @Override
-    default MessageType type() {
-        return MessageType.SMS;
+    default MessageCenterType type() {
+        return MessageCenterType.SMS;
     }
-
-    /**
-     * Execute Config Parser Service
-     * [Config Model] -- Transform --> [Short Message Config Model]
-     *
-     * @param cm Config Model
-     * @return Short Message Config Model
-     */
-    ShortMessageConfigModel execute(ConfigModel cm);
 
 }

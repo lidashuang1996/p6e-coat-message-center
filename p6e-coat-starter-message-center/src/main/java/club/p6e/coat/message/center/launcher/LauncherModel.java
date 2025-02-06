@@ -1,6 +1,6 @@
 package club.p6e.coat.message.center.launcher;
 
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -32,7 +32,7 @@ public interface LauncherModel extends Serializable {
      *
      * @return Type
      */
-    MessageType type();
+    MessageCenterType type();
 
     /**
      * Name

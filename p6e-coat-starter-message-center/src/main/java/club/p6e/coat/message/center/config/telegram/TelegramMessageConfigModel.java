@@ -2,6 +2,7 @@ package club.p6e.coat.message.center.config.telegram;
 
 import club.p6e.coat.message.center.config.ConfigModel;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author lidashuang
  * @version 1.0
  */
-public interface TelegramMessageConfigModel extends ConfigModel {
+public interface TelegramMessageConfigModel extends ConfigModel, Serializable {
 
     /**
      * Set Bot Token
@@ -41,18 +42,24 @@ public interface TelegramMessageConfigModel extends ConfigModel {
     String getBotUsername();
 
     /**
-     * @param channel
-     * @param chat
+     * Set Chat Channel
+     *
+     * @param chat    Chat Value
+     * @param channel Channel Value
      */
-    void putChannelChat(String channel, String chat);
+    void putChatChannel(String chat, String channel);
 
     /**
-     * @param channelChats
+     * Set Chats
+     *
+     * @param chats Chats
      */
-    void setChannelChats(Map<String, String> channelChats);
+    void setChats(Map<String, String> chats);
 
     /**
-     * @return
+     * Get Chats
+     *
+     * @return Chats
      */
     Map<String, String> getChats();
 
@@ -97,5 +104,19 @@ public interface TelegramMessageConfigModel extends ConfigModel {
      * @return Proxy Host
      */
     String getProxyHost();
+
+    /**
+     * Set Other
+     *
+     * @param other Other
+     */
+    void setOther(Map<String, String> other);
+
+    /**
+     * Get Other
+     *
+     * @return Other
+     */
+    Map<String, String> getOther();
 
 }

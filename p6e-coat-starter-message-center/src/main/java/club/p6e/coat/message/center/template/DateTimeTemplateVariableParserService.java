@@ -1,6 +1,5 @@
 package club.p6e.coat.message.center.template;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.net.URLDecoder;
@@ -15,11 +14,7 @@ import java.time.format.DateTimeFormatter;
  * @version 1.0
  */
 @Component
-@ConditionalOnMissingBean(
-        value = DateTimeTemplateVariableParserServiceImpl.class,
-        ignored = DateTimeTemplateVariableParserServiceImpl.class
-)
-public class DateTimeTemplateVariableParserServiceImpl implements TemplateVariableParserService {
+public class DateTimeTemplateVariableParserService implements TemplateVariableParserService {
 
     /**
      * ORDER

@@ -1,5 +1,6 @@
 package club.p6e.coat.message.center;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -7,59 +8,62 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 消息中心线程池配置
+ * MessageCenterThreadPool
  *
  * @author lidashuang
  * @version 1.0
  */
 @Component
+@ConditionalOnMissingBean(
+        value = MessageCenterThreadPool.class,
+        ignored = MessageCenterThreadPool.class
+)
 public class MessageCenterThreadPool {
 
     /**
-     * 线程池对象
+     * Thread Pool Executor Object
      */
-    private ThreadPoolExecutor threadPool;
+    private ThreadPoolExecutor executor;
 
     /**
-     * 构造方法初始化线程池对象
+     * Construct Initialization
      */
     public MessageCenterThreadPool() {
-        this.threadPool = new ThreadPoolExecutor(
+        setThreadPool(new ThreadPoolExecutor(
                 5,
                 Integer.MAX_VALUE,
                 60L,
                 TimeUnit.SECONDS,
                 new LinkedBlockingQueue<>()
-        );
+        ));
     }
 
     /**
-     * 提交任务到线程池
+     * Submit Task To Thread Pool
      *
-     * @param runnable 任务对象
+     * @param runnable Runnable Object
      */
     public void submit(Runnable runnable) {
-        this.threadPool.submit(runnable);
+        this.executor.submit(runnable);
     }
 
     /**
-     * 设置线程池对象
+     * Set Thread Pool
      *
-     * @param threadPool 线程池对象
+     * @param executor Thread Pool
      */
-    @SuppressWarnings("ALL")
-    public synchronized void setThreadPool(ThreadPoolExecutor threadPool) {
+    public synchronized void setThreadPool(ThreadPoolExecutor executor) {
         closeThreadPool();
-        this.threadPool = threadPool;
+        this.executor = executor;
     }
 
     /**
-     * 关闭线程池对象
+     * Close Thread Pool
      */
     public void closeThreadPool() {
-        if (threadPool != null) {
-            threadPool.shutdown();
-            threadPool = null;
+        if (this.executor != null) {
+            this.executor.shutdown();
+            this.executor = null;
         }
     }
 

@@ -1,6 +1,6 @@
 package club.p6e.coat.message.center.config;
 
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 
 import java.io.Serializable;
 
@@ -31,7 +31,7 @@ public interface ConfigModel extends Serializable {
      *
      * @return Type
      */
-    MessageType type();
+    MessageCenterType type();
 
     /**
      * Enable

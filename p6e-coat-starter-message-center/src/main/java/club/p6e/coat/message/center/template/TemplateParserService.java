@@ -1,34 +1,27 @@
 package club.p6e.coat.message.center.template;
 
-import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
 /**
- * 模板解析器服务
+ * TemplateParserService
  *
  * @author lidashuang
  * @version 1.0
  */
-public interface TemplateParserService {
+public interface TemplateParserService<P, L> {
 
     /**
-     * 获取配置解析器的名称
+     * Get Name
      *
-     * @return 配置解析器的名称
+     * @return Name
      */
     String name();
 
     /**
-     * TemplateModel >>> TemplateMessageModel
+     * Execute Param Model/Template Model Convert To Launcher Model
      *
-     * @param data        数据变量
-     * @param template    模板模型
-     * @param attachments 文件附件
-     * @return 模板消息模型对象
+     * @param param    Param Model
+     * @param template Template Model
+     * @return Launcher Model
      */
-    LauncherTemplateModel execute(TemplateModel template, Map<String, String> data, List<File> attachments);
+    L execute(P param, TemplateModel template);
 
 }

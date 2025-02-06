@@ -2,7 +2,7 @@ package club.p6e.coat.message.center.config.mail;
 
 import club.p6e.coat.common.utils.JsonUtil;
 import club.p6e.coat.common.utils.TransformationUtil;
-import club.p6e.coat.message.center.MessageType;
+import club.p6e.coat.message.center.MessageCenterType;
 import club.p6e.coat.message.center.config.ConfigModel;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 public class MailMessageConfigDefaultParserService implements MailMessageConfigParserService {
 
     /**
-     * PARSER NAME
+     * Parser Name
      */
     private static final String PARSER_NAME = "MAIL_CONFIG_DEFAULT_PARSER";
 
@@ -118,7 +118,7 @@ public class MailMessageConfigDefaultParserService implements MailMessageConfigP
         }
 
         @Override
-        public MessageType type() {
+        public MessageCenterType type() {
             return this.source == null ? null : this.source.type();
         }
 
