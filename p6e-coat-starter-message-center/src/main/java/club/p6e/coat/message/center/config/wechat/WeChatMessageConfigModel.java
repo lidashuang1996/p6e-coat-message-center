@@ -56,20 +56,6 @@ public interface WeChatMessageConfigModel extends ConfigModel, Serializable {
     String getAccessTokenUrl();
 
     /**
-     * Set Access Token Cache Name
-     *
-     * @param name Access Cache Name
-     */
-    void setAccessTokenCacheName(String name);
-
-    /**
-     * Get Access Token Cache Name
-     *
-     * @return Access Token Cache Name
-     */
-    String getAccessTokenCacheName();
-
-    /**
      * Set Other
      *
      * @param other Other

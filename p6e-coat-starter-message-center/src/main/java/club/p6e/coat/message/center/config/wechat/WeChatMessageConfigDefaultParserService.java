@@ -39,7 +39,6 @@ public class WeChatMessageConfigDefaultParserService implements WeChatMessageCon
                 model.setApplicationId(TransformationUtil.objectToString(data.get("applicationId")));
                 model.setApplicationSecret(TransformationUtil.objectToString(data.get("applicationSecret")));
                 model.setAccessTokenUrl(TransformationUtil.objectToString(data.get("accessTokenUrl")));
-                model.setAccessTokenCacheName(TransformationUtil.objectToString(data.get("accessTokenCacheName")));
                 final Map<String, String> other = new HashMap<>();
                 for (final String key : data.keySet()) {
                     other.put(key, TransformationUtil.objectToString(data.get(key)));
@@ -69,11 +68,6 @@ public class WeChatMessageConfigDefaultParserService implements WeChatMessageCon
          * Access Token Url
          */
         private String accessTokenUrl;
-
-        /**
-         * Access Token Cache Name
-         */
-        private String accessTokenCacheName;
 
         /**
          * Other Data
@@ -168,16 +162,6 @@ public class WeChatMessageConfigDefaultParserService implements WeChatMessageCon
         @Override
         public String getAccessTokenUrl() {
             return this.accessTokenUrl;
-        }
-
-        @Override
-        public void setAccessTokenCacheName(String accessTokenCacheName) {
-            this.accessTokenCacheName = accessTokenCacheName;
-        }
-
-        @Override
-        public String getAccessTokenCacheName() {
-            return this.accessTokenCacheName;
         }
 
         @Override
