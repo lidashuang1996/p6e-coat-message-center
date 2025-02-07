@@ -18,7 +18,7 @@ public interface LauncherStartingModel extends Serializable {
      *
      * @return ID
      */
-    String id();
+    Integer id();
 
     /**
      * Get Language

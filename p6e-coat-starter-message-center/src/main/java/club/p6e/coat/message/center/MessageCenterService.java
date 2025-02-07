@@ -12,11 +12,11 @@ import club.p6e.coat.message.center.launcher.LauncherStartingModel;
 public interface MessageCenterService {
 
     /**
-     * Push Message
+     * Execute Push Message
      *
      * @param starting Launcher Starting Model
      * @return Launcher Result Model
      */
-    LauncherResultModel push(LauncherStartingModel starting);
+    LauncherResultModel execute(LauncherStartingModel starting);
 
 }

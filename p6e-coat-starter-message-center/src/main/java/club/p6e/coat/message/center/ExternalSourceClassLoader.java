@@ -14,16 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class ExternalSourceClassLoader extends ClassLoader {
 
-    /**
-     * External Source Class Loader
-     */
     private static final ExternalSourceClassLoader INSTANCE = new ExternalSourceClassLoader();
 
-    /**
-     * 获取单例的实列对象
-     *
-     * @return 实列对象
-     */
     public static ExternalSourceClassLoader getInstance() {
         return INSTANCE;
     }

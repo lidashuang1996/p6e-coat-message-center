@@ -1,24 +1,24 @@
 package club.p6e.coat.message.center;
 
-import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.common.utils.Md5Util;
 import club.p6e.coat.message.center.config.*;
 import club.p6e.coat.message.center.config.mail.MailMessageConfigModel;
 import club.p6e.coat.message.center.config.mobile.MobileMessageConfigModel;
 import club.p6e.coat.message.center.config.sms.ShortMessageConfigModel;
 import club.p6e.coat.message.center.config.telegram.TelegramMessageConfigModel;
+import club.p6e.coat.message.center.config.wechat.WeChatMessageConfigModel;
 import club.p6e.coat.message.center.error.*;
 import club.p6e.coat.message.center.launcher.*;
 import club.p6e.coat.message.center.launcher.mail.MailMessageLauncherService;
 import club.p6e.coat.message.center.launcher.mobile.MobileMessageLauncherService;
 import club.p6e.coat.message.center.launcher.sms.ShortMessageLauncherService;
 import club.p6e.coat.message.center.launcher.telegram.TelegramMessageLauncherService;
+import club.p6e.coat.message.center.launcher.wechat.WeChatMessageLauncherService;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.template.TemplateModel;
-import club.p6e.coat.message.center.template.TemplateParserService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -35,94 +35,94 @@ import java.util.*;
 public class MessageCenterServiceDefaultAchieve implements MessageCenterService {
 
     /**
-     * 默认的语言
+     * Default Language
      */
     public static String DEFAULT_LANGUAGE = "zh-cn";
 
     /**
-     * 配置类型
+     * Config Type
      */
     protected static final String CONFIG_TYPE = "CONFIG";
 
     /**
-     * 模板类型
+     * Template Type
      */
     protected static final String TEMPLATE_TYPE = "TEMPLATE";
 
     /**
-     * 发射器类型
+     * Launcher Type
      */
     protected static final String LAUNCHER_TYPE = "LAUNCHER";
 
     /**
-     * 数据源仓库对象
+     * Data Source Repository
      */
     protected final DataSourceRepository repository;
 
     /**
-     * 配置解析器服务
-     */
-    protected final Map<String, ConfigParserService> configParserServiceMap;
-
-    /**
-     * 模板解析器服务
-     */
-    protected final Map<String, TemplateParserService> templateParserServiceMap;
-
-    /**
-     * 发射器路由服务
+     * Launcher Route Service Map
      */
     protected final Map<String, LauncherRouteService> launcherRouteServiceMap;
 
     /**
-     * MAIL 类型消息发射器
+     * Config Parser Service Map
+     */
+    protected final Map<String, ConfigParserService<?>> configParserServiceMap;
+
+    /**
+     * Launcher Template Parser Service Map
+     */
+    protected final Map<String, LauncherTemplateParserService> launcherTemplateParserServiceMap;
+
+    /**
+     * Mail Message Launcher Service Map
      */
     protected final Map<String, MailMessageLauncherService> mailMessageLauncherServiceMap;
 
     /**
-     * SMS 类型消息发射器
+     * Short Message Launcher Service Map
      */
     protected final Map<String, ShortMessageLauncherService> shortMessageLauncherServiceMap;
 
     /**
-     * MMS 类型消息发射器
+     * Mobile Message Launcher Service Map
      */
     protected final Map<String, MobileMessageLauncherService> mobileMessageLauncherServiceMap;
 
     /**
-     * TELEGRAM 类型消息发射器
+     * WeChat Message Launcher Service Map
+     */
+    protected final Map<String, WeChatMessageLauncherService> wechatMessageLauncherServiceMap;
+
+    /**
+     * Telegram Message Launcher Service Map
      */
     protected final Map<String, TelegramMessageLauncherService> telegramMessageLauncherServiceMap;
 
     /**
-     * 构造方法初始化
+     * Construct Initialization
      *
-     * @param repository                       数据源仓库对象
-     * @param configParserServiceList          配置解析器服务
-     * @param templateParserServiceList        配置解析器服务
-     * @param launcherRouteServiceList         发射器路由服务
-     * @param mailMessageLauncherServiceList   MAIL 类型消息发射器
-     * @param shortMessageLauncherServiceList  SMS 类型消息发射器
-     * @param mobileMessageLauncherServiceList MMS 类型消息发射器
+     * @param repository                         Data Source Repository
+     * @param launcherRouteServiceList           Launcher Route Service List
+     * @param configParserServiceList            Config Parser Service List
+     * @param launcherTemplateParserServiceList  Launcher Template Parser Service List
+     * @param mailMessageLauncherServiceList     Mail Message Launcher Service List
+     * @param shortMessageLauncherServiceList    Short Message Launcher Service List
+     * @param mobileMessageLauncherServiceList   Mobile Message Launcher Service List
+     * @param weChatMessageLauncherServiceList   WeChat Message Launcher Service List
+     * @param telegramMessageLauncherServiceList Telegram Message Launcher Service List
      */
     public MessageCenterServiceDefaultAchieve(
             DataSourceRepository repository,
-            List<ConfigParserService> configParserServiceList,
-            List<TemplateParserService> templateParserServiceList,
             List<LauncherRouteService> launcherRouteServiceList,
+            List<ConfigParserService<?>> configParserServiceList,
+            List<LauncherTemplateParserService> launcherTemplateParserServiceList,
             List<MailMessageLauncherService> mailMessageLauncherServiceList,
             List<ShortMessageLauncherService> shortMessageLauncherServiceList,
             List<MobileMessageLauncherService> mobileMessageLauncherServiceList,
+            List<WeChatMessageLauncherService> weChatMessageLauncherServiceList,
             List<TelegramMessageLauncherService> telegramMessageLauncherServiceList
     ) {
-        final Map<String, ConfigParserService> configParserServiceMap = new HashMap<>();
-        if (configParserServiceList != null
-                && !configParserServiceList.isEmpty()) {
-            for (final ConfigParserService service : configParserServiceList) {
-                configParserServiceMap.put(service.name(), service);
-            }
-        }
-
         final Map<String, LauncherRouteService> launcherRouteServiceMap = new HashMap<>();
         if (launcherRouteServiceList != null
                 && !launcherRouteServiceList.isEmpty()) {
@@ -131,11 +131,19 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
             }
         }
 
-        final Map<String, TemplateParserService> templateParserServiceMap = new HashMap<>();
-        if (templateParserServiceList != null
-                && !templateParserServiceList.isEmpty()) {
-            for (final TemplateParserService service : templateParserServiceList) {
-                templateParserServiceMap.put(service.name(), service);
+        final Map<String, ConfigParserService<?>> configParserServiceMap = new HashMap<>();
+        if (configParserServiceList != null
+                && !configParserServiceList.isEmpty()) {
+            for (final ConfigParserService<?> service : configParserServiceList) {
+                configParserServiceMap.put(service.name(), service);
+            }
+        }
+
+        final Map<String, LauncherTemplateParserService> launcherTemplateParserServiceMap = new HashMap<>();
+        if (launcherTemplateParserServiceList != null
+                && !launcherTemplateParserServiceList.isEmpty()) {
+            for (final LauncherTemplateParserService service : launcherTemplateParserServiceList) {
+                launcherTemplateParserServiceMap.put(service.name(), service);
             }
         }
 
@@ -163,6 +171,14 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
             }
         }
 
+        final Map<String, WeChatMessageLauncherService> wechatMessageLauncherServiceMap = new HashMap<>();
+        if (mobileMessageLauncherServiceList != null
+                && !mobileMessageLauncherServiceList.isEmpty()) {
+            for (final WeChatMessageLauncherService service : weChatMessageLauncherServiceList) {
+                wechatMessageLauncherServiceMap.put(service.name(), service);
+            }
+        }
+
         final Map<String, TelegramMessageLauncherService> telegramMessageLauncherServiceMap = new HashMap<>();
         if (telegramMessageLauncherServiceList != null
                 && !telegramMessageLauncherServiceList.isEmpty()) {
@@ -174,21 +190,23 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
         this.repository = repository;
         this.configParserServiceMap = configParserServiceMap;
         this.launcherRouteServiceMap = launcherRouteServiceMap;
-        this.templateParserServiceMap = templateParserServiceMap;
+        this.launcherTemplateParserServiceMap = launcherTemplateParserServiceMap;
         this.mailMessageLauncherServiceMap = mailMessageLauncherServiceMap;
         this.shortMessageLauncherServiceMap = shortMessageLauncherServiceMap;
         this.mobileMessageLauncherServiceMap = mobileMessageLauncherServiceMap;
+        this.wechatMessageLauncherServiceMap = wechatMessageLauncherServiceMap;
         this.telegramMessageLauncherServiceMap = telegramMessageLauncherServiceMap;
     }
 
     /**
-     * 读取发射器数据对象
+     * Get Launcher Data
      *
-     * @param id 发射器 ID
-     * @return 发射器模型
+     * @param id Launcher ID
+     * @return Launcher Model
      */
     protected LauncherModel getLauncherData(Integer id) {
-        final LauncherModel model = ExpiredCache.get(LAUNCHER_TYPE, String.valueOf(id));
+        final String name = Md5Util.execute(Md5Util.execute(String.valueOf(id)));
+        final LauncherModel model = ExpiredCache.get(LAUNCHER_TYPE, name);
         if (model == null) {
             return setLauncherData(id);
         } else {
@@ -197,19 +215,20 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 写入发射器数据对象
+     * Set Launcher Data
      *
-     * @param id 发射器 ID
-     * @return 发射器模型
+     * @param id Launcher ID
+     * @return Launcher Model
      */
     protected synchronized LauncherModel setLauncherData(Integer id) {
-        final LauncherModel model = ExpiredCache.get(LAUNCHER_TYPE, String.valueOf(id));
+        final String name = Md5Util.execute(Md5Util.execute(String.valueOf(id)));
+        final LauncherModel model = ExpiredCache.get(LAUNCHER_TYPE, name);
         if (model == null) {
             final LauncherModel lm = repository.getLauncherData(id);
             if (lm == null) {
                 return null;
             } else {
-                ExpiredCache.set(LAUNCHER_TYPE, String.valueOf(id), lm);
+                ExpiredCache.set(LAUNCHER_TYPE, name, lm);
                 return lm;
             }
         } else {
@@ -218,13 +237,14 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 读取配置数据对象
+     * Get Config Data
      *
-     * @param id 配置 ID
-     * @return 配置数据对象
+     * @param id Config ID
+     * @return Config Model
      */
     protected ConfigModel getConfigData(Integer id) {
-        final ConfigModel model = ExpiredCache.get(CONFIG_TYPE, String.valueOf(id));
+        final String name = Md5Util.execute(Md5Util.execute(String.valueOf(id)));
+        final ConfigModel model = ExpiredCache.get(CONFIG_TYPE, name);
         if (model == null) {
             return setConfigData(id);
         } else {
@@ -233,19 +253,20 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 写入配置数据对象
+     * Set Config Data
      *
-     * @param id 配置 ID
-     * @return 配置数据对象
+     * @param id Config ID
+     * @return Config Model
      */
     protected ConfigModel setConfigData(Integer id) {
-        final ConfigModel model = ExpiredCache.get(CONFIG_TYPE, String.valueOf(id));
+        final String name = Md5Util.execute(Md5Util.execute(String.valueOf(id)));
+        final ConfigModel model = ExpiredCache.get(CONFIG_TYPE, name);
         if (model == null) {
             final ConfigModel cm = repository.getConfigData(id);
             if (cm == null) {
                 return null;
             } else {
-                ExpiredCache.set(CONFIG_TYPE, String.valueOf(id), cm);
+                ExpiredCache.set(CONFIG_TYPE, name, cm);
                 return cm;
             }
         } else {
@@ -254,15 +275,16 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 读取模板数据对象
+     * Get Template Data
      *
-     * @param key      模板键
-     * @param language 模板语言
-     * @return 模板数据对象
+     * @param key      Template Key
+     * @param language Template Language
+     * @return Template Model
      */
     protected TemplateModel getTemplateData(String key, String language) {
-        language = language == null || language.isEmpty() ? DEFAULT_LANGUAGE : language;
-        final TemplateModel model = ExpiredCache.get(TEMPLATE_TYPE, key + "@" + language);
+        language = (language == null || language.isEmpty()) ? DEFAULT_LANGUAGE : language;
+        final String name = Md5Util.execute(Md5Util.execute(key + "@" + language));
+        final TemplateModel model = ExpiredCache.get(TEMPLATE_TYPE, name);
         if (model == null) {
             return setTemplateData(key, language);
         } else {
@@ -271,21 +293,22 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 写入模板数据对象
+     * Set Template Data
      *
-     * @param key      模板键
-     * @param language 模板语言
-     * @return 模板数据对象
+     * @param key      Template Key
+     * @param language Template Language
+     * @return Template Model
      */
     protected TemplateModel setTemplateData(String key, String language) {
         language = language == null ? DEFAULT_LANGUAGE : language;
-        final TemplateModel model = ExpiredCache.get(TEMPLATE_TYPE, key + "@" + language);
+        final String name = Md5Util.execute(Md5Util.execute(key + "@" + language));
+        final TemplateModel model = ExpiredCache.get(TEMPLATE_TYPE, name);
         if (model == null) {
             final TemplateModel tm = repository.getTemplateData(key, language);
             if (tm == null) {
                 return null;
             } else {
-                ExpiredCache.set(TEMPLATE_TYPE, key + "@" + language, tm);
+                ExpiredCache.set(TEMPLATE_TYPE, name, tm);
                 return tm;
             }
         } else {
@@ -294,10 +317,10 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 获取发射器路由服务
+     * Get Launcher Route Service
      *
-     * @param launcher 发射器数据对象
-     * @return 发射器路由服务
+     * @param launcher Launcher Model
+     * @return Launcher Route Service
      */
     protected LauncherRouteService getLauncherRouteService(LauncherModel launcher) {
         final String route = launcher.route();
@@ -312,12 +335,12 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 获取配置解析器服务
+     * Get Config Parser Service
      *
-     * @param config 配置数据对象
-     * @return 配置解析器服务
+     * @param config Config Model
+     * @return Config Parser Service
      */
-    protected ConfigParserService getConfigParserService(ConfigModel config) {
+    protected ConfigParserService<?> getConfigParserService(ConfigModel config) {
         final String parser = config.parser();
         if (parser.startsWith("classname:")) {
             final byte[] classBytes = config.parserSource();
@@ -330,25 +353,29 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 获取模板解析器服务
+     * Get Launcher Template Parser Service
      *
-     * @param template 模板数据对象
-     * @return 模板解析器服务
+     * @param template Template Model
+     * @return Launcher Template Parser Service
      */
-    protected TemplateParserService getTemplateParserService(TemplateModel template) {
+    protected LauncherTemplateParserService getLauncherTemplateParserService(TemplateModel template) {
         final String parser = template.parser();
         if (parser.startsWith("classname:")) {
             final byte[] classBytes = template.parserSource();
             final String className = parser.substring(10);
             return ExternalSourceClassLoader.getInstance()
-                    .newPackageClassInstance(className, classBytes, TemplateParserService.class);
+                    .newPackageClassInstance(className, classBytes, LauncherTemplateParserService.class);
         } else {
-            return templateParserServiceMap.get(parser);
+            return launcherTemplateParserServiceMap.get(parser);
         }
     }
 
     /**
-     * 获取发射器服务
+     * Get Launcher Service
+     *
+     * @param launcher Launcher Model
+     * @param data     Launcher Service Data
+     * @return Launcher Service
      */
     protected LauncherService<?> getLauncherService(LauncherModel launcher, Map<String, LauncherService<?>> data) {
         final String parser = launcher.parser();
@@ -363,9 +390,10 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     }
 
     /**
-     * 获取邮件消息发射器服务
+     * Get Mail Message Launcher Service
      *
-     * @param launcher 发射器模型
+     * @param launcher Launcher Model
+     * @return Mail Message Launcher Service
      */
     protected MailMessageLauncherService getMailMessageLauncherService(LauncherModel launcher) {
         final LauncherService<?> launcherService =
@@ -373,16 +401,18 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
         if (launcherService instanceof final MailMessageLauncherService service) {
             return service;
         }
-        throw new LauncherServiceNotExistException(this.getClass(),
+        throw new LauncherServiceNotExistException(
+                this.getClass(),
                 "fun getMailMessageLauncherService(LauncherModel launcher).",
-                "Unable to obtain corresponding mail message launcher service <" + MailMessageLauncherService.class + ">."
+                "Launcher MAIL<" + launcher.parser() + "> service does not exist."
         );
     }
 
     /**
-     * 获取短消息发射器服务
+     * Get Short Message Launcher Service
      *
-     * @param launcher 发射器模型
+     * @param launcher Launcher Model
+     * @return Short Message Launcher Service
      */
     protected ShortMessageLauncherService getShortMessageLauncherService(LauncherModel launcher) {
         final LauncherService<?> launcherService =
@@ -390,16 +420,18 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
         if (launcherService instanceof final ShortMessageLauncherService service) {
             return service;
         }
-        throw new LauncherServiceNotExistException(this.getClass(),
+        throw new LauncherServiceNotExistException(
+                this.getClass(),
                 "fun getShortMessageLauncherService(LauncherModel launcher).",
-                "Unable to obtain corresponding short message launcher service <" + ShortMessageLauncherService.class + ">."
+                "Launcher SMS<" + launcher.parser() + "> service does not exist."
         );
     }
 
     /**
-     * 获取移动消息发射器服务
+     * Get Mobile Message Launcher Service
      *
-     * @param launcher 发射器模型
+     * @param launcher Launcher Model
+     * @return Mobile Message Launcher Service
      */
     protected MobileMessageLauncherService getMobileMessageLauncherService(LauncherModel launcher) {
         final LauncherService<?> launcherService =
@@ -407,16 +439,35 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
         if (launcherService instanceof final MobileMessageLauncherService service) {
             return service;
         }
-        throw new LauncherServiceNotExistException(this.getClass(),
+        throw new LauncherServiceNotExistException(
+                this.getClass(),
                 "fun getMobileMessageLauncherService(LauncherModel launcher).",
-                "Unable to obtain corresponding mobile message launcher service <" + MobileMessageLauncherService.class + ">."
+                "Launcher MOBILE<" + launcher.parser() + "> service does not exist."
         );
     }
 
     /**
-     * 获取移动消息发射器服务
+     * Get WeChat Message Launcher Service
      *
-     * @param launcher 发射器模型
+     * @param launcher WeChat Message Launcher Service
+     */
+    protected WeChatMessageLauncherService getWeChatMessageLauncherService(LauncherModel launcher) {
+        final LauncherService<?> launcherService =
+                getLauncherService(launcher, new HashMap<>(wechatMessageLauncherServiceMap));
+        if (launcherService instanceof final WeChatMessageLauncherService service) {
+            return service;
+        }
+        throw new LauncherServiceNotExistException(
+                this.getClass(),
+                "fun getWeChatMessageLauncherService(LauncherModel launcher).",
+                "Launcher WECHAT<" + launcher.parser() + "> service does not exist."
+        );
+    }
+
+    /**
+     * Get Telegram Message Launcher Service
+     *
+     * @param launcher Telegram Message Launcher Service
      */
     protected TelegramMessageLauncherService getTelegramMessageLauncherService(LauncherModel launcher) {
         final LauncherService<?> launcherService =
@@ -424,31 +475,38 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
         if (launcherService instanceof final TelegramMessageLauncherService service) {
             return service;
         }
-        throw new LauncherServiceNotExistException(this.getClass(),
+        throw new LauncherServiceNotExistException(
+                this.getClass(),
                 "fun getTelegramMessageLauncherService(LauncherModel launcher).",
-                "Unable to obtain corresponding mobile message launcher service <" + TelegramMessageLauncherService.class + ">."
+                "Launcher TELEGRAM<" + launcher.parser() + "> service does not exist."
         );
     }
 
     @Override
-    public Map<String, List<String>> push(Integer id, String language, List<String> recipients, Map<String, String> data, List<File> attachments) {
-        final LauncherModel launcherModel = getLauncherData(id);
-
+    public LauncherResultModel execute(LauncherStartingModel starting) {
+        final LauncherModel launcherModel = getLauncherData(starting.id());
         if (launcherModel == null) {
-            throw new LauncherNotExistException(this.getClass(), "fun push(...).", "Launcher is not exist.");
+            throw new LauncherNotExistException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] does not exist."
+            );
         }
-
         if (!launcherModel.enable()) {
-            throw new LauncherNotEnableException(this.getClass(), "fun push(...).", "Launcher is not enabled.");
+            throw new LauncherNotEnableException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] service not enabled."
+            );
         }
-
-
         final List<ConfigModel> configs = new ArrayList<>();
         final List<LauncherModel.ConfigMapperModel> launcherConfigs = launcherModel.configs();
-
         if (launcherConfigs == null || launcherConfigs.isEmpty()) {
-            throw new LauncherMapperConfigNoExistException(this.getClass(),
-                    "fun push(...).", "Launcher mapper config result is not exist.");
+            throw new LauncherMapperConfigNotExistException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] mapper config result list [CONFIG NOT VERIFIED] value is empty or null."
+            );
         } else {
             for (final LauncherModel.ConfigMapperModel config : launcherConfigs) {
                 final ConfigModel cm = getConfigData(config.id());
@@ -457,104 +515,142 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
                 }
             }
         }
-
         if (configs.isEmpty()) {
-            throw new LauncherMapperConfigNoExistException(this.getClass(),
-                    "fun push(...).", "Launcher mapper config result is not exist.");
+            throw new LauncherMapperConfigNotExistException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] mapper config result list [CONFIG VERIFIED] value is empty or null."
+            );
         }
-
         final LauncherRouteService launcherRouteService = getLauncherRouteService(launcherModel);
         if (launcherRouteService == null) {
-            throw new LauncherRouteConfigException(this.getClass(), "fun push(...).",
-                    "Launcher(" + launcherModel.id() + ") model route service does not exist.");
+            throw new LauncherRouteConfigException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] route service does not exist."
+            );
         }
-
-        final ConfigModel routeConfigModel = launcherRouteService.execute(launcherModel, configs);
-        if (routeConfigModel == null) {
-            throw new LauncherRouteConfigException(this.getClass(), "fun push(...).",
-                    "Launcher(" + launcherModel.id() + ") model mapper route config result is null.");
+        final ConfigModel selectConfigModel = launcherRouteService.execute(launcherModel, configs);
+        if (selectConfigModel == null) {
+            throw new LauncherRouteConfigException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] mapper route config result value is empty or null."
+            );
         }
-
-        final ConfigParserService configParserService = getConfigParserService(routeConfigModel);
+        final ConfigParserService<?> configParserService = getConfigParserService(selectConfigModel);
         if (configParserService == null) {
-            throw new LauncherRouteConfigConvertException(this.getClass(), "fun push(...).",
-                    "Launcher(" + launcherModel.id() + ") model mapper route config, analysis config convert service does not exist.");
+            throw new LauncherRouteConfigConvertException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] config parser service does not exist.");
         }
-
-        final ConfigModel configModel = configParserService.execute(routeConfigModel);
-        if (configModel == null) {
-            throw new LauncherRouteConfigConvertException(this.getClass(), "fun push(...).",
-                    "Launcher(" + launcherModel.id() + ") model mapper route config, analysis config convert exception.");
+        final ConfigModel finalConfigModel = configParserService.execute(selectConfigModel);
+        if (finalConfigModel == null) {
+            throw new LauncherRouteConfigConvertException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] config parser service execute config value is empty or null."
+            );
         }
-
-
-        final TemplateModel templateModel = getTemplateData(launcherModel.template(), language);
-        if (templateModel == null) {
-            throw new LauncherTemplateNotExistException(this.getClass(), "fun push(...).",
-                    "Launcher(" + launcherModel.id() + ") model mapper template("
-                            + launcherModel.template() + "/" + language + ") result is null.");
+        final TemplateModel finalTemplateModel = getTemplateData(launcherModel.template(), starting.language());
+        if (finalTemplateModel == null) {
+            throw new LauncherTemplateNotExistException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] mapper template("
+                            + launcherModel.template() + "/" + starting.language() + ") value is empty or null.");
         }
-
-
-        final TemplateParserService templateParserService = getTemplateParserService(templateModel);
-        if (templateParserService == null) {
-            throw new LauncherTemplateConvertException(this.getClass(), "fun push(...).",
-                    "Launcher(" + launcherModel.id() + ") model mapper template("
-                            + launcherModel.template() + "/" + language + "), analysis template convert service does not exist.");
+        final LauncherTemplateParserService launcherTemplateParserService =
+                getLauncherTemplateParserService(finalTemplateModel);
+        if (launcherTemplateParserService == null) {
+            throw new LauncherTemplateConvertException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] launcher template parser service does not exist.");
         }
-        final LauncherTemplateModel templateMessageModel = templateParserService.execute(templateModel, data, attachments);
-        if (templateMessageModel == null) {
-            throw new LauncherTemplateConvertException(this.getClass(), "fun push(...).",
-                    "Launcher(" + launcherModel.id() + ") model mapper template("
-                            + launcherModel.template() + "/" + language + "), analysis template convert exception.");
+        final LauncherTemplateModel finalLauncherTemplateModel =
+                launcherTemplateParserService.execute(starting, finalTemplateModel);
+        if (finalLauncherTemplateModel == null) {
+            throw new LauncherTemplateConvertException(
+                    this.getClass(),
+                    "fun execute(LauncherStartingModel starting).",
+                    "Launcher [" + starting.id() + "] mapper launcher template value is empty or null.");
         }
-
-        templateMessageModel.putLogData("config", String.valueOf(configModel.id()));
-        templateMessageModel.putLogData("template", String.valueOf(templateModel.id()));
-        templateMessageModel.putLogData("launcher", String.valueOf(launcherModel.id()));
-
-        if (attachments != null) {
-            templateMessageModel.putLogData("attachment", JsonUtil.toJson(attachments.stream().map(File::getName).toList()));
-        }
-
         switch (launcherModel.type()) {
             case SMS:
-                if (configModel instanceof final ShortMessageConfigModel cm) {
-                    return getShortMessageLauncherService(launcherModel).execute(recipients, templateMessageModel, cm);
+                if (finalConfigModel instanceof final ShortMessageConfigModel shortMessageConfigModel) {
+                    return getShortMessageLauncherService(launcherModel)
+                            .execute(finalLauncherTemplateModel, shortMessageConfigModel);
                 } else {
-                    throw new LauncherTypeMismatchException(this.getClass(), "fun push(...).",
-                            "Launcher(" + launcherModel.id() + ") model SMS >>> "
-                                    + ShortMessageConfigModel.class + "(" + configModel.getClass() + ") type mismatch exception.");
+                    throw new LauncherConfigTypeMismatchException(
+                            this.getClass(),
+                            "fun execute(LauncherStartingModel starting).",
+                            "Launcher [" + starting.id() + "]"
+                                    + " SMS >>> " + ShortMessageConfigModel.class
+                                    + " ::: " + finalConfigModel.getClass() + " type mismatch exception.");
                 }
             case MAIL:
-                if (configModel instanceof final MailMessageConfigModel cm) {
-                    return getMailMessageLauncherService(launcherModel).execute(recipients, templateMessageModel, cm);
+                if (finalConfigModel instanceof final MailMessageConfigModel mailMessageConfigModel) {
+                    return getMailMessageLauncherService(launcherModel)
+                            .execute(finalLauncherTemplateModel, mailMessageConfigModel);
                 } else {
-                    throw new LauncherTypeMismatchException(this.getClass(), "fun push(...).",
-                            "Launcher(" + launcherModel.id() + ") model MAIL >>> "
-                                    + MailMessageConfigModel.class + "(" + configModel.getClass() + ") type mismatch exception.");
+                    throw new LauncherConfigTypeMismatchException(
+                            this.getClass(),
+                            "fun execute(LauncherStartingModel starting).",
+                            "Launcher [" + starting.id() + "]"
+                                    + " MAIL >>> " + MailMessageConfigModel.class
+                                    + " ::: " + finalConfigModel.getClass() + " type mismatch exception."
+                    );
                 }
             case MOBILE:
-                if (configModel instanceof final MobileMessageConfigModel cm) {
-                    return getMobileMessageLauncherService(launcherModel).execute(recipients, templateMessageModel, cm);
+                if (finalConfigModel instanceof final MobileMessageConfigModel mobileMessageConfigModel) {
+                    return getMobileMessageLauncherService(launcherModel)
+                            .execute(finalLauncherTemplateModel, mobileMessageConfigModel);
                 } else {
-                    throw new LauncherTypeMismatchException(this.getClass(), "fun push(...).",
-                            "Launcher(" + launcherModel.id() + ") model MOBILE >>> "
-                                    + MobileMessageConfigModel.class + "(" + configModel.getClass() + ") type mismatch exception.");
+                    throw new LauncherConfigTypeMismatchException(
+                            this.getClass(),
+                            "fun execute(LauncherStartingModel starting).",
+                            "Launcher [" + starting.id() + "]"
+                                    + " MOBILE >>> " + MobileMessageConfigModel.class
+                                    + " ::: " + finalConfigModel.getClass() + " type mismatch exception."
+                    );
+                }
+            case WECHAT:
+                if (finalConfigModel instanceof final WeChatMessageConfigModel weChatMessageConfigModel) {
+                    return getWeChatMessageLauncherService(launcherModel)
+                            .execute(finalLauncherTemplateModel, weChatMessageConfigModel);
+                } else {
+                    throw new LauncherConfigTypeMismatchException(
+                            this.getClass(),
+                            "fun execute(LauncherStartingModel starting).",
+                            "Launcher [" + starting.id() + "]"
+                                    + " WECHAT >>> " + WeChatMessageConfigModel.class
+                                    + " ::: " + finalConfigModel.getClass() + " type mismatch exception."
+                    );
                 }
             case TELEGRAM:
-                if (configModel instanceof final TelegramMessageConfigModel cm) {
-                    return getTelegramMessageLauncherService(launcherModel).execute(recipients, templateMessageModel, cm);
+                if (finalConfigModel instanceof final TelegramMessageConfigModel templateMessageModel) {
+                    return getTelegramMessageLauncherService(launcherModel)
+                            .execute(finalLauncherTemplateModel, templateMessageModel);
                 } else {
-                    throw new LauncherTypeMismatchException(this.getClass(), "fun push(...).",
-                            "Launcher(" + launcherModel.id() + ") model TELEGRAM >>> "
-                                    + TelegramMessageConfigModel.class + "(" + configModel.getClass() + ") type mismatch exception.");
+                    throw new LauncherConfigTypeMismatchException(
+                            this.getClass(),
+                            "fun execute(LauncherStartingModel starting).",
+                            "Launcher [" + starting.id() + "]"
+                                    + " TELEGRAM >>> " + TelegramMessageConfigModel.class
+                                    + " ::: " + finalConfigModel.getClass() + " type mismatch exception."
+                    );
                 }
             default:
-                throw new LauncherTypeMismatchException(this.getClass(), "fun push(...).",
-                        "Launcher(" + launcherModel.id() + ") model type(SMS/MAIL/MOBILE) mismatch exception.");
+                throw new LauncherConfigTypeMismatchException(
+                        this.getClass(),
+                        "fun execute(LauncherStartingModel starting).",
+                        "Launcher [" + starting.id() + "]"
+                                + " TYPE >>> " + launcherModel.type().name()
+                                + " ::: SMS/MAIL/MOBILE type mismatch exception."
+                );
         }
-
     }
 
 }
