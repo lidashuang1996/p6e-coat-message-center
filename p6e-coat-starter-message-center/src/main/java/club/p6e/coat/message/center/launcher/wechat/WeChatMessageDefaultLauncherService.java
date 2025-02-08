@@ -106,7 +106,7 @@ public class WeChatMessageDefaultLauncherService implements WeChatMessageLaunche
             return tf.apply(null);
         }
 
-        
+
 
     }
 
