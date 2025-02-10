@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>club.p6e.coat</groupId>
+        <artifactId>p6e-coat-starter-parent</artifactId>
+        <version>3.1.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <artifactId>p6e-coat-starter-message-center</artifactId>
+    <version>3.1.0</version>
+    <name>p6e-coat-starter-message-center</name>
+    <description>p6e-coat-starter-message-center</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>6.0.1</version>
+        </dependency>
+
+        <!-- PostGre SQL [START] -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <!-- PostGre SQL [END] -->
+
+        <!-- Spring Boot Web [START] -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Spring Boot Web [END] -->
+
+        <!-- Spring Boot Data JPA [START] -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!-- Spring Boot Data JPA [END] -->
+
+        <!-- P6e Coat Common [START] -->
+        <dependency>
+            <groupId>club.p6e.coat</groupId>
+            <artifactId>p6e-coat-starter-common</artifactId>
+        </dependency>
+        <!-- P6e Coat Common [END] -->
+
+        <!-- Java Mail [START] -->
+        <!-- Java Mail Javax Mail [START] -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <!-- Java Mail Javax Mail [END] -->
+        <!-- Java Mail [END] -->
+
+        <!-- Java SMS [START] -->
+        <!-- Java SMS A_Li_YU_SMS [START] -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dysmsapi20170525</artifactId>
+            <version>2.0.24</version>
+        </dependency>
+        <!-- Java SMS A_Li_YU_SMS [END] -->
+        <!-- Java SMS [END] -->
+
+        <!-- Java MOBILE [START] -->
+        <!-- Java MOBILE GOOGLE FIREBASE [START] -->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.2.0</version>
+        </dependency>
+        <!-- Java MOBILE GOOGLE FIREBASE [END] -->
+        <!-- Java MOBILE [END] -->
+
+    </dependencies>
+
+</project>
