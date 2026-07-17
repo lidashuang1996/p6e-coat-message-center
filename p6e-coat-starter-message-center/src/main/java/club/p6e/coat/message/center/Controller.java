@@ -5,6 +5,7 @@ import club.p6e.coat.common.error.ParameterException;
 import club.p6e.coat.common.utils.FileUtil;
 import club.p6e.coat.common.utils.GeneratorUtil;
 import club.p6e.coat.common.utils.JsonUtil;
+import club.p6e.coat.message.center.launcher.LauncherStartingModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -122,7 +123,34 @@ public class Controller {
         LOGGER.info("language ::: {}", language);
         LOGGER.info("recipients ::: {}", pRecipients);
         LOGGER.info(">>>>> push() <<<<<");
-        return ResultContext.build(transmitterService.push(id, language, pRecipients, pData, pFiles));
+        return ResultContext.build(transmitterService.execute(new LauncherStartingModel() {
+
+            @Override
+            public Integer id() {
+                return id;
+            }
+
+            @Override
+            public String language() {
+                return language;
+            }
+
+            @Override
+            public Map<String, String> param() {
+                return pData;
+            }
+
+            @Override
+            public List<String> recipients() {
+                return pRecipients;
+            }
+
+            @Override
+            public List<File> attachment() {
+                return pFiles;
+            }
+
+        }));
     }
 
 }

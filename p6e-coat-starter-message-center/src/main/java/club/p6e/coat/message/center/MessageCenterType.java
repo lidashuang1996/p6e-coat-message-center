@@ -27,6 +27,9 @@ public enum MessageCenterType {
     /**
      * TELEGRAM 电报消息类型
      */
-    TELEGRAM
-
+    TELEGRAM,
+    /**
+     * WHATSAPP
+     */
+    WHATSAPP,
 }

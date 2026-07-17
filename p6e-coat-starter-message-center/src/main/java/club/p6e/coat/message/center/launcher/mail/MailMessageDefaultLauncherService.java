@@ -48,7 +48,7 @@ public class MailMessageDefaultLauncherService implements MailMessageLauncherSer
     /**
      * Launcher Name
      */
-    private static final String DEFAULT_LAUNCHER_NAME = "MAIL_DEFAULT_LAUNCHER";
+    private static final String DEFAULT_LAUNCHER_NAME = "MAIL_DEFAULT";
 
     /**
      * Inject Log Object

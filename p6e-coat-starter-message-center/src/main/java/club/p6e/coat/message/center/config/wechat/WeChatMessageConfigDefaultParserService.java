@@ -23,7 +23,7 @@ public class WeChatMessageConfigDefaultParserService implements WeChatMessageCon
     /**
      * Parser Name
      */
-    private static final String PARSER_NAME = "WECHAT_CONFIG_DEFAULT_PARSER";
+    private static final String PARSER_NAME = "WECHAT_DEFAULT";
 
     @Override
     public String name() {

@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public interface LauncherTemplateModel extends TemplateModel, Serializable {
 
+    void setChat(String chat);
+
     /**
      * 获取消息参数
      *
@@ -22,7 +24,9 @@ public interface LauncherTemplateModel extends TemplateModel, Serializable {
      */
     String getChat();
 
-    String getType();
+    void setMode(String mode);
+
+    String getMode();
 
     /**
      * 获取消息参数
@@ -106,6 +110,12 @@ public interface LauncherTemplateModel extends TemplateModel, Serializable {
      */
     void setAttachment(List<File> files);
 
+    void setRecipients(List<String> recipients);
+
     List<String> getRecipients();
+
+    void setLogData(Map<String, String> logData);
+
+    Map<String, String> getLogData();
 
 }

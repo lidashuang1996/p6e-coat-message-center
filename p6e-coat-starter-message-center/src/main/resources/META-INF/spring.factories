@@ -9,7 +9,6 @@ club.p6e.coat.message.center.log.LogServiceImpl,\
 club.p6e.coat.message.center.config.mail.MailMessageConfigDefaultParserService,\
 club.p6e.coat.message.center.launcher.mail.MailMessageDefaultLauncherService,\
 club.p6e.coat.message.center.config.mobile.MobileMessageConfigDefaultParserService,\
-club.p6e.coat.message.center.launcher.mobile.MobileMessageColorOsLauncherService,\
 club.p6e.coat.message.center.launcher.mobile.MobileMessageGoogleLauncherService,\
 club.p6e.coat.message.center.launcher.router.LauncherPollingRouteService,\
 club.p6e.coat.message.center.launcher.router.LauncherRandomRouteService,\

@@ -65,7 +65,7 @@ public class LogServiceImpl implements LogService {
         }
         for (final String recipient : recipients) {
             params.put("__recipient__", recipient);
-            final String no = String.valueOf(SnowflakeIdUtil.getInstance(MessageCenterSnowflakeId.MESSAGE_CENTER_LOG_SNOWFLAKE_NAME).nextId());
+            final String no = String.valueOf(SnowflakeIdUtil.getInstance(MessageCenterSnowflakeId.SNOWFLAKE_NAME).nextId());
             if (repository.createLog(no, parent, JsonUtil.toJson(params), launcher, template, config, now)) {
                 result.get(parent).add(no);
             }

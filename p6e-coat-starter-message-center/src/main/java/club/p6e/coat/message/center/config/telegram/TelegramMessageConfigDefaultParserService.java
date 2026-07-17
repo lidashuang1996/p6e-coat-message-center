@@ -24,7 +24,7 @@ public class TelegramMessageConfigDefaultParserService implements TelegramMessag
     /**
      * Parser Name
      */
-    private static final String DEFAULT_PARSER = "TELEGRAM_CONFIG_DEFAULT_PARSER";
+    private static final String DEFAULT_PARSER = "TELEGRAM_DEFAULT";
 
     @Override
     public String name() {

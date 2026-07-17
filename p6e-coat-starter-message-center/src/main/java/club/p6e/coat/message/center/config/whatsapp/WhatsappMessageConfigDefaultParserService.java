@@ -1,4 +1,4 @@
-package club.p6e.coat.message.center.config.mail;
+package club.p6e.coat.message.center.config.whatsapp;
 
 import club.p6e.coat.common.utils.JsonUtil;
 import club.p6e.coat.common.utils.TransformationUtil;
@@ -10,20 +10,21 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * MailMessageConfigParserServiceImpl
+ * WhatsApp Message Config Default Parser Service
  *
  * @author lidashuang
  * @version 1.0
  */
 @Component
-public class MailMessageConfigDefaultParserService implements MailMessageConfigParserService {
+public class WhatsappMessageConfigDefaultParserService implements WhatsappMessageConfigParserService {
 
     /**
      * Parser Name
      */
-    private static final String PARSER_NAME = "MAIL_DEFAULT";
+    private static final String PARSER_NAME = "WHATSAPP_DEFAULT";
 
     @Override
     public String name() {
@@ -31,17 +32,24 @@ public class MailMessageConfigDefaultParserService implements MailMessageConfigP
     }
 
     @Override
-    public MailMessageConfigModel execute(ConfigModel cm) {
-        final SimpleMailMessageConfigModel model = new SimpleMailMessageConfigModel(cm);
+    public WhatsappMessageConfigModel execute(ConfigModel cm) {
+        final SimpleWhatsappMessageConfigModel model = new SimpleWhatsappMessageConfigModel(cm);
         if (cm.content() != null) {
             final Map<String, Object> data = JsonUtil.fromJsonToMap(cm.content(), String.class, Object.class);
             if (data != null) {
-                model.setTls(TransformationUtil.objectToBoolean(data.get("tls")));
-                model.setAuth(TransformationUtil.objectToBoolean(data.get("auth")));
-                model.setFrom(TransformationUtil.objectToString(data.get("from")));
-                model.setHost(TransformationUtil.objectToString(data.get("host")));
-                model.setPort(TransformationUtil.objectToInteger(data.get("port")));
-                model.setPassword(TransformationUtil.objectToString(data.get("password")));
+                model.setUrl(TransformationUtil.objectToString(data.get("url")));
+                model.setToken(TransformationUtil.objectToString(data.get("token")));
+                model.setSession(TransformationUtil.objectToString(data.get("session")));
+                if (data.get("channel-chat") instanceof final Map<?, ?> content) {
+                    final Map<String, String> chats = new HashMap<>();
+                    for (final Object key : content.keySet()) {
+                        final Object value = content.get(key);
+                        if (key instanceof final String k && value instanceof final String v) {
+                            chats.put(k, v);
+                        }
+                    }
+                    model.setChats(chats);
+                }
                 final Map<String, String> other = new HashMap<>();
                 for (final String key : data.keySet()) {
                     other.put(key, TransformationUtil.objectToString(data.get(key)));
@@ -53,44 +61,9 @@ public class MailMessageConfigDefaultParserService implements MailMessageConfigP
     }
 
     /**
-     * SimpleMailMessageConfigModel
+     * Simple WhatsApp Message Config Model
      */
-    public static class SimpleMailMessageConfigModel implements MailMessageConfigModel, Serializable {
-
-        /**
-         * Port / Default Value 25
-         */
-        private int port = 25;
-
-        /**
-         * Host
-         */
-        private String host;
-
-        /**
-         * TLS / Default Value false
-         */
-        private boolean tls = false;
-
-        /**
-         * Auth / Default Value false
-         */
-        private boolean auth = false;
-
-        /**
-         * From
-         */
-        private String from;
-
-        /**
-         * Password
-         */
-        private String password;
-
-        /**
-         * Other Data
-         */
-        public Map<String, String> other = Collections.unmodifiableMap(new HashMap<>());
+    public static class SimpleWhatsappMessageConfigModel implements WhatsappMessageConfigModel, Serializable {
 
         /**
          * Source Config Model
@@ -98,12 +71,37 @@ public class MailMessageConfigDefaultParserService implements MailMessageConfigP
         private final ConfigModel source;
 
         /**
+         * Other Data
+         */
+        public Map<String, String> other = Collections.unmodifiableMap(new HashMap<>());
+
+        /**
+         * Url
+         */
+        private String url;
+
+        /**
+         * Token
+         */
+        private String token;
+
+        /**
+         * Session
+         */
+        private String session;
+
+        /**
+         * Chats
+         */
+        private final Map<String, String> chats = new ConcurrentHashMap<>();
+
+        /**
          * Construct Initialization
          * Inject Source Config Model Object
          *
          * @param source Source Config Model
          */
-        public SimpleMailMessageConfigModel(ConfigModel source) {
+        public SimpleWhatsappMessageConfigModel(ConfigModel source) {
             this.source = source;
         }
 
@@ -153,63 +151,51 @@ public class MailMessageConfigDefaultParserService implements MailMessageConfigP
         }
 
         @Override
-        public void setPort(int port) {
-            this.port = port;
+        public String getUrl() {
+            return this.url;
         }
 
         @Override
-        public int getPort() {
-            return port;
+        public void setUrl(String url) {
+            this.url = url;
         }
 
         @Override
-        public void setHost(String host) {
-            this.host = host;
+        public String getSession() {
+            return this.session;
         }
 
         @Override
-        public String getHost() {
-            return host;
+        public void setSession(String session) {
+            this.session = session;
         }
 
         @Override
-        public void setAuth(boolean auth) {
-            this.auth = auth;
+        public String getToken() {
+            return this.token;
         }
 
         @Override
-        public boolean isAuth() {
-            return auth;
+        public void setToken(String token) {
+            this.token = token;
         }
 
         @Override
-        public void setTls(boolean tls) {
-            this.tls = tls;
+        public void setChats(Map<String, String> chats) {
+            if (chats != null) {
+                this.chats.clear();
+                this.chats.putAll(chats);
+            }
         }
 
         @Override
-        public boolean isTls() {
-            return tls;
+        public Map<String, String> getChats() {
+            return Collections.unmodifiableMap(this.chats);
         }
 
         @Override
-        public void setFrom(String from) {
-            this.from = from;
-        }
-
-        @Override
-        public String getFrom() {
-            return from;
-        }
-
-        @Override
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        @Override
-        public String getPassword() {
-            return password;
+        public Map<String, String> getOther() {
+            return other;
         }
 
         @Override
@@ -217,11 +203,6 @@ public class MailMessageConfigDefaultParserService implements MailMessageConfigP
             if (other != null) {
                 this.other = Collections.unmodifiableMap(other);
             }
-        }
-
-        @Override
-        public Map<String, String> getOther() {
-            return other;
         }
 
     }

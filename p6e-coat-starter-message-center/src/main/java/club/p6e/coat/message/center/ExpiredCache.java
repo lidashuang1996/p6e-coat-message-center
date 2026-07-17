@@ -26,9 +26,9 @@ public final class ExpiredCache implements Serializable {
         private volatile long interval;
         private volatile Object data;
 
-        public Model(Object data) {
+        public Model(Object data, long interval) {
             this.data = data;
-            this.interval = 3600_1000L;
+            this.interval = interval;
             this.date = System.currentTimeMillis();
         }
     }
@@ -56,11 +56,15 @@ public final class ExpiredCache implements Serializable {
                 data.remove(key);
                 return null;
             } else {
-                if (System.currentTimeMillis() > model.getDate() + model.getInterval()) {
-                    data.remove(key);
-                    return null;
-                } else {
+                if (model.getInterval() <= 0) {
                     return (T) model.getData();
+                } else {
+                    if (System.currentTimeMillis() > model.getDate() + model.getInterval()) {
+                        data.remove(key);
+                        return null;
+                    } else {
+                        return (T) model.getData();
+                    }
                 }
             }
         }
@@ -74,11 +78,22 @@ public final class ExpiredCache implements Serializable {
      * @param value Cache Value
      */
     public static void set(String type, String key, Object value) {
+        set(type, key, value, 3600 * 1000L);
+    }
+
+    /**
+     * Set Cache Object
+     *
+     * @param type  Cache Type
+     * @param key   Cache Key
+     * @param value Cache Value
+     */
+    public static void set(String type, String key, Object value, long interval) {
         ConcurrentHashMap<String, Model> data = CACHE.get(type);
         if (data == null) {
             data = create(type);
         }
-        data.put(key, new Model(value));
+        data.put(key, new Model(value, interval));
     }
 
     /**

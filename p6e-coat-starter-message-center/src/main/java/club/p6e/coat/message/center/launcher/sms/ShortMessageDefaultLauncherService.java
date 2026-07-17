@@ -37,7 +37,7 @@ public class ShortMessageDefaultLauncherService implements ShortMessageLauncherS
     /**
      * Launcher Name
      */
-    private static final String DEFAULT_LAUNCHER_NAME = "SMS_DEFAULT_LAUNCHER";
+    private static final String DEFAULT_LAUNCHER_NAME = "SMS_DEFAULT";
 
     /**
      * Inject Log Object

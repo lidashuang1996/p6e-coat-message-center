@@ -44,7 +44,7 @@ public class MobileMessageGoogleLauncherService implements MobileMessageLauncher
     /**
      * Launcher Name
      */
-    private static final String GOOGLE_LAUNCHER_NAME = "MOBILE_GOOGLE_LAUNCHER";
+    private static final String GOOGLE_LAUNCHER_NAME = "MOBILE_GOOGLE";
 
     /**
      * Inject Log Object

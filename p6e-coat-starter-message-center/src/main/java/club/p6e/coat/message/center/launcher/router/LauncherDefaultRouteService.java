@@ -19,7 +19,7 @@ public class LauncherDefaultRouteService extends LauncherPollingRouteService imp
     /**
      * Router Name
      */
-    private static final String DEFAULT_ROUTER_NAME = "LAUNCHER_DEFAULT_ROUTER";
+    private static final String DEFAULT_ROUTER_NAME = "DEFAULT";
 
     @Override
     public String name() {

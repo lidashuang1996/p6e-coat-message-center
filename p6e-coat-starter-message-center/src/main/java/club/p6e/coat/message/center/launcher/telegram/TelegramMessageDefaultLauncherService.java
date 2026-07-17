@@ -8,8 +8,8 @@ import club.p6e.coat.message.center.MessageCenterThreadPool;
 import club.p6e.coat.message.center.config.telegram.TelegramMessageConfigModel;
 import club.p6e.coat.message.center.launcher.LauncherResultModel;
 import club.p6e.coat.message.center.launcher.LauncherTemplateModel;
-import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.log.LogService;
+import club.p6e.coat.message.center.repository.DataSourceRepository;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
     /**
      * Launcher Name
      */
-    private static final String DEFAULT_LAUNCHER_NAME = "TELEGRAM_DEFAULT_LAUNCHER";
+    private static final String DEFAULT_LAUNCHER_NAME = "TELEGRAM_DEFAULT";
 
     /**
      * Inject Log Object
@@ -179,7 +179,7 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
                     session = new Session(config);
                 }
                 telegram.registerBot(session);
-                ExpiredCache.set(CACHE_TYPE, name, session);
+                ExpiredCache.set(CACHE_TYPE, name, session, 0);
             } catch (Exception e) {
                 LOGGER.error("[ TELEGRAM LAUNCHER ] CLIENT ERROR >>> {}", e.getMessage());
             }

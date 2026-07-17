@@ -23,7 +23,7 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
     /**
      * Parser Name
      */
-    private static final String DEFAULT_PARSER = "LAUNCHER_TEMPLATE_DEFAULT_PARSER";
+    private static final String DEFAULT_PARSER = "DEFAULT";
 
     /**
      * Replace Empty Values With Variable Names
@@ -203,10 +203,15 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
             }
             return value;
         };
+        final Map<String, String> param = starting.param();
         model.setAttachment(starting.attachment());
         model.setMessageParam(new HashMap<>(starting.param()));
         model.setMessageTitle(convert(template.title(), vf));
         model.setMessageContent(convert(template.content(), vf));
+        model.setRecipients(starting.recipients());
+        if (param != null && param.get("chat") != null) {
+            model.setChat(param.get("chat"));
+        }
         return model;
     }
 
@@ -229,6 +234,21 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
          * Param
          */
         private Map<String, String> param;
+
+        /**
+         * Chat
+         */
+        private String chat;
+
+        /**
+         * Mode
+         */
+        private String mode;
+
+        /**
+         * Recipients
+         */
+        private List<String> recipients;
 
         /**
          * Source Config Model
@@ -301,22 +321,6 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
         }
 
         @Override
-        public String getChat() {
-            if (this.param != null) {
-                return this.param.get("chat");
-            }
-            return null;
-        }
-
-        @Override
-        public String getType() {
-            if (this.param != null) {
-                return this.param.get("type");
-            }
-            return null;
-        }
-
-        @Override
         public Map<String, String> getMessageParam() {
             return this.param;
         }
@@ -378,8 +382,43 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
         }
 
         @Override
+        public void setChat(String chat) {
+            this.chat = chat;
+        }
+
+        @Override
+        public String getChat() {
+            return this.chat;
+        }
+
+        @Override
+        public void setMode(String mode) {
+            this.mode = mode;
+        }
+
+        @Override
+        public String getMode() {
+            return this.mode;
+        }
+
+        @Override
+        public void setRecipients(List<String> recipients) {
+            this.recipients = recipients;
+        }
+
+        @Override
         public List<String> getRecipients() {
-            return List.of();
+            return this.recipients;
+        }
+
+        @Override
+        public void setLogData(Map<String, String> logData) {
+
+        }
+
+        @Override
+        public Map<String, String> getLogData() {
+            return Map.of();
         }
 
     }

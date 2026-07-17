@@ -39,7 +39,7 @@ public class WeChatMessageDefaultLauncherService implements WeChatMessageLaunche
     /**
      * Launcher Name
      */
-    private static final String DEFAULT_LAUNCHER_NAME = "WECHAT_DEFAULT_LAUNCHER";
+    private static final String DEFAULT_LAUNCHER_NAME = "WECHAT_DEFAULT";
 
     /**
      * Inject Log Object
@@ -102,8 +102,8 @@ public class WeChatMessageDefaultLauncherService implements WeChatMessageLaunche
      * @param template   Template
      */
     public void send(Client client, List<String> recipients, LauncherTemplateModel template) {
-        if (template != null && template.getType() != null) {
-            if ("TEMPLATE".equalsIgnoreCase(template.getType())) {
+        if (template != null && template.type() != null) {
+            if ("TEMPLATE".equalsIgnoreCase(template.getMode())) {
                 final Client.TemplateMessageModel tmm = new Client.TemplateMessageModel();
                 tmm.setTid(template.getMessageTitle());
                 tmm.setUrl(template.getMessageParam().get("url"));
@@ -133,7 +133,7 @@ public class WeChatMessageDefaultLauncherService implements WeChatMessageLaunche
                 for (final String recipient : recipients) {
                     client.sendTemplateMessage(tmm.setOid(recipient));
                 }
-            } else if ("SUBSCRIPTION".equalsIgnoreCase(template.getType())) {
+            } else if ("SUBSCRIPTION".equalsIgnoreCase(template.getMode())) {
                 final Client.SubscriptionMessageModel smm = new Client.SubscriptionMessageModel();
                 if (template.getMessageParam().get("smallProgramId") != null) {
                     Client.SmallProgramModel spm = smm.getSmallProgram();

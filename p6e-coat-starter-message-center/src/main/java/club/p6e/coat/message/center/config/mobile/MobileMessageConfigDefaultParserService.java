@@ -23,7 +23,7 @@ public class MobileMessageConfigDefaultParserService implements MobileMessageCon
     /**
      * Parser Name
      */
-    private static final String PARSER_NAME = "MOBILE_CONFIG_DEFAULT_PARSER";
+    private static final String PARSER_NAME = "MOBILE_DEFAULT";
 
     @Override
     public String name() {

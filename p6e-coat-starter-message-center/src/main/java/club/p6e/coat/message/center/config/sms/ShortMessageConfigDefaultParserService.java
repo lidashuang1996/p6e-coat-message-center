@@ -23,7 +23,7 @@ public class ShortMessageConfigDefaultParserService implements ShortMessageConfi
     /**
      * Parser Name
      */
-    private static final String DEFAULT_PARSER = "SMS_CONFIG_DEFAULT_PARSER";
+    private static final String DEFAULT_PARSER = "SMS_DEFAULT";
 
     @Override
     public String name() {

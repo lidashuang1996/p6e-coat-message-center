@@ -430,6 +430,7 @@ public class DataSourceRepository {
                             case "MAIL" -> MessageCenterType.MAIL;
                             case "MOBILE" -> MessageCenterType.MOBILE;
                             case "TELEGRAM" -> MessageCenterType.TELEGRAM;
+                            case "WHATSAPP" -> MessageCenterType.WHATSAPP;
                             default -> null;
                         };
                     }
@@ -494,12 +495,12 @@ public class DataSourceRepository {
             preparedStatement.setInt(1, launcherId);
             final ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                final Integer lid = rs.getInt("lid");
+                final Integer cid = rs.getInt("cid");
                 final String attribute = rs.getString("attribute");
                 result.add(new LauncherModel.ConfigMapperModel() {
                     @Override
                     public Integer id() {
-                        return lid;
+                        return cid;
                     }
 
                     @Override

@@ -1,12 +1,14 @@
 package club.p6e.coat.message.center;
 
 import club.p6e.coat.common.utils.Md5Util;
-import club.p6e.coat.message.center.config.*;
+import club.p6e.coat.message.center.config.ConfigModel;
+import club.p6e.coat.message.center.config.ConfigParserService;
 import club.p6e.coat.message.center.config.mail.MailMessageConfigModel;
 import club.p6e.coat.message.center.config.mobile.MobileMessageConfigModel;
 import club.p6e.coat.message.center.config.sms.ShortMessageConfigModel;
 import club.p6e.coat.message.center.config.telegram.TelegramMessageConfigModel;
 import club.p6e.coat.message.center.config.wechat.WeChatMessageConfigModel;
+import club.p6e.coat.message.center.config.whatsapp.WhatsappMessageConfigModel;
 import club.p6e.coat.message.center.error.*;
 import club.p6e.coat.message.center.launcher.*;
 import club.p6e.coat.message.center.launcher.mail.MailMessageLauncherService;
@@ -14,12 +16,16 @@ import club.p6e.coat.message.center.launcher.mobile.MobileMessageLauncherService
 import club.p6e.coat.message.center.launcher.sms.ShortMessageLauncherService;
 import club.p6e.coat.message.center.launcher.telegram.TelegramMessageLauncherService;
 import club.p6e.coat.message.center.launcher.wechat.WeChatMessageLauncherService;
+import club.p6e.coat.message.center.launcher.whatsapp.WhatsappMessageLauncherService;
 import club.p6e.coat.message.center.repository.DataSourceRepository;
 import club.p6e.coat.message.center.template.TemplateModel;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 发射机服务的实现类
@@ -100,6 +106,11 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
     protected final Map<String, TelegramMessageLauncherService> telegramMessageLauncherServiceMap;
 
     /**
+     * WhatsApp Message Launcher Service Map
+     */
+    protected final Map<String, WhatsappMessageLauncherService> whatsappMessageLauncherServiceMap;
+
+    /**
      * Construct Initialization
      *
      * @param repository                         Data Source Repository
@@ -111,6 +122,7 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
      * @param mobileMessageLauncherServiceList   Mobile Message Launcher Service List
      * @param weChatMessageLauncherServiceList   WeChat Message Launcher Service List
      * @param telegramMessageLauncherServiceList Telegram Message Launcher Service List
+     * @param whatsappMessageLauncherServiceList WhatsApp Message Launcher Service List
      */
     public MessageCenterServiceDefaultAchieve(
             DataSourceRepository repository,
@@ -121,7 +133,8 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
             List<ShortMessageLauncherService> shortMessageLauncherServiceList,
             List<MobileMessageLauncherService> mobileMessageLauncherServiceList,
             List<WeChatMessageLauncherService> weChatMessageLauncherServiceList,
-            List<TelegramMessageLauncherService> telegramMessageLauncherServiceList
+            List<TelegramMessageLauncherService> telegramMessageLauncherServiceList,
+            List<WhatsappMessageLauncherService> whatsappMessageLauncherServiceList
     ) {
         final Map<String, LauncherRouteService> launcherRouteServiceMap = new HashMap<>();
         if (launcherRouteServiceList != null
@@ -187,6 +200,14 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
             }
         }
 
+        final Map<String, WhatsappMessageLauncherService> whatsappMessageLauncherServiceMap = new HashMap<>();
+        if (whatsappMessageLauncherServiceList != null
+                && !whatsappMessageLauncherServiceList.isEmpty()) {
+            for (final WhatsappMessageLauncherService service : whatsappMessageLauncherServiceList) {
+                whatsappMessageLauncherServiceMap.put(service.name(), service);
+            }
+        }
+
         this.repository = repository;
         this.configParserServiceMap = configParserServiceMap;
         this.launcherRouteServiceMap = launcherRouteServiceMap;
@@ -196,6 +217,7 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
         this.mobileMessageLauncherServiceMap = mobileMessageLauncherServiceMap;
         this.wechatMessageLauncherServiceMap = wechatMessageLauncherServiceMap;
         this.telegramMessageLauncherServiceMap = telegramMessageLauncherServiceMap;
+        this.whatsappMessageLauncherServiceMap = whatsappMessageLauncherServiceMap;
     }
 
     /**
@@ -482,6 +504,24 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
         );
     }
 
+    /**
+     * Get WhatsApp Message Launcher Service
+     *
+     * @param launcher WhatsApp Message Launcher Service
+     */
+    protected WhatsappMessageLauncherService getWhatsAppMessageLauncherService(LauncherModel launcher) {
+        final LauncherService<?> launcherService =
+                getLauncherService(launcher, new HashMap<>(whatsappMessageLauncherServiceMap));
+        if (launcherService instanceof final WhatsappMessageLauncherService service) {
+            return service;
+        }
+        throw new LauncherServiceNotExistException(
+                this.getClass(),
+                "fun getWhatsAppMessageLauncherService(LauncherModel launcher).",
+                "Launcher WHATSAPP<" + launcher.parser() + "> service does not exist."
+        );
+    }
+
     @Override
     public LauncherResultModel execute(LauncherStartingModel starting) {
         final LauncherModel launcherModel = getLauncherData(starting.id());
@@ -633,6 +673,19 @@ public class MessageCenterServiceDefaultAchieve implements MessageCenterService 
                 if (finalConfigModel instanceof final TelegramMessageConfigModel templateMessageModel) {
                     return getTelegramMessageLauncherService(launcherModel)
                             .execute(finalLauncherTemplateModel, templateMessageModel);
+                } else {
+                    throw new LauncherConfigTypeMismatchException(
+                            this.getClass(),
+                            "fun execute(LauncherStartingModel starting).",
+                            "Launcher [" + starting.id() + "]"
+                                    + " TELEGRAM >>> " + TelegramMessageConfigModel.class
+                                    + " ::: " + finalConfigModel.getClass() + " type mismatch exception."
+                    );
+                }
+            case WHATSAPP:
+                if (finalConfigModel instanceof final WhatsappMessageConfigModel whatsappMessageConfigModel) {
+                    return getWhatsAppMessageLauncherService(launcherModel)
+                            .execute(finalLauncherTemplateModel, whatsappMessageConfigModel);
                 } else {
                     throw new LauncherConfigTypeMismatchException(
                             this.getClass(),
