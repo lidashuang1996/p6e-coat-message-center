@@ -28,11 +28,6 @@ import java.util.Map;
 public class Controller {
 
     /**
-     * 基础的临时附件目录
-     */
-    public static String BASE_PATH = "./attachment";
-
-    /**
      * 注入日志对象
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
@@ -97,15 +92,15 @@ public class Controller {
                     String suffix = FileUtil.getSuffix(filename);
                     suffix = suffix == null ? "" : suffix;
                     final File out = new File(FileUtil.composePath(
-                            BASE_PATH,
+                            "/tmp/p6e-message-center/",
                             FileUtil.composePath(
                                     num,
                                     FileUtil.composeFile(name.startsWith("embedded-") ? name : "attachment"
-                                            + (attachmentIndex++ == 0 ? "" : ("-" + (attachmentIndex - 1))), suffix)
+                                                                                               + (attachmentIndex++ == 0 ? "" : ("-" + (attachmentIndex - 1))), suffix)
                             )
                     ));
                     FileUtil.createFolder(out.getParentFile());
-                    file.transferTo(out);
+                    file.transferTo(out.toPath());
                     pFiles.add(out);
                 }
             }

@@ -105,7 +105,7 @@ public class MailMessageDefaultLauncherService implements MailMessageLauncherSer
                 }
             });
         }
-        return () -> 0;
+        return null;
     }
 
     /**

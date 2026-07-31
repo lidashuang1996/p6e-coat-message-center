@@ -83,7 +83,7 @@ public class WhatsappMessageUltraMsgLauncherService implements WhatsappMessageLa
                 LOGGER.info("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> END SEND WHATSAPP");
             }
         });
-        return () -> 0;
+        return null;
     }
 
     /**

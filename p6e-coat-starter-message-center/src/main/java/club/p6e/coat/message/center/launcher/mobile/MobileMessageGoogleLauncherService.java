@@ -98,7 +98,7 @@ public class MobileMessageGoogleLauncherService implements MobileMessageLauncher
                 }
             });
         }
-        return () -> 0;
+        return null;
     }
 
     /**

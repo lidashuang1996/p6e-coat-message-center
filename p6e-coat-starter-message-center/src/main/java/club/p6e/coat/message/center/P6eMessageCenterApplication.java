@@ -6,6 +6,8 @@
 //import org.springframework.boot.autoconfigure.SpringBootApplication;
 //
 //import java.io.File;
+//import java.io.IOException;
+//import java.nio.file.Files;
 //import java.util.ArrayList;
 //import java.util.HashMap;
 //import java.util.List;
@@ -14,7 +16,7 @@
 //@SpringBootApplication
 //public class P6eMessageCenterApplication {
 //
-//    public static void main(String[] args) {
+//    public static void main(String[] args) throws IOException {
 //        SpringApplication.run(P6eMessageCenterApplication.class, args);
 //        SpringUtil.getBean(MessageCenterService.class).execute(new LauncherStartingModel() {
 //

@@ -94,7 +94,7 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
                 LOGGER.info("[ TELEGRAM LAUNCHER ] >>> END SEND TELEGRAM.");
             }
         });
-        return () -> 0;
+        return null;
     }
 
     /**

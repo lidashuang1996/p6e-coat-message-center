@@ -91,7 +91,7 @@ public class WeChatMessageDefaultLauncherService implements WeChatMessageLaunche
                 }
             });
         }
-        return () -> 0;
+        return null;
     }
 
     /**

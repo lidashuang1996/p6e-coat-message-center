@@ -90,7 +90,7 @@ public class ShortMessageDefaultLauncherService implements ShortMessageLauncherS
                 }
             });
         }
-        return () -> 0;
+        return null;
     }
 
     /**

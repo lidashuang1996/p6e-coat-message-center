@@ -91,7 +91,7 @@ public class WhatsappMessageWaHaLauncherService implements WhatsappMessageLaunch
                 LOGGER.info("[ WHATSAPP WA HA LAUNCHER ] >>> END SEND WHATSAPP");
             }
         });
-        return () -> 0;
+        return null;
     }
 
     /**
@@ -179,7 +179,7 @@ public class WhatsappMessageWaHaLauncherService implements WhatsappMessageLaunch
                     }
                     return true;
                 });
-            } catch (IOException e) {
+            } catch (Exception e) {
                 LOGGER.error("[ WHATSAPP WA HA LAUNCHER ] >>> ERROR: {}/{} >>> {}", session, chat, e.getMessage(), e);
             }
         }
