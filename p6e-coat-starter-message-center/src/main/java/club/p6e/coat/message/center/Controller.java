@@ -32,6 +32,8 @@ public class Controller {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 
+    public static String BASE_PATH = "/tmp/p6e-message-center/";
+
     /**
      * 发报机服务对象
      */
@@ -92,7 +94,7 @@ public class Controller {
                     String suffix = FileUtil.getSuffix(filename);
                     suffix = suffix == null ? "" : suffix;
                     final File out = new File(FileUtil.composePath(
-                            "/tmp/p6e-message-center/",
+                            BASE_PATH,
                             FileUtil.composePath(
                                     num,
                                     FileUtil.composeFile(name.startsWith("embedded-") ? name : "attachment"
