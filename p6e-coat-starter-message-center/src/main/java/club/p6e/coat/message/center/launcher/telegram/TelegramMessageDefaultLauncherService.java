@@ -104,25 +104,25 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
      * @param template Template
      */
     public void send(Session session, LauncherTemplateModel template) {
-        final String chat = template.getChat();
-        if (chat != null) {
+        final String channel = template.getChannel();
+        if (channel != null) {
             final List<Model> list = JsonUtil.fromJsonToList(template.getMessageContent(), Model.class);
             if (list != null) {
                 for (final Model item : list) {
                     if (item != null && item.getType() != null && item.getContent() != null) {
                         switch (item.getType().toLowerCase()) {
                             case "text":
-                                session.sendText(chat, item.getContent());
+                                session.sendText(channel, item.getContent());
                                 break;
                             case "html":
-                                session.sendHtml(chat, item.getContent());
+                                session.sendHtml(channel, item.getContent());
                                 break;
                             case "photo":
                                 File photo = null;
                                 if (item.getPhoto() != null && !item.getPhoto().isEmpty()) {
                                     photo = template.getAttachment().get(Integer.parseInt(item.getPhoto()));
                                 }
-                                session.sendPhoto(chat, photo, item.getContent());
+                                session.sendPhoto(channel, photo, item.getContent());
                                 break;
                             case "video":
                                 File thumb = null;
@@ -133,7 +133,7 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
                                 if (item.getVideo() != null && !item.getVideo().isEmpty()) {
                                     video = template.getAttachment().get(Integer.parseInt(item.getVideo()));
                                 }
-                                session.sendVideo(chat, thumb, video, item.getContent());
+                                session.sendVideo(channel, thumb, video, item.getContent());
                                 break;
                         }
                     }
@@ -277,12 +277,11 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         /**
          * Send Text Message
          *
-         * @param chat    Chat
          * @param content Content Data
          */
-        public void sendText(String chat, String content) {
+        public void sendText(String channel, String content) {
             try {
-                final String id = config.getChats().get(chat);
+                final String id = config.getChats().get(channel);
                 if (id != null) {
                     execute(SendMessage.builder().chatId(id).text(content).build());
                 }
@@ -294,12 +293,11 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         /**
          * Send Html Message
          *
-         * @param chat    Chat
          * @param content Content Data
          */
-        public void sendHtml(String chat, String content) {
+        public void sendHtml(String channel, String content) {
             try {
-                final String id = config.getChats().get(chat);
+                final String id = config.getChats().get(channel);
                 if (id != null) {
                     execute(SendMessage.builder().chatId(id).text(content).parseMode(ParseMode.HTML).build());
                 }
@@ -311,13 +309,12 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         /**
          * Send Photo Message
          *
-         * @param chat    Chat
          * @param photo   Photo File
          * @param content Content Data
          */
-        public void sendPhoto(String chat, File photo, String content) {
+        public void sendPhoto(String channel, File photo, String content) {
             try {
-                final String id = config.getChats().get(chat);
+                final String id = config.getChats().get(channel);
                 if (id != null) {
                     final SendPhoto.SendPhotoBuilder builder = SendPhoto.builder().chatId(id);
                     if (content != null && !content.isEmpty()) {
@@ -333,14 +330,13 @@ public class TelegramMessageDefaultLauncherService implements TelegramMessageLau
         /**
          * Send Video Message
          *
-         * @param chat    Chat
          * @param thumb   Thumb File
          * @param video   Video File
          * @param content Content Data
          */
-        public void sendVideo(String chat, File thumb, File video, String content) {
+        public void sendVideo(String channel, File thumb, File video, String content) {
             try {
-                final String id = config.getChats().get(chat);
+                final String id = config.getChats().get(channel);
                 if (id != null) {
                     final SendVideo.SendVideoBuilder builder = SendVideo.builder().chatId(id);
                     if (thumb != null) {

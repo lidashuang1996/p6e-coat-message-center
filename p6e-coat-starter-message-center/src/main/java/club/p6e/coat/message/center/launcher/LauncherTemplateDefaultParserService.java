@@ -209,8 +209,8 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
         model.setMessageTitle(convert(template.title(), vf));
         model.setMessageContent(convert(template.content(), vf));
         model.setRecipients(starting.recipients());
-        if (param != null && param.get("chat") != null) {
-            model.setChat(param.get("chat"));
+        if (param != null && param.get("channel") != null) {
+            model.setChannel(param.get("channel"));
         }
         return model;
     }
@@ -236,9 +236,9 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
         private Map<String, String> param;
 
         /**
-         * Chat
+         * Channel
          */
-        private String chat;
+        private String channel;
 
         /**
          * Mode
@@ -382,13 +382,13 @@ public class LauncherTemplateDefaultParserService implements LauncherTemplatePar
         }
 
         @Override
-        public void setChat(String chat) {
-            this.chat = chat;
+        public void setChannel(String channel) {
+            this.channel = channel;
         }
 
         @Override
-        public String getChat() {
-            return this.chat;
+        public String getChannel() {
+            return this.channel;
         }
 
         @Override

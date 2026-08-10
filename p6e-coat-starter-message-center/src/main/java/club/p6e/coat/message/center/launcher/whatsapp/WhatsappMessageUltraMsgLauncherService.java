@@ -93,13 +93,13 @@ public class WhatsappMessageUltraMsgLauncherService implements WhatsappMessageLa
      * @param template Template
      */
     public void send(WhatsappMessageConfigModel config, LauncherTemplateModel template) {
-        final String chat = template.getChat();
-        if (chat != null) {
+        final String channel = template.getChannel();
+        if (channel != null) {
             final List<Model> contents = JsonUtil.fromJsonToList(template.getMessageContent(), Model.class);
             LOGGER.info("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> WHATSAPP CONTENT: {}", contents);
             for (final Model coi : contents) {
                 if (coi != null) {
-                    send(config, template, chat, coi);
+                    send(config, template, channel, coi);
                 }
             }
         }
@@ -109,16 +109,16 @@ public class WhatsappMessageUltraMsgLauncherService implements WhatsappMessageLa
      * Send WhatsApp Message
      *
      * @param config Config
-     * @param chat   Chat
+     * @param channel   channel
      * @param model  Model
      */
-    public void send(WhatsappMessageConfigModel config, LauncherTemplateModel template, String chat, Model model) {
-        if (config != null && chat != null && model != null) {
+    public void send(WhatsappMessageConfigModel config, LauncherTemplateModel template, String channel, Model model) {
+        if (config != null && channel != null && model != null) {
             String type = null;
             String url = config.getUrl();
             final String token = config.getToken();
             final String session = config.getSession();
-            final String to = config.getChats().get(chat);
+            final String to = config.getChats().get(channel);
             final Map<String, String> params = new HashMap<>();
             if (model.getType() != null && "text".equalsIgnoreCase(model.getType())) {
                 type = model.getType();
@@ -146,13 +146,13 @@ public class WhatsappMessageUltraMsgLauncherService implements WhatsappMessageLa
                     }
                     params.put("image", Base64.getEncoder().encodeToString(os.toByteArray()));
                 } catch (Exception e) {
-                    LOGGER.error("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> BODY ERROR: {}/{} >>> {}", session, chat, e.getMessage(), e);
+                    LOGGER.error("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> BODY ERROR: {}/{} >>> {}", session, channel, e.getMessage(), e);
                 }
                 params.put("caption", model.getContent());
             } else if (model.getType() != null && "video".equalsIgnoreCase(model.getType())) {
                 type = model.getType();
                 url = url + "/" + session + "/messages/video";
-                params.put("to", chat);
+                params.put("to", to);
                 params.put("token", token);
                 params.put("video", model.getContent());
                 params.put("caption", model.getContent());
@@ -160,7 +160,7 @@ public class WhatsappMessageUltraMsgLauncherService implements WhatsappMessageLa
             if (type == null) {
                 return;
             }
-            LOGGER.info("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> {} ::: {}/{} >>> {} ::: {}", url, token, session, chat, JsonUtil.toJson(params));
+            LOGGER.info("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> {} ::: {}/{} >>> {} ::: {}", url, token, session, channel, JsonUtil.toJson(params));
             final Map<String, String> headers = new HashMap<>();
             headers.put("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
             final List<BasicNameValuePair> list = new ArrayList<>(
@@ -168,9 +168,9 @@ public class WhatsappMessageUltraMsgLauncherService implements WhatsappMessageLa
                             new BasicNameValuePair(entry.getKey(), entry.getValue())).toList());
             try {
                 final String result = HttpUtil.doPost(HTTP_CLIENT, url, headers, new UrlEncodedFormEntity(list, StandardCharsets.UTF_8));
-                LOGGER.info("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> RESULT: {}/{} >>> {}", session, chat, result);
+                LOGGER.info("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> RESULT: {}/{} >>> {}", session, channel, result);
             } catch (IOException e) {
-                LOGGER.error("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> SEND ERROR: {}/{} >>> {}", session, chat, e.getMessage(), e);
+                LOGGER.error("[ WHATSAPP ULTRA MSG LAUNCHER ] >>> SEND ERROR: {}/{} >>> {}", session, channel, e.getMessage(), e);
             }
         }
     }

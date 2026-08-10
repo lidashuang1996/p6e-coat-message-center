@@ -15,14 +15,14 @@ import java.util.Map;
  */
 public interface LauncherTemplateModel extends TemplateModel, Serializable {
 
-    void setChat(String chat);
+    void setChannel(String chat);
 
     /**
      * 获取消息参数
      *
      * @return 消息参数
      */
-    String getChat();
+    String getChannel();
 
     void setMode(String mode);
 

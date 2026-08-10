@@ -101,13 +101,13 @@ public class WhatsappMessageWaHaLauncherService implements WhatsappMessageLaunch
      * @param template Template
      */
     public void send(WhatsappMessageConfigModel config, LauncherTemplateModel template) {
-        final String chat = template.getChat();
-        if (chat != null) {
+        final String channel = template.getChannel();
+        if (channel != null) {
             final List<Model> contents = JsonUtil.fromJsonToList(template.getMessageContent(), Model.class);
             LOGGER.info("[ WHATSAPP WA HA LAUNCHER ] >>> WHATSAPP CONTENT: {}", contents);
             for (final Model coi : contents) {
                 if (coi != null) {
-                    send(config, template, chat, coi);
+                    send(config, template, channel, coi);
                 }
             }
         }
@@ -117,17 +117,17 @@ public class WhatsappMessageWaHaLauncherService implements WhatsappMessageLaunch
      * Send WhatsApp Message
      *
      * @param config Config
-     * @param chat   Chat
+     * @param channel   Channel
      * @param model  Model
      */
-    public void send(WhatsappMessageConfigModel config, LauncherTemplateModel template, String chat, Model model) {
-        if (config != null && chat != null && model != null) {
+    public void send(WhatsappMessageConfigModel config, LauncherTemplateModel template, String channel, Model model) {
+        if (config != null && channel != null && model != null) {
             String type = null;
             String url = config.getUrl();
             final Map<String, Object> params = new HashMap<>();
             final String token = config.getToken();
             final String session = config.getSession();
-            final String chatId = config.getChats().get(chat);
+            final String chatId = config.getChats().get(channel);
             params.put("chatId", chatId);
             params.put("session", session);
             if (model.getType() != null && "text".equalsIgnoreCase(model.getType())) {
@@ -160,7 +160,7 @@ public class WhatsappMessageWaHaLauncherService implements WhatsappMessageLaunch
             if (type == null) {
                 return;
             }
-            LOGGER.info("[ WHATSAPP WA HA LAUNCHER ] >>> {} ::: {}/{} >>> {} ::: {}", url, token, session, chat, JsonUtil.toJson(params));
+            LOGGER.info("[ WHATSAPP WA HA LAUNCHER ] >>> {} ::: {}/{} >>> {} ::: {}", url, token, session, channel, JsonUtil.toJson(params));
             try {
                 final Map<String, String> headers = new HashMap<>();
                 headers.put("X-Api-Key", token);
@@ -175,12 +175,12 @@ public class WhatsappMessageWaHaLauncherService implements WhatsappMessageLaunch
                     final int code = response.getStatusLine().getStatusCode();
                     if (HttpStatus.SC_OK == code || HttpStatus.SC_CREATED == code) {
                         LOGGER.info("[ WHATSAPP WA HA LAUNCHER ] >>> RESULT: {}/{} >>> {}",
-                                session, chat, EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
+                                session, channel, EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
                     }
                     return true;
                 });
             } catch (Exception e) {
-                LOGGER.error("[ WHATSAPP WA HA LAUNCHER ] >>> ERROR: {}/{} >>> {}", session, chat, e.getMessage(), e);
+                LOGGER.error("[ WHATSAPP WA HA LAUNCHER ] >>> ERROR: {}/{} >>> {}", session, channel, e.getMessage(), e);
             }
         }
     }
