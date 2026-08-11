@@ -81,7 +81,17 @@ public class Controller {
             }
             if (m != null) {
                 for (final String key : m.keySet()) {
-                    pData.put(key, String.valueOf(m.get(key)));
+                    final Object value = m.get(key);
+                    if (value instanceof Map<?, ?> vMap) {
+                        for (Object vMapKey : vMap.keySet()) {
+                            if (vMapKey != null) {
+                                final Object vMapValue = vMap.get(vMapKey);
+                                pData.put(key + "." + vMapKey, String.valueOf(vMapValue));
+                            }
+                        }
+                    } else {
+                        pData.put(key, String.valueOf(value));
+                    }
                 }
             }
             if (files != null) {
@@ -97,8 +107,7 @@ public class Controller {
                             BASE_PATH,
                             FileUtil.composePath(
                                     num,
-                                    FileUtil.composeFile(name.startsWith("embedded-") ? name : "attachment"
-                                                                                               + (attachmentIndex++ == 0 ? "" : ("-" + (attachmentIndex - 1))), suffix)
+                                    FileUtil.composeFile(name.startsWith("embedded-") ? name : "attachment" + (attachmentIndex++ == 0 ? "" : ("-" + (attachmentIndex - 1))), suffix)
                             )
                     ));
                     FileUtil.createFolder(out.getParentFile());
